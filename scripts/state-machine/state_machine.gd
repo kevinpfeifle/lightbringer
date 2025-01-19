@@ -2,13 +2,17 @@ class_name StateMachine
 extends Node
 
 @export var current_state: State
+@export var parent: CharacterBody2D # StateMachine assumes it will only get attached to CharacterBody2D nodes.
+
 var states: Dictionary = {}
 
 func _ready() -> void:
+	# Set the Player reference in all children before setting up the rest of the state machine.			
 	for child in get_children():
 		if child is State:
 			states[child.name.to_lower()] = child
-			child.transition.connect(on_child_transition)
+			child.parent = parent
+			child.transition.connect(_on_child_transition)
 		else:
 			push_warning("StateMachine contains child which is not 'State'")
 			
@@ -22,7 +26,7 @@ func _physics_process(delta) -> void:
 	current_state.physics_update(delta)
 
 ## This signal handles the logic of state transition.
-func on_child_transition(new_state: StringName, args: Array) -> void:
+func _on_child_transition(new_state: StringName, args: Array) -> void:
 	var next_state = states.get(new_state.to_lower())
 	if (next_state != null and next_state != current_state):
 		# Exit the current state and block its process functions.

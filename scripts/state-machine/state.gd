@@ -7,6 +7,7 @@ extends Node
 signal transition(new_state: StringName)
 
 var active: bool = false
+var parent: CharacterBody2D
 var state_name: StringName
 
 ## The State's setup function.
