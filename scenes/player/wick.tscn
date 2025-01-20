@@ -128,7 +128,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_epfon"]
 resource_name = "jump_airborne"
-length = 0.2
+length = 0.3
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -137,7 +137,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.15),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [148, 149]
@@ -178,6 +178,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_3ci0u"]
 resource_name = "fall"
 length = 0.3
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -185,14 +186,14 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [129, 130, 128]
+"values": [129, 130]
 }
 
 [sub_resource type="Animation" id="Animation_1kh8q"]
-resource_name = "fall_land"
+resource_name = "fall_stop"
 length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -211,9 +212,9 @@ tracks/0/keys = {
 _data = {
 "RESET": SubResource("Animation_fq6jy"),
 "fall": SubResource("Animation_3ci0u"),
-"fall_land": SubResource("Animation_1kh8q"),
 "fall_start_ground": SubResource("Animation_jxssi"),
 "fall_start_jump": SubResource("Animation_dgsr5"),
+"fall_stop": SubResource("Animation_1kh8q"),
 "idle": SubResource("Animation_2780d"),
 "jump_airborne": SubResource("Animation_epfon"),
 "jump_start": SubResource("Animation_wlht3"),

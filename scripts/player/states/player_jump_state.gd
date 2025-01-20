@@ -6,12 +6,9 @@ func _ready() -> void:
 
 func enter(args: Array) -> void:
 	super(args)
-	## Uncomment this if transitory animations are ever added!
-	# parent.animation_player.play("jump_start", -1, 2.5)
-	# parent.animation_player.queue("jump_airborne")
-
-	## Uncomment this once animations are added!
-	# parent.animation_player.queue("jump")
+	## TODO: Improve the animation transition for when running. Its a little clunky for jump/fall during a run.
+	parent.animation_player.play("jump_start")
+	parent.animation_player.queue("jump_airborne")
 
 	if Input.is_action_just_released("player_jump"):
 		parent.velocity.y = parent.JUMP_CLIP_VELOCITY

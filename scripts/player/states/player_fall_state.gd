@@ -19,16 +19,14 @@ func enter(args: Array) -> void:
 		coyote_connected = true
 		grace_jump = true
 	else:
-		## Uncomment this if transitory animations are ever added!
-		# parent.animation_player.play("fall_start_jump")
-
-		## Uncomment this once animations are added!
-		# parent.animation_player.queue("fall")
+		## TODO: Improve the animation transition for when running. Its a little clunky for jump/fall during a run.
+		parent.animation_player.play("fall_start_jump", -1, 1.5)
+		parent.animation_player.queue("fall")
 		grace_jump = false
 
 func exit(_new_state: StringName) -> void:
 	air_time = 0.0
-	parent.animation_player.stop()
+	parent.animation_player.play("fall_stop", -1, 2)
 	
 	# Teardown the coyote timer.
 	if coyote_connected:
@@ -66,7 +64,6 @@ func physics_update(delta) -> void:
 	parent.set_facing_direction()
 
 func _on_coyote_timer_timeout() -> void:
-	## Uncomment this if transitory animations are ever added!
-	# parent.animation_player.play("fall_start_ground")
+	parent.animation_player.play("fall_start_ground", -1, 2)
 	parent.animation_player.queue("fall") # Play the fall animation once we are sure we won't jump.
 	grace_jump = false
