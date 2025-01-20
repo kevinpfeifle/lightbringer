@@ -13,9 +13,8 @@ var buffer_map: Dictionary = {
 	"jump": ["idle", "move"]
 }
 
-func enter(_args) -> void:
-	if !active:
-		return
+func enter(args) -> void:
+	super(args)
 
 	# Check if there is a buffered input we should transition to instead of this state.
 	skip_state = false
@@ -27,9 +26,8 @@ func enter(_args) -> void:
 		transition.emit(new_state, [state_name])
 
 ## Default abstract logic simply handles state changes.
-func physics_update(_delta: float) -> void:
-	if !active:
-		return
+func physics_update(delta: float) -> void:
+	super(delta)
 
 	var new_state = _check_for_state_change()
 	if new_state != state_name && new_state != "":

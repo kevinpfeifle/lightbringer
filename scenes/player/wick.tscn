@@ -1,32 +1,150 @@
-[gd_scene load_steps=6 format=3 uid="uid://b47y40esxjr10"]
+[gd_scene load_steps=16 format=3 uid="uid://b47y40esxjr10"]
 
-[ext_resource type="Texture2D" uid="uid://wjqcqos8nkgk" path="res://assets/sprites/wick.png" id="1_givf0"]
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_k8idb"]
+[ext_resource type="Texture2D" uid="uid://cevk4sblmey23" path="res://assets/sprites/wick_sprite_sheet.png" id="2_wooee"]
 [ext_resource type="Script" path="res://scripts/state-machine/state_machine.gd" id="3_txmw8"]
 [ext_resource type="Script" path="res://scripts/player/states/player_idle_state.gd" id="4_47jr0"]
+[ext_resource type="Script" path="res://scripts/player/states/player_move_state.gd" id="5_dolbb"]
+[ext_resource type="Script" path="res://scripts/player/states/player_jump_state.gd" id="6_vmp7e"]
+[ext_resource type="Script" path="res://scripts/player/states/player_fall_state.gd" id="7_j24fh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dnu7f"]
 radius = 31.0
 height = 148.0
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "input_buffer_timer", "sprite", "state_machine")]
+[sub_resource type="Animation" id="Animation_2780d"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_fq6jy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_rty8f"]
+resource_name = "walk"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [18, 19, 20, 21]
+}
+
+[sub_resource type="Animation" id="Animation_1urkh"]
+resource_name = "run"
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [42, 43, 44, 45, 46, 47]
+}
+
+[sub_resource type="Animation" id="Animation_qvtrj"]
+resource_name = "run_start"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [36, 37, 38, 39, 40, 41]
+}
+
+[sub_resource type="Animation" id="Animation_nmso8"]
+resource_name = "run_stop"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [49, 50, 51, 52, 53, 54]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bt3oh"]
+_data = {
+"RESET": SubResource("Animation_fq6jy"),
+"idle": SubResource("Animation_2780d"),
+"run": SubResource("Animation_1urkh"),
+"run_start": SubResource("Animation_qvtrj"),
+"run_stop": SubResource("Animation_nmso8"),
+"walk": SubResource("Animation_rty8f")
+}
+
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "iframe_timer", "input_buffer_timer", "sprite", "movement_state_machine")]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_k8idb")
 animation_player = NodePath("AnimationPlayer")
 debug_label = NodePath("DebugLabel")
+coyote_timer = NodePath("CoyoteTimer")
+iframe_timer = NodePath("IFrameTimer")
 input_buffer_timer = NodePath("InputBufferTimer")
 sprite = NodePath("Sprite")
-state_machine = NodePath("StateMachine")
+movement_state_machine = NodePath("MovementStateMachine")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_givf0")
+texture = ExtResource("2_wooee")
+hframes = 18
+vframes = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-6, 4)
+position = Vector2(3, 17)
 shape = SubResource("CapsuleShape2D_dnu7f")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bt3oh")
+}
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.2
@@ -40,13 +158,22 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
+[node name="MovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
 script = ExtResource("3_txmw8")
 current_state = NodePath("Idle")
 parent = NodePath("..")
 
-[node name="Idle" type="Node" parent="StateMachine"]
+[node name="Idle" type="Node" parent="MovementStateMachine"]
 script = ExtResource("4_47jr0")
+
+[node name="Move" type="Node" parent="MovementStateMachine"]
+script = ExtResource("5_dolbb")
+
+[node name="Jump" type="Node" parent="MovementStateMachine"]
+script = ExtResource("6_vmp7e")
+
+[node name="Fall" type="Node" parent="MovementStateMachine"]
+script = ExtResource("7_j24fh")
 
 [node name="DebugLabel" type="Label" parent="."]
 offset_left = 51.0
