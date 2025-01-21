@@ -12,7 +12,7 @@ func enter(args: Array) -> void:
 			parent.animation_player.play("run_start")
 			parent.animation_player.queue("run")
 		else:
-			parent.animation_player.play("walk")
+			parent.animation_player.queue("walk")
 
 func exit(new_state: StringName) -> void:
 	parent.speed_changed.disconnect(_on_speed_changed)
