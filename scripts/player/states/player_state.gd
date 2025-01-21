@@ -29,9 +29,12 @@ func enter(args) -> void:
 func physics_update(delta: float) -> void:
 	super(delta)
 
-	var new_state = _check_for_state_change()
-	if new_state != state_name && new_state != "":
-		transition.emit(new_state, [state_name]) # All states get the previous state sent as first arg.
+	if parent.is_knocked_back:
+		return
+	else:
+		var new_state = _check_for_state_change()
+		if new_state != state_name && new_state != "":
+			transition.emit(new_state, [state_name]) # All states get the previous state sent as first arg.
 
 ## Returns the name of the next state based on user input actions. Empty string = no change.
 func _check_for_state_change() -> StringName:

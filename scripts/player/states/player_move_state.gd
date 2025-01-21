@@ -28,13 +28,14 @@ func physics_update(delta) -> void:
 	if !parent.is_on_floor():
 		parent.velocity += parent.get_gravity() * delta
 		
-	var direction: float = Input.get_axis("player_left", "player_right")
-	if direction:
-		parent.velocity.x = direction * parent.speed
-	else:
-		parent.velocity.x = move_toward(parent.velocity.x, 0, parent.speed)
+	if !parent.is_knocked_back:
+		var direction: float = Input.get_axis("player_left", "player_right")
+		if direction:
+			parent.velocity.x = direction * parent.speed
+		else:
+			parent.velocity.x = move_toward(parent.velocity.x, 0, parent.speed)
 
-	parent.set_facing_direction()
+		parent.set_facing_direction()
 
 func _on_speed_changed(running: bool) -> void:
 	if running:

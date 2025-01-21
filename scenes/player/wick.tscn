@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b47y40esxjr10"]
+[gd_scene load_steps=27 format=3 uid="uid://b47y40esxjr10"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_k8idb"]
 [ext_resource type="Texture2D" uid="uid://cevk4sblmey23" path="res://assets/sprites/wick_sprite_sheet.png" id="2_wooee"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/player/states/player_move_state.gd" id="5_dolbb"]
 [ext_resource type="Script" path="res://scripts/player/states/player_jump_state.gd" id="6_vmp7e"]
 [ext_resource type="Script" path="res://scripts/player/states/player_fall_state.gd" id="7_j24fh"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="8_nslgq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dnu7f"]
 radius = 31.0
@@ -293,15 +294,17 @@ _data = {
 "walk": SubResource("Animation_rty8f")
 }
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "iframe_timer", "input_buffer_timer", "sprite", "movement_state_machine")]
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "health_component", "iframe_timer", "input_buffer_timer", "knockback_timer", "sprite", "movement_state_machine")]
 collision_layer = 4
-collision_mask = 3
+collision_mask = 11
 script = ExtResource("1_k8idb")
 animation_player = NodePath("AnimationPlayer")
 debug_label = NodePath("DebugLabel")
 coyote_timer = NodePath("CoyoteTimer")
+health_component = NodePath("HealthComponent")
 iframe_timer = NodePath("IFrameTimer")
 input_buffer_timer = NodePath("InputBufferTimer")
+knockback_timer = NodePath("KnockbackTimer")
 sprite = NodePath("Sprite")
 movement_state_machine = NodePath("MovementStateMachine")
 
@@ -311,6 +314,7 @@ hframes = 18
 vframes = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(3, 17)
 shape = SubResource("CapsuleShape2D_dnu7f")
 
@@ -324,7 +328,6 @@ wait_time = 0.2
 one_shot = true
 
 [node name="IFrameTimer" type="Timer" parent="."]
-wait_time = 0.1
 one_shot = true
 
 [node name="InputBufferTimer" type="Timer" parent="."]
@@ -348,6 +351,11 @@ script = ExtResource("6_vmp7e")
 [node name="Fall" type="Node" parent="MovementStateMachine"]
 script = ExtResource("7_j24fh")
 
+[node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("i_frame_timer")]
+script = ExtResource("8_nslgq")
+i_frame_timer = NodePath("../IFrameTimer")
+max_health = 5.0
+
 [node name="DebugLabel" type="Label" parent="."]
 offset_left = 51.0
 offset_top = -212.0
@@ -359,4 +367,9 @@ Velocity: (0,0)
 Buffed Input: 
 Current Animation: idle"
 
+[node name="KnockbackTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="timeout" from="InputBufferTimer" to="." method="_on_input_buffer_timer_timeout"]
+[connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]
