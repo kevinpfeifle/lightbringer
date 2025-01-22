@@ -1,13 +1,15 @@
-[gd_scene load_steps=27 format=3 uid="uid://b47y40esxjr10"]
+[gd_scene load_steps=29 format=3 uid="uid://b47y40esxjr10"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_k8idb"]
 [ext_resource type="Texture2D" uid="uid://cevk4sblmey23" path="res://assets/sprites/wick_sprite_sheet.png" id="2_wooee"]
+[ext_resource type="PackedScene" uid="uid://bcqlvb85oyv2m" path="res://scenes/components/health_component.tscn" id="3_ekwt7"]
 [ext_resource type="Script" path="res://scripts/state-machine/state_machine.gd" id="3_txmw8"]
 [ext_resource type="Script" path="res://scripts/player/states/player_idle_state.gd" id="4_47jr0"]
+[ext_resource type="PackedScene" uid="uid://cynut52hv8i5c" path="res://scenes/components/gravity_component.tscn" id="4_qpbh1"]
 [ext_resource type="Script" path="res://scripts/player/states/player_move_state.gd" id="5_dolbb"]
 [ext_resource type="Script" path="res://scripts/player/states/player_jump_state.gd" id="6_vmp7e"]
 [ext_resource type="Script" path="res://scripts/player/states/player_fall_state.gd" id="7_j24fh"]
-[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="8_nslgq"]
+[ext_resource type="Script" path="res://scripts/player/states/player_hurt_state.gd" id="10_k3l5u"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dnu7f"]
 radius = 31.0
@@ -26,6 +28,39 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_3bysy"]
+resource_name = "death"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [180, 181, 182, 183, 184, 185, 186, 187]
+}
+
+[sub_resource type="Animation" id="Animation_kbo7q"]
+resource_name = "death_linger"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [185, 186, 187, 186]
 }
 
 [sub_resource type="Animation" id="Animation_3ci0u"]
@@ -93,6 +128,22 @@ tracks/0/keys = {
 "values": [134, 135, 136]
 }
 
+[sub_resource type="Animation" id="Animation_amb8p"]
+resource_name = "hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [162, 163, 164]
+}
+
 [sub_resource type="Animation" id="Animation_2780d"]
 resource_name = "idle"
 length = 0.8
@@ -141,6 +192,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [144, 145, 146, 147]
+}
+
+[sub_resource type="Animation" id="Animation_8jan5"]
+resource_name = "produce_light"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [108, 109, 110, 111, 112, 113, 114, 115, 116, 117]
 }
 
 [sub_resource type="Animation" id="Animation_1urkh"]
@@ -209,71 +276,6 @@ tracks/0/keys = {
 "values": [18, 19, 20, 21]
 }
 
-[sub_resource type="Animation" id="Animation_amb8p"]
-resource_name = "hurt"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [162, 163, 164]
-}
-
-[sub_resource type="Animation" id="Animation_3bysy"]
-resource_name = "death"
-length = 0.8
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [180, 181, 182, 183, 184, 185, 186, 187]
-}
-
-[sub_resource type="Animation" id="Animation_kbo7q"]
-resource_name = "death_linger"
-length = 0.8
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [185, 186, 187, 186]
-}
-
-[sub_resource type="Animation" id="Animation_8jan5"]
-resource_name = "produce_light"
-length = 1.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.35),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [108, 109, 110, 111, 112, 113, 114, 115, 116, 117]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bt3oh"]
 _data = {
 "RESET": SubResource("Animation_fq6jy"),
@@ -294,13 +296,14 @@ _data = {
 "walk": SubResource("Animation_rty8f")
 }
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "health_component", "iframe_timer", "input_buffer_timer", "knockback_timer", "sprite", "movement_state_machine")]
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "gravity_component", "health_component", "iframe_timer", "input_buffer_timer", "knockback_timer", "sprite", "movement_state_machine")]
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_k8idb")
 animation_player = NodePath("AnimationPlayer")
 debug_label = NodePath("DebugLabel")
 coyote_timer = NodePath("CoyoteTimer")
+gravity_component = NodePath("GravityComponent")
 health_component = NodePath("HealthComponent")
 iframe_timer = NodePath("IFrameTimer")
 input_buffer_timer = NodePath("InputBufferTimer")
@@ -334,6 +337,18 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
+[node name="KnockbackTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("i_frame_timer") instance=ExtResource("3_ekwt7")]
+i_frame_timer = NodePath("../IFrameTimer")
+max_health = 5.0
+
+[node name="MovementComponent" type="Node" parent="."]
+
+[node name="GravityComponent" parent="." instance=ExtResource("4_qpbh1")]
+
 [node name="MovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
 script = ExtResource("3_txmw8")
 current_state = NodePath("Idle")
@@ -351,10 +366,8 @@ script = ExtResource("6_vmp7e")
 [node name="Fall" type="Node" parent="MovementStateMachine"]
 script = ExtResource("7_j24fh")
 
-[node name="HealthComponent" type="Node" parent="." node_paths=PackedStringArray("i_frame_timer")]
-script = ExtResource("8_nslgq")
-i_frame_timer = NodePath("../IFrameTimer")
-max_health = 5.0
+[node name="Hurt" type="Node" parent="MovementStateMachine"]
+script = ExtResource("10_k3l5u")
 
 [node name="DebugLabel" type="Label" parent="."]
 offset_left = 51.0
@@ -366,10 +379,6 @@ text = "Current State: Idle
 Velocity: (0,0)
 Buffed Input: 
 Current Animation: idle"
-
-[node name="KnockbackTimer" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
 
 [connection signal="timeout" from="InputBufferTimer" to="." method="_on_input_buffer_timer_timeout"]
 [connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]
