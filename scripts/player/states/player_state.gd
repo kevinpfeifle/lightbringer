@@ -16,6 +16,10 @@ var buffer_map: Dictionary = {
 func enter(args) -> void:
 	super(args)
 
+	# Connect to the hurt/death signals from the health component
+	parent.health_component.damaged.connect(_on_player_damaged)
+	parent.health_component.dead.connect(_on_player_death)
+
 	# Check if there is a buffered input we should transition to instead of this state.
 	skip_state = false
 	if parent.buffered_input != "" && buffer_map[parent.buffered_input].has(state_name):
@@ -38,9 +42,11 @@ func physics_update(delta: float) -> void:
 
 ## Returns the name of the next state based on user input actions. Empty string = no change.
 func _check_for_state_change() -> StringName:
-	if !parent.is_on_floor() && parent.velocity.y >= 0:
+	if parent.is_knocked_back:
+		return "hurt"
+	elif !parent.is_on_floor() && parent.velocity.y >= 0:
 		return "fall"
-	elif parent.is_on_floor() && Input.is_action_just_pressed("player_jump"):
+	elif parent.is_on_floor() && Input.is_action_just_pressed("player_jump") && !parent.is_knocked_back:
 		return "jump"
 	elif parent.is_on_floor() && Input.get_axis("player_left", "player_right") != 0:
 		return "move"
@@ -48,3 +54,11 @@ func _check_for_state_change() -> StringName:
 		return "idle"
 	
 	return ""
+
+func _on_player_damaged(_amount: float, _source: Node, _power: int, direction: Vector2) -> void:
+	active = false
+	transition.emit("hurt", [state_name, direction])
+
+func _on_player_death() -> void:
+	active = false
+	transition.emit("death", [state_name])
