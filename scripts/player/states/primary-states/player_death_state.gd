@@ -16,5 +16,5 @@ func enter(args: Array) -> void:
 	parent.animation_player.queue("death_linger")
 
 ## Override the inherited version that handles state checking since we won't transition out of this state.
-func physics_update(delta: float) -> void:
-	parent.velocity.x = lerp(parent.velocity.x, 0.0, DEATH_DAMPING_SPEED * delta)
+func physics_update(_delta: float) -> void:
+	parent.velocity = Vector2(0, 0)
