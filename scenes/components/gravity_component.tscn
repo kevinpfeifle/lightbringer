@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cynut52hv8i5c"]
+
+[ext_resource type="Script" path="res://scripts/components/gravity_component.gd" id="1_aikms"]
+
+[node name="GravityComponent" type="Node"]
+script = ExtResource("1_aikms")
