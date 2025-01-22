@@ -15,6 +15,7 @@ func enter(args: Array) -> void:
 			parent.animation_player.queue("walk")
 
 func exit(new_state: StringName) -> void:
+	super(new_state)
 	parent.speed_changed.disconnect(_on_speed_changed)
 	if new_state == "idle":
 		if parent.animation_player.current_animation == "walk":

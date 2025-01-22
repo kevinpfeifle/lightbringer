@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://b47y40esxjr10"]
+[gd_scene load_steps=30 format=3 uid="uid://b47y40esxjr10"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_k8idb"]
 [ext_resource type="Texture2D" uid="uid://cevk4sblmey23" path="res://assets/sprites/wick_sprite_sheet.png" id="2_wooee"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/player/states/player_jump_state.gd" id="6_vmp7e"]
 [ext_resource type="Script" path="res://scripts/player/states/player_fall_state.gd" id="7_j24fh"]
 [ext_resource type="Script" path="res://scripts/player/states/player_hurt_state.gd" id="10_k3l5u"]
+[ext_resource type="Script" path="res://scripts/player/states/player_death_state.gd" id="11_imntp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dnu7f"]
 radius = 31.0
@@ -296,7 +297,7 @@ _data = {
 "walk": SubResource("Animation_rty8f")
 }
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "gravity_component", "health_component", "iframe_timer", "input_buffer_timer", "knockback_timer", "sprite", "movement_state_machine")]
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "gravity_component", "health_component", "iframe_timer", "input_buffer_timer", "knockback_timer", "sprite", "primary_state_machine")]
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_k8idb")
@@ -309,7 +310,7 @@ iframe_timer = NodePath("IFrameTimer")
 input_buffer_timer = NodePath("InputBufferTimer")
 knockback_timer = NodePath("KnockbackTimer")
 sprite = NodePath("Sprite")
-movement_state_machine = NodePath("MovementStateMachine")
+primary_state_machine = NodePath("PrimaryStateMachine")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_wooee")
@@ -345,29 +346,30 @@ one_shot = true
 i_frame_timer = NodePath("../IFrameTimer")
 max_health = 5.0
 
-[node name="MovementComponent" type="Node" parent="."]
-
 [node name="GravityComponent" parent="." instance=ExtResource("4_qpbh1")]
 
-[node name="MovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
+[node name="PrimaryStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
 script = ExtResource("3_txmw8")
 current_state = NodePath("Idle")
 parent = NodePath("..")
 
-[node name="Idle" type="Node" parent="MovementStateMachine"]
+[node name="Idle" type="Node" parent="PrimaryStateMachine"]
 script = ExtResource("4_47jr0")
 
-[node name="Move" type="Node" parent="MovementStateMachine"]
+[node name="Move" type="Node" parent="PrimaryStateMachine"]
 script = ExtResource("5_dolbb")
 
-[node name="Jump" type="Node" parent="MovementStateMachine"]
+[node name="Jump" type="Node" parent="PrimaryStateMachine"]
 script = ExtResource("6_vmp7e")
 
-[node name="Fall" type="Node" parent="MovementStateMachine"]
+[node name="Fall" type="Node" parent="PrimaryStateMachine"]
 script = ExtResource("7_j24fh")
 
-[node name="Hurt" type="Node" parent="MovementStateMachine"]
+[node name="Hurt" type="Node" parent="PrimaryStateMachine"]
 script = ExtResource("10_k3l5u")
+
+[node name="Death" type="Node" parent="PrimaryStateMachine"]
+script = ExtResource("11_imntp")
 
 [node name="DebugLabel" type="Label" parent="."]
 offset_left = 51.0

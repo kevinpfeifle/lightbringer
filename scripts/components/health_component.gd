@@ -21,13 +21,11 @@ func _on_i_frames_timeout() -> void:
 
 func damage(amount: float, source: Node, power: int, direction: Vector2) -> void:
 	if !has_i_frames:
-		print("collided with enemy")
 		has_i_frames = true
 		i_frame_timer.start()
 		current_health -= amount
 		damaged.emit(amount, source, power, direction)
-		if current_health < 0:
-			print("dead")
+		if current_health <= 0:
 			alive = false
 			dead.emit()
 

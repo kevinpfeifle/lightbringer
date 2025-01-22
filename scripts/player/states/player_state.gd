@@ -29,6 +29,13 @@ func enter(args) -> void:
 		skip_state = true
 		transition.emit(new_state, [state_name])
 
+func exit(new_state) -> void:
+	super(new_state)
+
+	# Disconnect from the hurt/death signals from the health component
+	parent.health_component.damaged.disconnect(_on_player_damaged)
+	parent.health_component.dead.disconnect(_on_player_death)
+
 ## Default abstract logic simply handles state changes.
 func physics_update(delta: float) -> void:
 	super(delta)
@@ -42,9 +49,7 @@ func physics_update(delta: float) -> void:
 
 ## Returns the name of the next state based on user input actions. Empty string = no change.
 func _check_for_state_change() -> StringName:
-	if parent.is_knocked_back:
-		return "hurt"
-	elif !parent.is_on_floor() && parent.velocity.y >= 0:
+	if !parent.is_on_floor() && parent.velocity.y >= 0:
 		return "fall"
 	elif parent.is_on_floor() && Input.is_action_just_pressed("player_jump") && !parent.is_knocked_back:
 		return "jump"

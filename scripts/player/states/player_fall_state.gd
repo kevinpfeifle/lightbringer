@@ -24,7 +24,8 @@ func enter(args: Array) -> void:
 		parent.animation_player.queue("fall")
 		grace_jump = false
 
-func exit(_new_state: StringName) -> void:
+func exit(new_state: StringName) -> void:
+	super(new_state)
 	air_time = 0.0
 	parent.animation_player.play("fall_stop", -1, 2)
 	

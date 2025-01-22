@@ -10,7 +10,7 @@ extends CharacterBody2D
 @export var input_buffer_timer: Timer
 @export var knockback_timer: Timer
 @export var sprite: Sprite2D
-@export var movement_state_machine: StateMachine
+@export var primary_state_machine: StateMachine
 
 const JUMP_VELOCITY: float = -800.0
 const JUMP_CLIP_VELOCITY: float = -250.0
@@ -28,10 +28,10 @@ var running: bool = false
 
 func _process(_delta) -> void:
 	debug_label.text = "Current Movement State: %s\nVelocity: %s\nBuffered Input: %s\nCurrent Animation: %s" % \
-		[movement_state_machine.current_state.state_name, velocity, buffered_input, animation_player.current_animation]
+		[primary_state_machine.current_state.state_name, velocity, buffered_input, animation_player.current_animation]
 
 func _physics_process(delta: float) -> void:
-	var is_falling: bool = movement_state_machine.current_state.state_name == "fall"
+	var is_falling: bool = primary_state_machine.current_state.state_name == "fall"
 	gravity_component.handle_gravity(self, delta, is_falling)
 
 	if Input.is_action_just_pressed("player_down"):

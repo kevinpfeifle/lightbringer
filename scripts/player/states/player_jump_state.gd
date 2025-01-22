@@ -15,7 +15,8 @@ func enter(args: Array) -> void:
 	else:
 		parent.velocity.y = parent.JUMP_VELOCITY
 
-func exit(_new_state: StringName) -> void:
+func exit(new_state: StringName) -> void:
+	super(new_state)
 	parent.animation_player.stop()
 
 func physics_update(delta) -> void: 
