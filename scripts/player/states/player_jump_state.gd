@@ -31,13 +31,9 @@ func physics_update(delta) -> void:
 	if Input.is_action_just_released("player_jump") && parent.velocity.y < parent.JUMP_CLIP_VELOCITY:
 		parent.velocity.y = parent.JUMP_CLIP_VELOCITY
 
-	if !parent.is_on_floor():
-		parent.velocity += parent.get_gravity() * delta
-
 	var direction: float = Input.get_axis("player_left", "player_right")
 	if direction:
+		parent.set_facing_direction(direction)
 		parent.velocity.x = direction * parent.speed
 	else:
 		parent.velocity.x = move_toward(parent.velocity.x, 0, parent.speed)
-
-	parent.set_facing_direction()

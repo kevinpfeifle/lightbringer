@@ -50,19 +50,13 @@ func physics_update(delta) -> void:
 		parent.input_buffer_timer.start()
 		parent.buffered_input = "jump"
 	
-	# Handling falling if the state doesn't change. Gravity will get stronger the longer the fall.
-	if !parent.is_on_floor(): 
-		parent.velocity += parent.get_gravity() * delta * (1.25 + air_time)
-		air_time += delta * 2
-
 	if !parent.is_knocked_back:
 		var direction: float = Input.get_axis("player_left", "player_right")
 		if direction:
+			parent.set_facing_direction(direction)
 			parent.velocity.x = direction * parent.speed
 		else:
 			parent.velocity.x = move_toward(parent.velocity.x, 0, parent.speed)
-
-		parent.set_facing_direction()
 
 func _on_coyote_timer_timeout() -> void:
 	parent.animation_player.play("fall_start_ground", -1, 2)
