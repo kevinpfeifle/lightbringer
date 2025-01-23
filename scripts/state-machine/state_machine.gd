@@ -4,6 +4,7 @@ extends Node
 @export var current_state: State
 @export var parent: CharacterBody2D # StateMachine assumes it will only get attached to CharacterBody2D nodes.
 
+var last_state: State
 var states: Dictionary = {}
 
 func _ready() -> void:
@@ -33,6 +34,7 @@ func _on_child_transition(new_state: StringName, args: Array) -> void:
 		current_state.active = false
 		current_state.exit(new_state)
 		# Enter the new state and unblock its process functions.
+		last_state = current_state
 		current_state = next_state
 		next_state.active = true
 		next_state.enter(args)

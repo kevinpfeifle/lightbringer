@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var health_component: HealthComponent
 @export var iframe_timer: Timer
 @export var input_buffer_timer: Timer
-@export var knockback_timer: Timer
+@export var hurt_timer: Timer
 @export var sprite: Sprite2D
 @export var primary_state_machine: StateMachine
 
@@ -20,19 +20,22 @@ const RUN_SPEED: float = 500.0
 
 signal speed_changed(running: bool)
 
+var alive: bool = true
 var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See BufferedInputTimer.
 var collide_one_way: bool = true
-var is_knocked_back: bool = false
+var is_hurt: bool = false
 var speed: float = WALK_SPEED
 var running: bool = false
 
 func _process(_delta) -> void:
-	debug_label.text = "Current Movement State: %s\nVelocity: %s\nBuffered Input: %s\nCurrent Animation: %s" % \
-		[primary_state_machine.current_state.state_name, velocity, buffered_input, animation_player.current_animation]
+	# print(primary_state_machine.current_state.state_name, speed)
+	debug_label.text = "Current Movement State: %s\nVelocity: %s\nBuffered Input: %s\nCurrent Animation: %s\nSpeed: %s" % \
+		[primary_state_machine.current_state.state_name, velocity, buffered_input, animation_player.current_animation, speed]
 
 func _physics_process(delta: float) -> void:
 	var is_falling: bool = primary_state_machine.current_state.state_name == "fall"
 	gravity_component.handle_gravity(self, delta, is_falling)
+	_set_player_speed()
 
 	if Input.is_action_just_pressed("player_down"):
 		# Ignore collisions with one-way platforms

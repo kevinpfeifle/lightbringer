@@ -19,15 +19,11 @@ func enter(args: Array) -> void:
 		coyote_connected = true
 		grace_jump = true
 	else:
-		## TODO: Improve the animation transition for when running. Its a little clunky for jump/fall during a run.
-		parent.animation_player.play("fall_start_jump", -1, 1.5)
-		parent.animation_player.queue("fall")
 		grace_jump = false
 
 func exit(new_state: StringName) -> void:
 	super(new_state)
 	air_time = 0.0
-	parent.animation_player.play("fall_stop", -1, 2)
 	
 	# Teardown the coyote timer.
 	if coyote_connected:
@@ -51,7 +47,7 @@ func physics_update(delta) -> void:
 		parent.input_buffer_timer.start()
 		parent.buffered_input = "jump"
 	
-	if !parent.is_knocked_back:
+	if !parent.is_hurt:
 		var direction: float = Input.get_axis("player_left", "player_right")
 		if direction:
 			parent.set_facing_direction(direction)
@@ -60,6 +56,4 @@ func physics_update(delta) -> void:
 			parent.velocity.x = move_toward(parent.velocity.x, 0, parent.speed)
 
 func _on_coyote_timer_timeout() -> void:
-	parent.animation_player.play("fall_start_ground", -1, 2)
-	parent.animation_player.queue("fall") # Play the fall animation once we are sure we won't jump.
 	grace_jump = false

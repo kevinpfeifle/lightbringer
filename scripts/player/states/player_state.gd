@@ -40,7 +40,7 @@ func exit(new_state) -> void:
 func physics_update(delta: float) -> void:
 	super(delta)
 
-	if parent.is_knocked_back:
+	if parent.is_hurt:
 		return
 	else:
 		var new_state = _check_for_state_change()
@@ -51,7 +51,7 @@ func physics_update(delta: float) -> void:
 func _check_for_state_change() -> StringName:
 	if !parent.is_on_floor() && parent.velocity.y >= 0:
 		return "fall"
-	elif parent.is_on_floor() && Input.is_action_just_pressed("player_jump") && !parent.is_knocked_back:
+	elif parent.is_on_floor() && Input.is_action_just_pressed("player_jump") && !parent.is_hurt:
 		return "jump"
 	elif parent.is_on_floor() && Input.get_axis("player_left", "player_right") != 0:
 		return "move"

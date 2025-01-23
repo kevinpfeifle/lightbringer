@@ -12,14 +12,12 @@ func _ready() -> void:
 func enter(args: Array) -> void:
 	super(args)
 	state_locked = true
-	parent.knockback_timer.timeout.connect(_on_knockback_timer_timeout)
-	parent.animation_player.play("hurt")
-	parent.animation_player.queue("idle")
+	parent.hurt_timer.timeout.connect(_on_hurt_timer_timeout)
 	_handle_knockback(args[1])
 
 func exit(new_state) -> void:
 	super(new_state)
-	parent.knockback_timer.timeout.disconnect(_on_knockback_timer_timeout)
+	parent.hurt_timer.timeout.disconnect(_on_hurt_timer_timeout)
 
 func physics_update(delta) -> void:
 	# Block checking for other states until the knockback timer has completed.
@@ -28,8 +26,8 @@ func physics_update(delta) -> void:
 	parent.velocity.x = lerp(parent.velocity.x, 0.0, DAMPING_SPEED * delta)
 
 func _handle_knockback(direction: Vector2) -> void:
-	parent.is_knocked_back = true
-	parent.knockback_timer.start()
+	parent.is_hurt = true
+	parent.hurt_timer.start()
 
 	var knockback_strength = 1500.0  # Adjust as needed
 	var knockback_direction = 0
@@ -42,6 +40,6 @@ func _handle_knockback(direction: Vector2) -> void:
 	parent.velocity.x = knockback_direction * knockback_strength
 	parent.velocity.y = -350
 
-func _on_knockback_timer_timeout() -> void:
-	parent.is_knocked_back = false
+func _on_hurt_timer_timeout() -> void:
+	parent.is_hurt = false
 	state_locked = false

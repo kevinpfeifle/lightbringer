@@ -6,18 +6,10 @@ func _ready() -> void:
 
 func enter(args: Array) -> void:
 	super(args)
-	## TODO: Improve the animation transition for when running. Its a little clunky for jump/fall during a run.
-	parent.animation_player.play("jump_start")
-	parent.animation_player.queue("jump_airborne")
-
 	if Input.is_action_just_released("player_jump"):
 		parent.velocity.y = parent.JUMP_CLIP_VELOCITY
 	else:
 		parent.velocity.y = parent.JUMP_VELOCITY
-
-func exit(new_state: StringName) -> void:
-	super(new_state)
-	parent.animation_player.stop()
 
 func physics_update(delta) -> void: 
 	super(delta)
