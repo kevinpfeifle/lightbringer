@@ -726,13 +726,18 @@ script = ExtResource("3_txmw8")
 current_state = NodePath("Ready")
 parent = NodePath("..")
 
-[node name="Attack" type="Node" parent="SecondaryStateMachine" node_paths=PackedStringArray("front_hurtbox", "attack_timer")]
+[node name="Attack" type="Node" parent="SecondaryStateMachine" node_paths=PackedStringArray("front_hurtbox", "attack_timer", "attack_reset_timer")]
 script = ExtResource("12_rbxtj")
 front_hurtbox = NodePath("../../FrontHurtbox")
 attack_timer = NodePath("AttackTimer")
+attack_reset_timer = NodePath("AttackResetTimer")
 
 [node name="AttackTimer" type="Timer" parent="SecondaryStateMachine/Attack"]
 wait_time = 0.2
+one_shot = true
+
+[node name="AttackResetTimer" type="Timer" parent="SecondaryStateMachine/Attack"]
+wait_time = 0.35
 one_shot = true
 
 [node name="Ready" type="Node" parent="SecondaryStateMachine"]
