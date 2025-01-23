@@ -11,6 +11,7 @@ extends CharacterBody2D
 @export var hurt_timer: Timer
 @export var iframe_timer: Timer
 @export var input_buffer_timer: Timer
+@export var knockback_component: Knockback_Component
 @export var primary_state_machine: StateMachine
 @export var secondary_state_machine: StateMachine
 @export var sprite: Sprite2D
@@ -23,6 +24,7 @@ const RUN_SPEED: float = 500.0
 
 signal speed_changed(running: bool)
 
+var active_knockback_timer: Timer
 var alive: bool = true
 var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See BufferedInputTimer.
 var collide_one_way: bool = true
@@ -30,6 +32,9 @@ var direction: int = 0
 var is_hurt: bool = false
 var speed: float = WALK_SPEED
 var running: bool = false
+
+func _ready() -> void:
+	knockback_component.knockback_started.connect(_on_knockback_started)
 
 func _process(_delta) -> void:
 	# print(primary_state_machine.current_state.state_name, speed)
@@ -40,6 +45,14 @@ func _process(_delta) -> void:
 func _physics_process(delta: float) -> void:
 	var is_falling: bool = primary_state_machine.current_state.state_name == "fall"
 	gravity_component.handle_gravity(self, delta, is_falling)
+
+	# Can't mutate the array while looping, so loop a deep copy of it instead. Change this if it impacts performance.
+	if active_knockback_timer:
+		if active_knockback_timer.is_stopped():
+			active_knockback_timer = null
+		else:
+			knockback_component.handle_knockback_decay(delta)
+
 	_set_player_speed()
 
 	if Input.is_action_just_pressed("player_down"):
@@ -60,10 +73,18 @@ func _physics_process(delta: float) -> void:
 
 		if enemy:
 			var collision_direction = (global_position - enemy.global_position).normalized()
-			health_component.damage(1, enemy, 10, collision_direction)
+			var damage_direction: int
+			if collision_direction.x >= 0:
+				damage_direction = 1
+			else:
+				damage_direction = -1
+			health_component.damage(1, enemy, 10, damage_direction)
 
 func _on_input_buffer_timer_timeout() -> void:
 	buffered_input = "" # Clear the input buffer it isn't consumed in 200ms.
+
+func _on_knockback_started(timer) -> void:
+	active_knockback_timer = timer
 
 func set_facing_direction(new_direction: int) -> void:
 	direction = new_direction

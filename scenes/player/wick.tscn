@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=3 uid="uid://b47y40esxjr10"]
+[gd_scene load_steps=114 format=3 uid="uid://b47y40esxjr10"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_k8idb"]
 [ext_resource type="Texture2D" uid="uid://cevk4sblmey23" path="res://assets/sprites/wick_sprite_sheet.png" id="2_wooee"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/state-machine/state_machine.gd" id="3_txmw8"]
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_idle_state.gd" id="4_47jr0"]
 [ext_resource type="PackedScene" uid="uid://cynut52hv8i5c" path="res://scenes/components/gravity_component.tscn" id="4_qpbh1"]
+[ext_resource type="PackedScene" uid="uid://d2u0r2ggj46r2" path="res://scenes/components/knockback_component.tscn" id="5_241v0"]
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_move_state.gd" id="5_dolbb"]
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_jump_state.gd" id="6_vmp7e"]
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_fall_state.gd" id="7_j24fh"]
@@ -769,7 +770,7 @@ states/idle/position = Vector2(418, 83)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf"), "Movement", "Attacking", SubResource("AnimationNodeStateMachineTransition_fcyrd"), "Attacking", "Movement", SubResource("AnimationNodeStateMachineTransition_he3dd"), "Falling", "Attacking", SubResource("AnimationNodeStateMachineTransition_arfir"), "Attacking", "Falling", SubResource("AnimationNodeStateMachineTransition_w5eah"), "Attacking", "Jumping", SubResource("AnimationNodeStateMachineTransition_cvq2p"), "Jumping", "Attacking", SubResource("AnimationNodeStateMachineTransition_tf7rs")]
 graph_offset = Vector2(185, 346)
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "above_hurtbox", "coyote_timer", "debug_label", "front_hurtbox", "gravity_component", "health_component", "hurt_timer", "iframe_timer", "input_buffer_timer", "primary_state_machine", "secondary_state_machine", "sprite")]
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "above_hurtbox", "coyote_timer", "debug_label", "front_hurtbox", "gravity_component", "health_component", "hurt_timer", "iframe_timer", "input_buffer_timer", "knockback_component", "primary_state_machine", "secondary_state_machine", "sprite")]
 z_index = 1
 collision_layer = 4
 collision_mask = 11
@@ -784,6 +785,7 @@ health_component = NodePath("HealthComponent")
 hurt_timer = NodePath("HurtTimer")
 iframe_timer = NodePath("IFrameTimer")
 input_buffer_timer = NodePath("InputBufferTimer")
+knockback_component = NodePath("KnockbackComponent")
 primary_state_machine = NodePath("PrimaryStateMachine")
 secondary_state_machine = NodePath("SecondaryStateMachine")
 sprite = NodePath("Sprite")
@@ -863,6 +865,9 @@ max_health = 5.0
 
 [node name="GravityComponent" parent="." instance=ExtResource("4_qpbh1")]
 
+[node name="KnockbackComponent" parent="." node_paths=PackedStringArray("body") instance=ExtResource("5_241v0")]
+body = NodePath("..")
+
 [node name="PrimaryStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
 script = ExtResource("3_txmw8")
 current_state = NodePath("Idle")
@@ -907,11 +912,14 @@ one_shot = true
 wait_time = 0.35
 one_shot = true
 
+[node name="AttackKnockbackTimer" type="Timer" parent="SecondaryStateMachine/Attack"]
+wait_time = 0.2
+one_shot = true
+
 [node name="Ready" type="Node" parent="SecondaryStateMachine"]
 script = ExtResource("13_kphsf")
 
 [node name="DebugLabel" type="Label" parent="."]
-visible = false
 offset_left = 51.0
 offset_top = -212.0
 offset_right = 278.0

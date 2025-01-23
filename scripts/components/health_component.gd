@@ -4,7 +4,7 @@ extends Node
 @export var i_frame_timer: Timer
 @export var max_health: float
 
-signal damaged(amount: float, source: Node, power: int, direction: Vector2)
+signal damaged(amount: float, source: Node, power: int, direction: int)
 signal healed(amount: float)
 signal dead()
 
@@ -20,7 +20,7 @@ func _ready() -> void:
 func _on_i_frames_timeout() -> void:
 	has_i_frames = false
 
-func damage(amount: float, source: Node, power: int, direction: Vector2) -> void:
+func damage(amount: float, source: Node, power: int, direction: int) -> void:
 	if i_frame_timer == null:
 		current_health -= amount
 		damaged.emit(amount, source, power, direction)
