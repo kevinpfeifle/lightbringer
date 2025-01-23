@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=3 uid="uid://b47y40esxjr10"]
+[gd_scene load_steps=104 format=3 uid="uid://b47y40esxjr10"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_k8idb"]
 [ext_resource type="Texture2D" uid="uid://cevk4sblmey23" path="res://assets/sprites/wick_sprite_sheet.png" id="2_wooee"]
@@ -612,6 +612,33 @@ switch_mode = 2
 advance_mode = 2
 advance_expression = "primary_state_machine.current_state.state_name == \"idle\""
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fcyrd"]
+advance_mode = 2
+advance_expression = "secondary_state_machine.current_state.state_name == \"attack\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_he3dd"]
+switch_mode = 2
+advance_mode = 2
+advance_expression = "primary_state_machine.current_state.state_name == \"move\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_arfir"]
+advance_mode = 2
+advance_expression = "secondary_state_machine.current_state.state_name == \"attack\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w5eah"]
+switch_mode = 2
+advance_mode = 2
+advance_expression = "primary_state_machine.current_state.state_name == \"fall\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cvq2p"]
+switch_mode = 2
+advance_mode = 2
+advance_expression = "primary_state_machine.current_state.state_name == \"jump\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tf7rs"]
+advance_mode = 2
+advance_expression = "secondary_state_machine.current_state.state_name == \"attack\""
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_teukf"]
 states/Attacking/node = SubResource("AnimationNodeStateMachine_p1su8")
 states/Attacking/position = Vector2(953, 487)
@@ -627,8 +654,8 @@ states/Movement/position = Vector2(149, 344)
 states/Start/position = Vector2(236, 83)
 states/idle/node = SubResource("AnimationNodeAnimation_ed207")
 states/idle/position = Vector2(418, 83)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf")]
-graph_offset = Vector2(155, 228)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf"), "Movement", "Attacking", SubResource("AnimationNodeStateMachineTransition_fcyrd"), "Attacking", "Movement", SubResource("AnimationNodeStateMachineTransition_he3dd"), "Falling", "Attacking", SubResource("AnimationNodeStateMachineTransition_arfir"), "Attacking", "Falling", SubResource("AnimationNodeStateMachineTransition_w5eah"), "Attacking", "Jumping", SubResource("AnimationNodeStateMachineTransition_cvq2p"), "Jumping", "Attacking", SubResource("AnimationNodeStateMachineTransition_tf7rs")]
+graph_offset = Vector2(-37, 27)
 
 [node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "gravity_component", "health_component", "iframe_timer", "input_buffer_timer", "hurt_timer", "sprite", "primary_state_machine", "secondary_state_machine")]
 collision_layer = 4
