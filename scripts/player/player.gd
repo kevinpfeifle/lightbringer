@@ -2,16 +2,18 @@ class_name Player
 extends CharacterBody2D
 
 @export var animation_player: AnimationPlayer
-@export var debug_label: Label
+@export var above_hurtbox: Area2D
 @export var coyote_timer: Timer
+@export var debug_label: Label
+@export var front_hurtbox: Area2D
 @export var gravity_component: GravityComponent
 @export var health_component: HealthComponent
+@export var hurt_timer: Timer
 @export var iframe_timer: Timer
 @export var input_buffer_timer: Timer
-@export var hurt_timer: Timer
-@export var sprite: Sprite2D
 @export var primary_state_machine: StateMachine
 @export var secondary_state_machine: StateMachine
+@export var sprite: Sprite2D
 
 const JUMP_VELOCITY: float = -800.0
 const JUMP_CLIP_VELOCITY: float = -250.0
@@ -67,8 +69,12 @@ func set_facing_direction(new_direction: int) -> void:
 	direction = new_direction
 	if new_direction > 0:
 		sprite.flip_h = true
+		front_hurtbox.scale.x = -1
+		above_hurtbox.scale.x = -1
 	elif new_direction < 0:
 		sprite.flip_h = false
+		front_hurtbox.scale.x = 1
+		above_hurtbox.scale.x = 1
 
 func _set_player_speed() -> void:
 	if Input.is_action_just_pressed("player_run"):

@@ -769,22 +769,24 @@ states/idle/position = Vector2(418, 83)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf"), "Movement", "Attacking", SubResource("AnimationNodeStateMachineTransition_fcyrd"), "Attacking", "Movement", SubResource("AnimationNodeStateMachineTransition_he3dd"), "Falling", "Attacking", SubResource("AnimationNodeStateMachineTransition_arfir"), "Attacking", "Falling", SubResource("AnimationNodeStateMachineTransition_w5eah"), "Attacking", "Jumping", SubResource("AnimationNodeStateMachineTransition_cvq2p"), "Jumping", "Attacking", SubResource("AnimationNodeStateMachineTransition_tf7rs")]
 graph_offset = Vector2(185, 346)
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "gravity_component", "health_component", "iframe_timer", "input_buffer_timer", "hurt_timer", "sprite", "primary_state_machine", "secondary_state_machine")]
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "above_hurtbox", "coyote_timer", "debug_label", "front_hurtbox", "gravity_component", "health_component", "hurt_timer", "iframe_timer", "input_buffer_timer", "primary_state_machine", "secondary_state_machine", "sprite")]
 z_index = 1
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_k8idb")
 animation_player = NodePath("AnimationPlayer")
-debug_label = NodePath("DebugLabel")
+above_hurtbox = NodePath("AboveHurtbox")
 coyote_timer = NodePath("CoyoteTimer")
+debug_label = NodePath("DebugLabel")
+front_hurtbox = NodePath("FrontHurtbox")
 gravity_component = NodePath("GravityComponent")
 health_component = NodePath("HealthComponent")
+hurt_timer = NodePath("HurtTimer")
 iframe_timer = NodePath("IFrameTimer")
 input_buffer_timer = NodePath("InputBufferTimer")
-hurt_timer = NodePath("HurtTimer")
-sprite = NodePath("Sprite")
 primary_state_machine = NodePath("PrimaryStateMachine")
 secondary_state_machine = NodePath("SecondaryStateMachine")
+sprite = NodePath("Sprite")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_wooee")
