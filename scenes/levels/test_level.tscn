@@ -40,4 +40,7 @@ position = Vector2(-6, 77)
 position = Vector2(-361, -24)
 
 [node name="Enemy2" parent="." instance=ExtResource("4_hcdrm")]
-position = Vector2(-349, -111)
+position = Vector2(4, -233)
+
+[node name="Enemy3" parent="." instance=ExtResource("4_hcdrm")]
+position = Vector2(392, -39)
