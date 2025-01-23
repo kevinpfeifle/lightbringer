@@ -66,4 +66,5 @@ func _on_attack_timer_timeout() -> void:
 	transition.emit("ready", [state_name])
 
 func _on_attack_reset_timer_timeout() -> void:
+	attack_reset_timer.timeout.disconnect(_on_attack_reset_timer_timeout)
 	can_attack = true
