@@ -11,6 +11,7 @@ extends CharacterBody2D
 @export var hurt_timer: Timer
 @export var sprite: Sprite2D
 @export var primary_state_machine: StateMachine
+@export var secondary_state_machine: StateMachine
 
 const JUMP_VELOCITY: float = -800.0
 const JUMP_CLIP_VELOCITY: float = -250.0
@@ -23,14 +24,16 @@ signal speed_changed(running: bool)
 var alive: bool = true
 var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See BufferedInputTimer.
 var collide_one_way: bool = true
+var direction: int = 0
 var is_hurt: bool = false
 var speed: float = WALK_SPEED
 var running: bool = false
 
 func _process(_delta) -> void:
 	# print(primary_state_machine.current_state.state_name, speed)
-	debug_label.text = "Current Movement State: %s\nVelocity: %s\nBuffered Input: %s\nCurrent Animation: %s\nSpeed: %s" % \
-		[primary_state_machine.current_state.state_name, velocity, buffered_input, animation_player.current_animation, speed]
+	debug_label.text = "Current Primary State: %s\nCurrent Secondary State: %s\nVelocity: %s\nBuffered Input: %s\nCurrent Animation: %s\nSpeed: %s" % \
+		[primary_state_machine.current_state.state_name, secondary_state_machine.current_state.state_name, 
+		velocity, buffered_input, animation_player.current_animation, speed]
 
 func _physics_process(delta: float) -> void:
 	var is_falling: bool = primary_state_machine.current_state.state_name == "fall"
@@ -60,10 +63,11 @@ func _physics_process(delta: float) -> void:
 func _on_input_buffer_timer_timeout() -> void:
 	buffered_input = "" # Clear the input buffer it isn't consumed in 200ms.
 
-func set_facing_direction(direction: int) -> void:
-	if direction > 0:
+func set_facing_direction(new_direction: int) -> void:
+	direction = new_direction
+	if new_direction > 0:
 		sprite.flip_h = true
-	elif direction < 0:
+	elif new_direction < 0:
 		sprite.flip_h = false
 
 func _set_player_speed() -> void:

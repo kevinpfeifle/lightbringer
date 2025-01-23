@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=3 uid="uid://b47y40esxjr10"]
+[gd_scene load_steps=98 format=3 uid="uid://b47y40esxjr10"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_k8idb"]
 [ext_resource type="Texture2D" uid="uid://cevk4sblmey23" path="res://assets/sprites/wick_sprite_sheet.png" id="2_wooee"]
@@ -11,10 +11,15 @@
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_fall_state.gd" id="7_j24fh"]
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_hurt_state.gd" id="10_k3l5u"]
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_death_state.gd" id="11_imntp"]
+[ext_resource type="Script" path="res://scripts/player/states/secondary-states/player_attack_state.gd" id="12_rbxtj"]
+[ext_resource type="Script" path="res://scripts/player/states/secondary-states/player_ready_state.gd" id="13_kphsf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dnu7f"]
 radius = 31.0
 height = 148.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rjttw"]
+size = Vector2(88, 156)
 
 [sub_resource type="Animation" id="Animation_fq6jy"]
 length = 0.001
@@ -29,6 +34,46 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FrontHurtbox/FrontHurtBoxCollisionShape:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_3o6hl"]
+resource_name = "attack_front"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [55, 56]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FrontHurtbox/FrontHurtBoxCollisionShape:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_3bysy"]
@@ -280,6 +325,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bt3oh"]
 _data = {
 "RESET": SubResource("Animation_fq6jy"),
+"attack_front": SubResource("Animation_3o6hl"),
 "death": SubResource("Animation_3bysy"),
 "death_linger": SubResource("Animation_kbo7q"),
 "fall": SubResource("Animation_3ci0u"),
@@ -296,6 +342,22 @@ _data = {
 "run_stop": SubResource("Animation_nmso8"),
 "walk": SubResource("Animation_rty8f")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7uuv7"]
+animation = &"attack_front"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wrbht"]
+advance_mode = 2
+advance_expression = "secondary_state_machine.current_state.attack_direction == \"forward\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mhiwc"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_p1su8"]
+states/attack_front/node = SubResource("AnimationNodeAnimation_7uuv7")
+states/attack_front/position = Vector2(504, 100)
+transitions = ["Start", "attack_front", SubResource("AnimationNodeStateMachineTransition_wrbht"), "attack_front", "End", SubResource("AnimationNodeStateMachineTransition_mhiwc")]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_oxpmn"]
 animation = &"death"
@@ -483,39 +545,13 @@ states/run_stop/position = Vector2(770, 210)
 states/walk/node = SubResource("AnimationNodeAnimation_msy5p")
 states/walk/position = Vector2(564, 147)
 transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition_3hlg8"), "Start", "run_start", SubResource("AnimationNodeStateMachineTransition_ppn05"), "walk", "End", SubResource("AnimationNodeStateMachineTransition_643im"), "run_start", "run", SubResource("AnimationNodeStateMachineTransition_ia5lk"), "run", "run_stop", SubResource("AnimationNodeStateMachineTransition_q5m30"), "run_stop", "End", SubResource("AnimationNodeStateMachineTransition_4wmyg"), "run_start", "run_stop", SubResource("AnimationNodeStateMachineTransition_4nu6r"), "run_stop", "run_start", SubResource("AnimationNodeStateMachineTransition_dfwat"), "run_stop", "walk", SubResource("AnimationNodeStateMachineTransition_ipilx"), "walk", "run_start", SubResource("AnimationNodeStateMachineTransition_axl5x"), "Start", "End", SubResource("AnimationNodeStateMachineTransition_hij3v")]
-graph_offset = Vector2(-45, -64)
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_p5p2n"]
-animation = &"death"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_edx5i"]
-animation = &"death_linger"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_x0q3r"]
-animation = &"hurt"
+graph_offset = Vector2(16, 37)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ed207"]
 animation = &"idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1n0y3"]
 advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tjc46"]
-advance_mode = 2
-advance_expression = "is_hurt"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_opu4t"]
-switch_mode = 2
-advance_mode = 2
-advance_expression = "!is_hurt && alive"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_r56gt"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nxs0i"]
-advance_mode = 2
-advance_expression = "!alive"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bjljv"]
 advance_mode = 2
@@ -567,7 +603,18 @@ switch_mode = 2
 advance_mode = 2
 advance_expression = "!is_hurt && alive"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wedbn"]
+advance_mode = 2
+advance_expression = "secondary_state_machine.current_state.state_name == \"attack\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pmysf"]
+switch_mode = 2
+advance_mode = 2
+advance_expression = "primary_state_machine.current_state.state_name == \"idle\""
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_teukf"]
+states/Attacking/node = SubResource("AnimationNodeStateMachine_p1su8")
+states/Attacking/position = Vector2(953, 487)
 "states/Damage & Death/node" = SubResource("AnimationNodeStateMachine_27w76")
 "states/Damage & Death/position" = Vector2(993, 271)
 states/End/position = Vector2(236, -40)
@@ -578,18 +625,12 @@ states/Jumping/position = Vector2(607, 337)
 states/Movement/node = SubResource("AnimationNodeStateMachine_sdew8")
 states/Movement/position = Vector2(149, 344)
 states/Start/position = Vector2(236, 83)
-states/death/node = SubResource("AnimationNodeAnimation_p5p2n")
-states/death/position = Vector2(1092, 83)
-states/death_linger/node = SubResource("AnimationNodeAnimation_edx5i")
-states/death_linger/position = Vector2(1256, 83)
-states/hurt/node = SubResource("AnimationNodeAnimation_x0q3r")
-states/hurt/position = Vector2(939, 83)
 states/idle/node = SubResource("AnimationNodeAnimation_ed207")
 states/idle/position = Vector2(418, 83)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "hurt", SubResource("AnimationNodeStateMachineTransition_tjc46"), "hurt", "idle", SubResource("AnimationNodeStateMachineTransition_opu4t"), "death", "death_linger", SubResource("AnimationNodeStateMachineTransition_r56gt"), "hurt", "death", SubResource("AnimationNodeStateMachineTransition_nxs0i"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8")]
-graph_offset = Vector2(90, 32)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf")]
+graph_offset = Vector2(155, 228)
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "gravity_component", "health_component", "iframe_timer", "input_buffer_timer", "hurt_timer", "sprite", "primary_state_machine")]
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "debug_label", "coyote_timer", "gravity_component", "health_component", "iframe_timer", "input_buffer_timer", "hurt_timer", "sprite", "primary_state_machine", "secondary_state_machine")]
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_k8idb")
@@ -603,16 +644,28 @@ input_buffer_timer = NodePath("InputBufferTimer")
 hurt_timer = NodePath("HurtTimer")
 sprite = NodePath("Sprite")
 primary_state_machine = NodePath("PrimaryStateMachine")
+secondary_state_machine = NodePath("SecondaryStateMachine")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_wooee")
 hframes = 18
 vframes = 11
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+[node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(3, 17)
 shape = SubResource("CapsuleShape2D_dnu7f")
+
+[node name="FrontHurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+input_pickable = false
+monitorable = false
+
+[node name="FrontHurtBoxCollisionShape" type="CollisionShape2D" parent="FrontHurtbox"]
+position = Vector2(-75, 18)
+shape = SubResource("RectangleShape2D_rjttw")
+disabled = true
+debug_color = Color(0.997729, 0, 0.159364, 0.42)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -667,6 +720,23 @@ script = ExtResource("10_k3l5u")
 
 [node name="Death" type="Node" parent="PrimaryStateMachine"]
 script = ExtResource("11_imntp")
+
+[node name="SecondaryStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
+script = ExtResource("3_txmw8")
+current_state = NodePath("Ready")
+parent = NodePath("..")
+
+[node name="Attack" type="Node" parent="SecondaryStateMachine" node_paths=PackedStringArray("front_hurtbox", "attack_timer")]
+script = ExtResource("12_rbxtj")
+front_hurtbox = NodePath("../../FrontHurtbox")
+attack_timer = NodePath("AttackTimer")
+
+[node name="AttackTimer" type="Timer" parent="SecondaryStateMachine/Attack"]
+wait_time = 0.2
+one_shot = true
+
+[node name="Ready" type="Node" parent="SecondaryStateMachine"]
+script = ExtResource("13_kphsf")
 
 [node name="DebugLabel" type="Label" parent="."]
 offset_left = 51.0
