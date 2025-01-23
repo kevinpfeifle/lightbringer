@@ -14,13 +14,20 @@ var has_i_frames: bool = false
 
 func _ready() -> void:
 	current_health = max_health
-	i_frame_timer.timeout.connect(_on_i_frames_timeout)
+	if i_frame_timer != null:	
+		i_frame_timer.timeout.connect(_on_i_frames_timeout)
 
 func _on_i_frames_timeout() -> void:
 	has_i_frames = false
 
 func damage(amount: float, source: Node, power: int, direction: Vector2) -> void:
-	if !has_i_frames:
+	if i_frame_timer == null:
+		current_health -= amount
+		damaged.emit(amount, source, power, direction)
+		if current_health <= 0:
+			alive = false
+			dead.emit()
+	elif !has_i_frames:
 		has_i_frames = true
 		i_frame_timer.start()
 		current_health -= amount
