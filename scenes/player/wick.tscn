@@ -195,7 +195,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_3ci0u"]
 resource_name = "fall"
-length = 0.3
+length = 0.2
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -204,7 +204,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15),
+"times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [129, 130]
@@ -212,7 +212,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_jxssi"]
 resource_name = "fall_start_ground"
-length = 0.3
+length = 0.15
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -220,7 +220,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
+"times": PackedFloat32Array(0, 0.05, 0.1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [126, 127, 128]
@@ -228,7 +228,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_dgsr5"]
 resource_name = "fall_start_jump"
-length = 0.4
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -236,7 +236,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [147, 146, 127, 128]
@@ -244,7 +244,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_1kh8q"]
 resource_name = "fall_stop"
-length = 0.3
+length = 0.15
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -252,7 +252,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
+"times": PackedFloat32Array(0, 0.05, 0.1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [134, 135, 136]
@@ -293,7 +293,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_epfon"]
 resource_name = "jump_airborne"
-length = 0.3
+length = 0.2
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -302,7 +302,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15),
+"times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [148, 149]
@@ -310,7 +310,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_wlht3"]
 resource_name = "jump_start"
-length = 0.4
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -318,7 +318,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [144, 145, 146, 147]
@@ -342,7 +342,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_1urkh"]
 resource_name = "run"
-length = 0.9
+length = 0.6
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -351,7 +351,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [42, 43, 44, 45, 46, 47]
@@ -359,7 +359,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_qvtrj"]
 resource_name = "run_start"
-length = 0.6
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -367,7 +367,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [36, 37, 38, 39, 40, 41]
@@ -375,7 +375,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_nmso8"]
 resource_name = "run_stop"
-length = 0.6
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -383,7 +383,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [49, 50, 51, 52, 53, 54]
@@ -391,7 +391,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_rty8f"]
 resource_name = "walk"
-length = 0.6
+length = 0.4
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -400,7 +400,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [18, 19, 20, 21]
@@ -586,7 +586,7 @@ states/jump_airborne/position = Vector2(667, 100)
 states/jump_start/node = SubResource("AnimationNodeAnimation_ovijw")
 states/jump_start/position = Vector2(438, 100)
 transitions = ["Start", "jump_start", SubResource("AnimationNodeStateMachineTransition_285hi"), "jump_start", "jump_airborne", SubResource("AnimationNodeStateMachineTransition_f5yle"), "jump_airborne", "End", SubResource("AnimationNodeStateMachineTransition_qbarp")]
-graph_offset = Vector2(-77, -122)
+graph_offset = Vector2(101, -67)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fiewv"]
 animation = &"run"
@@ -921,6 +921,7 @@ one_shot = true
 script = ExtResource("13_kphsf")
 
 [node name="DebugLabel" type="Label" parent="."]
+visible = false
 offset_left = 51.0
 offset_top = -212.0
 offset_right = 278.0
