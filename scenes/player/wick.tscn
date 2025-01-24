@@ -800,10 +800,12 @@ hframes = 18
 vframes = 11
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(3, 17)
 shape = SubResource("CapsuleShape2D_dnu7f")
 
 [node name="FrontHurtbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 8
 input_pickable = false
@@ -816,6 +818,7 @@ disabled = true
 debug_color = Color(0.997729, 0, 0.159364, 0.42)
 
 [node name="AboveHurtbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 8
 monitorable = false
@@ -825,6 +828,7 @@ polygon = PackedVector2Array(47, -60, 47, -142, -111, -142, -111, -24, -104, 6, 
 disabled = true
 
 [node name="BelowHurtbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 8
 

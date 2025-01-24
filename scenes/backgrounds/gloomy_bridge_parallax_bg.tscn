@@ -1,0 +1,106 @@
+[gd_scene load_steps=11 format=3 uid="uid://dw0y6samnb3g1"]
+
+[ext_resource type="Texture2D" uid="uid://cpl0ehyhn5fek" path="res://assets/backgrounds/gloomy-bridge/bg_1.png" id="1_j0pwo"]
+[ext_resource type="Texture2D" uid="uid://bli1ahnij37a4" path="res://assets/backgrounds/gloomy-bridge/bg_2.png" id="2_eq3pk"]
+[ext_resource type="Texture2D" uid="uid://b6mdec1ddd7fn" path="res://assets/backgrounds/gloomy-bridge/bg_3.png" id="3_i50nq"]
+[ext_resource type="Texture2D" uid="uid://bujgp2no1jhgm" path="res://assets/backgrounds/gloomy-bridge/bg_4.png" id="4_2k36o"]
+[ext_resource type="Texture2D" uid="uid://dulqk8a2hqpwv" path="res://assets/backgrounds/gloomy-bridge/bg_5_bridge.png" id="5_17bj7"]
+[ext_resource type="Texture2D" uid="uid://dx6tpj5us4a42" path="res://assets/backgrounds/gloomy-bridge/bg_6.png" id="6_mjrkf"]
+[ext_resource type="Texture2D" uid="uid://56043k2rhr3s" path="res://assets/backgrounds/gloomy-bridge/bg_7_fog.png" id="7_i3135"]
+[ext_resource type="Texture2D" uid="uid://cis7kj3u5f4qa" path="res://assets/backgrounds/gloomy-bridge/fg_1.png" id="8_wty7s"]
+[ext_resource type="Texture2D" uid="uid://icleueoc4qx5" path="res://assets/backgrounds/gloomy-bridge/fg_2.png" id="9_xss85"]
+[ext_resource type="Texture2D" uid="uid://bsa2clvae35jg" path="res://assets/backgrounds/gloomy-bridge/fg_3.png" id="10_jxn65"]
+
+[node name="GloomyBridgeParallaxBG" type="Node2D"]
+
+[node name="ParallaxBG1" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0, 0)
+repeat_size = Vector2(1920, 0)
+
+[node name="ImageBG1" type="Sprite2D" parent="ParallaxBG1"]
+position = Vector2(960, 540)
+scale = Vector2(0.535714, 0.383523)
+texture = ExtResource("1_j0pwo")
+
+[node name="ParallaxBG2" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.005, 0)
+repeat_size = Vector2(1920, 0)
+
+[node name="ImageBG2" type="Sprite2D" parent="ParallaxBG2"]
+position = Vector2(960, 540)
+scale = Vector2(0.535714, 0.383523)
+texture = ExtResource("2_eq3pk")
+
+[node name="ParallaxBG3" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.01, 0)
+repeat_size = Vector2(1920, 0)
+autoscroll = Vector2(10, 0)
+
+[node name="ImageBG3" type="Sprite2D" parent="ParallaxBG3"]
+position = Vector2(960, 540)
+scale = Vector2(0.535714, 0.383523)
+texture = ExtResource("3_i50nq")
+
+[node name="ParallaxBG4" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.4, 0)
+repeat_size = Vector2(1920, 0)
+
+[node name="ImageBG4" type="Sprite2D" parent="ParallaxBG4"]
+position = Vector2(960, 540)
+scale = Vector2(0.535714, 0.383523)
+texture = ExtResource("4_2k36o")
+
+[node name="ParallaxBG5" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.1, 0)
+repeat_size = Vector2(1920, 0)
+
+[node name="ImageBG5" type="Sprite2D" parent="ParallaxBG5"]
+position = Vector2(960, 540)
+scale = Vector2(0.535714, 0.383523)
+texture = ExtResource("5_17bj7")
+
+[node name="ParallaxBG6" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.5, 0)
+repeat_size = Vector2(1920, 0)
+
+[node name="ImageBG6" type="Sprite2D" parent="ParallaxBG6"]
+position = Vector2(960, 520)
+scale = Vector2(0.535714, 0.383523)
+texture = ExtResource("6_mjrkf")
+
+[node name="ParallaxBG7" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.6, 0)
+repeat_size = Vector2(1920, 0)
+autoscroll = Vector2(50, 0)
+
+[node name="ImageBG7" type="Sprite2D" parent="ParallaxBG7"]
+position = Vector2(960, 540)
+scale = Vector2(0.535714, 0.383523)
+texture = ExtResource("7_i3135")
+
+[node name="ParallaxFG1" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.6, 0)
+repeat_size = Vector2(1920, 0)
+
+[node name="ImageFG1" type="Sprite2D" parent="ParallaxFG1"]
+position = Vector2(960, 932)
+scale = Vector2(0.535714, 0.383523)
+texture = ExtResource("8_wty7s")
+
+[node name="ParallaxFG2" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.75, 0)
+repeat_size = Vector2(1920, 0)
+
+[node name="ImageFG2" type="Sprite2D" parent="ParallaxFG2"]
+position = Vector2(959, 869)
+scale = Vector2(0.535714, 0.383523)
+texture = ExtResource("9_xss85")
+
+[node name="ParallaxFG3" type="Parallax2D" parent="."]
+scale = Vector2(0.535714, 0.383523)
+scroll_scale = Vector2(0.9, 0)
+repeat_size = Vector2(1920, 0)
+
+[node name="ImageFG3" type="Sprite2D" parent="ParallaxFG3"]
+position = Vector2(1790.13, 2698.67)
+texture = ExtResource("10_jxn65")
