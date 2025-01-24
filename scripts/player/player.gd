@@ -16,11 +16,10 @@ extends CharacterBody2D
 @export var secondary_state_machine: StateMachine
 @export var sprite: Sprite2D
 
-const JUMP_VELOCITY: float = -800.0
-const JUMP_CLIP_VELOCITY: float = -250.0
+const JUMP_VELOCITY: float = -1000.0
 const ONE_WAY_PLATFORM_COLLISION_LAYER: int = 2
-const WALK_SPEED: float = 300.0
-const RUN_SPEED: float = 500.0
+const WALK_SPEED: float = 400.0
+const RUN_SPEED: float = 600.0
 
 signal speed_changed(running: bool)
 
@@ -28,6 +27,7 @@ var active_knockback_timer: Timer
 var alive: bool = true
 var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See BufferedInputTimer.
 var collide_one_way: bool = true
+var compounding_gravity: bool = true
 var direction: int = 0
 var is_hurt: bool = false
 var speed: float = WALK_SPEED
@@ -43,15 +43,16 @@ func _process(_delta) -> void:
 		velocity, buffered_input, animation_player.current_animation, speed]
 
 func _physics_process(delta: float) -> void:
-	var is_falling: bool = primary_state_machine.current_state.state_name == "fall"
-	gravity_component.handle_gravity(self, delta, is_falling)
-
+	var is_falling = primary_state_machine.current_state.state_name == "fall"
+	var is_jumping = primary_state_machine.current_state.state_name == "jump"
+	gravity_component.handle_gravity(self, delta, is_falling, is_jumping)
 	# Can't mutate the array while looping, so loop a deep copy of it instead. Change this if it impacts performance.
 	if active_knockback_timer:
 		if active_knockback_timer.is_stopped():
 			active_knockback_timer = null
 		else:
 			knockback_component.handle_knockback_decay(delta)
+			# compounding_gravity = false # Disable compounding gravity during knockback to allow to bouncing in "below" attacks.
 
 	_set_player_speed()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=3 uid="uid://b47y40esxjr10"]
+[gd_scene load_steps=115 format=3 uid="uid://b47y40esxjr10"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_k8idb"]
 [ext_resource type="Texture2D" uid="uid://cevk4sblmey23" path="res://assets/sprites/wick_sprite_sheet.png" id="2_wooee"]
@@ -23,7 +23,7 @@ height = 148.0
 size = Vector2(88, 156)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a6i42"]
-size = Vector2(157, 45)
+size = Vector2(157, 105)
 
 [sub_resource type="Animation" id="Animation_fq6jy"]
 length = 0.001
@@ -752,6 +752,10 @@ advance_expression = "primary_state_machine.current_state.state_name == \"jump\"
 advance_mode = 2
 advance_expression = "secondary_state_machine.current_state.state_name == \"attack\""
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_48ypq"]
+advance_mode = 2
+advance_expression = "is_hurt"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_teukf"]
 states/Attacking/node = SubResource("AnimationNodeStateMachine_p1su8")
 states/Attacking/position = Vector2(953, 487)
@@ -767,8 +771,8 @@ states/Movement/position = Vector2(149, 344)
 states/Start/position = Vector2(236, 83)
 states/idle/node = SubResource("AnimationNodeAnimation_ed207")
 states/idle/position = Vector2(418, 83)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf"), "Movement", "Attacking", SubResource("AnimationNodeStateMachineTransition_fcyrd"), "Attacking", "Movement", SubResource("AnimationNodeStateMachineTransition_he3dd"), "Falling", "Attacking", SubResource("AnimationNodeStateMachineTransition_arfir"), "Attacking", "Falling", SubResource("AnimationNodeStateMachineTransition_w5eah"), "Attacking", "Jumping", SubResource("AnimationNodeStateMachineTransition_cvq2p"), "Jumping", "Attacking", SubResource("AnimationNodeStateMachineTransition_tf7rs")]
-graph_offset = Vector2(185, 346)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf"), "Movement", "Attacking", SubResource("AnimationNodeStateMachineTransition_fcyrd"), "Attacking", "Movement", SubResource("AnimationNodeStateMachineTransition_he3dd"), "Falling", "Attacking", SubResource("AnimationNodeStateMachineTransition_arfir"), "Attacking", "Falling", SubResource("AnimationNodeStateMachineTransition_w5eah"), "Attacking", "Jumping", SubResource("AnimationNodeStateMachineTransition_cvq2p"), "Jumping", "Attacking", SubResource("AnimationNodeStateMachineTransition_tf7rs"), "Attacking", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_48ypq")]
+graph_offset = Vector2(378, 238)
 
 [node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "above_hurtbox", "coyote_timer", "debug_label", "front_hurtbox", "gravity_component", "health_component", "hurt_timer", "iframe_timer", "input_buffer_timer", "knockback_component", "primary_state_machine", "secondary_state_machine", "sprite")]
 z_index = 1
@@ -796,12 +800,10 @@ hframes = 18
 vframes = 11
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(3, 17)
 shape = SubResource("CapsuleShape2D_dnu7f")
 
 [node name="FrontHurtbox" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 8
 input_pickable = false
@@ -814,7 +816,6 @@ disabled = true
 debug_color = Color(0.997729, 0, 0.159364, 0.42)
 
 [node name="AboveHurtbox" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 8
 monitorable = false
@@ -824,12 +825,11 @@ polygon = PackedVector2Array(47, -60, 47, -142, -111, -142, -111, -24, -104, 6, 
 disabled = true
 
 [node name="BelowHurtbox" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 8
 
 [node name="BelowHurtboxCollisionShape" type="CollisionShape2D" parent="BelowHurtbox"]
-position = Vector2(-1, 118.5)
+position = Vector2(-1, 148.5)
 shape = SubResource("RectangleShape2D_a6i42")
 disabled = true
 debug_color = Color(0.997729, 0, 0.159364, 0.42)
@@ -845,7 +845,7 @@ advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 
 [node name="CoyoteTimer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.3
 one_shot = true
 
 [node name="IFrameTimer" type="Timer" parent="."]
@@ -896,12 +896,13 @@ script = ExtResource("3_txmw8")
 current_state = NodePath("Ready")
 parent = NodePath("..")
 
-[node name="Attack" type="Node" parent="SecondaryStateMachine" node_paths=PackedStringArray("above_hurtbox", "front_hurtbox", "below_hurtbox", "attack_timer", "attack_reset_timer")]
+[node name="Attack" type="Node" parent="SecondaryStateMachine" node_paths=PackedStringArray("above_hurtbox", "front_hurtbox", "below_hurtbox", "attack_timer", "attack_knockback_timer", "attack_reset_timer")]
 script = ExtResource("12_rbxtj")
 above_hurtbox = NodePath("../../AboveHurtbox")
 front_hurtbox = NodePath("../../FrontHurtbox")
 below_hurtbox = NodePath("../../BelowHurtbox")
 attack_timer = NodePath("AttackTimer")
+attack_knockback_timer = NodePath("AttackKnockbackTimer")
 attack_reset_timer = NodePath("AttackResetTimer")
 
 [node name="AttackTimer" type="Timer" parent="SecondaryStateMachine/Attack"]

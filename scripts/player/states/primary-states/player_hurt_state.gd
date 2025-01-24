@@ -13,7 +13,7 @@ func enter(args: Array) -> void:
 	super(args)
 	parent.is_hurt = true
 	state_locked = true
-	parent.knockback_component.knockback_finished.connect(_on_knockback_finished)
+	parent.knockback_component.knockback_finished.connect(_on_knockback_finished.bind(state_name))
 	# For a standard hurt knockback, we always want a small amount of upward knockback, so pass -1 for vert_direction.
 	parent.knockback_component.handle_knockback(parent.hurt_timer, args[1], -1)
 
@@ -26,6 +26,7 @@ func physics_update(delta) -> void:
 	if !state_locked:
 		super(delta)
 
-func _on_knockback_finished() -> void:
-	parent.is_hurt = false
-	state_locked = false
+func _on_knockback_finished(signal_state_name: String) -> void:
+	if signal_state_name == "hurt":
+		parent.is_hurt = false
+		state_locked = false

@@ -31,7 +31,7 @@ tile_map_data = PackedByteArray("AAD+/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAAAQAAAAA
 tile_set = SubResource("TileSet_ena3r")
 
 [node name="Wick" parent="." instance=ExtResource("3_5sbgu")]
-position = Vector2(6, -77)
+position = Vector2(225, -86)
 
 [node name="Camera2D" type="Camera2D" parent="Wick"]
 position = Vector2(-6, 77)
@@ -40,7 +40,7 @@ position = Vector2(-6, 77)
 position = Vector2(-361, -24)
 
 [node name="Enemy2" parent="." instance=ExtResource("4_hcdrm")]
-position = Vector2(4, -233)
+position = Vector2(877, -400)
 
 [node name="Enemy3" parent="." instance=ExtResource("4_hcdrm")]
-position = Vector2(392, -39)
+position = Vector2(-896, -539)
