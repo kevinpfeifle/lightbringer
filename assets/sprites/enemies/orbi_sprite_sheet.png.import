@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wjqcqos8nkgk"
-path="res://.godot/imported/wick.png-37264be54979619a8b68695c1acb1701.ctex"
+uid="uid://dcav15q3kytrx"
+path="res://.godot/imported/orbi_sprite_sheet.png-960d58bddb333fd9f815bba31bb310da.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/wick.png"
-dest_files=["res://.godot/imported/wick.png-37264be54979619a8b68695c1acb1701.ctex"]
+source_file="res://assets/sprites/enemies/orbi_sprite_sheet.png"
+dest_files=["res://.godot/imported/orbi_sprite_sheet.png-960d58bddb333fd9f815bba31bb310da.ctex"]
 
 [params]
 

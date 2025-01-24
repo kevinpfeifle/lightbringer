@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=4 uid="uid://dg7wk3nnewlmm"]
+
+[ext_resource type="Texture2D" uid="uid://bosurgkpi1dta" path="res://assets/tiles/land_1.png" id="1_j66ef"]
+[ext_resource type="Texture2D" uid="uid://candn6ekfe4fa" path="res://assets/tiles/land_2.png" id="2_bcget"]
+[ext_resource type="PackedScene" uid="uid://b47y40esxjr10" path="res://scenes/player/wick.tscn" id="3_5sbgu"]
+[ext_resource type="PackedScene" uid="uid://gfsb4pp356dp" path="res://scenes/enemy.tscn" id="4_hcdrm"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yxppt"]
+texture = ExtResource("1_j66ef")
+texture_region_size = Vector2i(256, 102)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-128, 36.5102, -113.301, 29.7638, -105.364, 36.1134, -91.8708, 41.2724, -85.5212, 44.8441, -80.759, 47.2252, -73.6157, 43.6535, -68.0598, 38.0976, -60.5197, 42.463, -54.9638, 39.2882, -43.852, 34.1291, -31.5496, 31.3512, -21.6283, 28.9701, -10.5165, 33.3354, 0.198425, 36.1134, 4.56378, 35.7165, 15.2787, 30.9543, 26.7874, 25.3984, 37.5023, 27.3827, 46.6299, 32.9386, 67.2661, 33.7323, 74.8063, 37.7008, 81.5527, 37.7008, 84.3307, 36.5102, 89.0929, 40.4787, 100.205, 39.685, 108.142, 35.7165, 122.031, 32.5417, 124.809, 34.526, 128, 36.5102, 128, -32.9386, -128, -32.5417)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1gght"]
+texture = ExtResource("2_bcget")
+margins = Vector2i(0, 9)
+texture_region_size = Vector2i(256, 83)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-128, 36.5102, -113.301, 29.7638, -105.364, 36.1134, -91.8708, 41.2724, -85.5212, 44.8441, -80.759, 47.2252, -73.6157, 43.6535, -68.0598, 38.0976, -60.5197, 42.463, -54.9638, 39.2882, -43.852, 34.1291, -31.5496, 31.3512, -21.6283, 28.9701, -10.5165, 33.3354, 0.198425, 36.1134, 4.56378, 35.7165, 15.2787, 30.9543, 26.7874, 25.3984, 37.5023, 27.3827, 46.6299, 32.9386, 67.2661, 33.7323, 74.8063, 37.7008, 81.5527, 37.7008, 84.3307, 36.5102, 89.0929, 40.4787, 100.205, 39.685, 108.142, 35.7165, 122.031, 32.5417, 124.809, 34.526, 128, 36.5102, 128, -32.9386, -128, -32.5417)
+
+[sub_resource type="TileSet" id="TileSet_ena3r"]
+tile_size = Vector2i(256, 102)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_yxppt")
+sources/1 = SubResource("TileSetAtlasSource_1gght")
+
+[node name="TestLevel" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAAAQAAAAAAAAABAAAAAQAAAAAAAAD9/wAAAAAAAAAAAAD7/wAAAAAAAAAAAAD5/wAAAAAAAAAAAAACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAD6/wAAAQAAAAAAAAD8/wAAAQAAAAAAAAADAAAAAQAAAAAAAAAFAAAAAQAAAAAAAAD9//z/AAAAAAAAAAD8//z/AAAAAAAAAAD7//z/AAAAAAAAAAACAP3/AAAAAAAAAAAEAP3/AAAAAAAAAAADAP3/AQAAAAAAAAAFAP3/AQAAAAAAAAD6//z/AQAAAAAAAAAAAPf/AAAAAAAAAAABAPf/AQAAAAAAAAA=")
+tile_set = SubResource("TileSet_ena3r")
+
+[node name="Wick" parent="." instance=ExtResource("3_5sbgu")]
+position = Vector2(225, -86)
+
+[node name="Camera2D" type="Camera2D" parent="Wick"]
+position = Vector2(-6, 77)
+
+[node name="Enemy" parent="." instance=ExtResource("4_hcdrm")]
+position = Vector2(-361, -24)
+
+[node name="Enemy2" parent="." instance=ExtResource("4_hcdrm")]
+position = Vector2(877, -400)
+
+[node name="Enemy3" parent="." instance=ExtResource("4_hcdrm")]
+position = Vector2(-896, -539)

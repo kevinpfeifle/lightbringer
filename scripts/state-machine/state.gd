@@ -7,11 +7,13 @@ extends Node
 signal transition(new_state: StringName)
 
 var active: bool = false
+var parent: CharacterBody2D
 var state_name: StringName
 
 ## The State's setup function.
 func enter(_args: Array) -> void:
-	pass
+	if !active:
+		return
 
 ## The State's breakdown function. A reference to the new state is passed to help with logic.
 func exit(_new_state: StringName) -> void:
@@ -19,8 +21,10 @@ func exit(_new_state: StringName) -> void:
 
 ## Mimics _process for the State, and gets called by StateMachine if this is the active State.
 func update(_delta: float) -> void:
-	pass
+	if !active:
+		return
 	
 ## Mimics _physics_process for the State, and gets called by StateMachine if this is the active State.
 func physics_update(_delta: float) -> void:
-	pass
+	if !active:
+		return
