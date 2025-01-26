@@ -1,4 +1,4 @@
-class_name Knockback_Component
+class_name KnockbackComponent
 extends Node
 
 @export var body: CharacterBody2D
