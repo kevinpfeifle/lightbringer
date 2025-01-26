@@ -10,7 +10,7 @@ func _ready() -> void:
 ## Args[1] should be the direction of the source of damage as an Vector2i.
 func enter(args) -> void:
 	super(args)
-	# parent.is_hurt = true
+	parent.is_hurt = true
 	last_state = args[0]
 	state_locked = true
 	parent.knockback_component.knockback_finished.connect(_on_knockback_finished)
@@ -27,6 +27,6 @@ func physics_update(delta) -> void:
 		super(delta)
 
 func _on_knockback_finished() -> void:
-	# parent.is_hurt = false
+	parent.is_hurt = false
 	state_locked = false
 	transition.emit(last_state, [state_name])

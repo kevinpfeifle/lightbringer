@@ -8,9 +8,9 @@ extends CharacterBody2D
 @export var front_hurtbox: Area2D
 @export var gravity_component: GravityComponent
 @export var health_component: HealthComponent
-@export var hurt_timer: Timer
-@export var iframe_timer: Timer
-@export var input_buffer_timer: Timer
+@export var hurt_lockout_timer: Timer # Duration the player cannot act after getting hurt.
+@export var iframe_timer: Timer # Duration the player gets invulnerability frames after being hurt.
+@export var input_buffer_timer: Timer # Duration to buffer inputs like attacking and jumping if they are doing rapdily.
 @export var knockback_component: KnockbackComponent
 @export var primary_state_machine: StateMachine
 @export var secondary_state_machine: StateMachine
@@ -33,9 +33,6 @@ var is_hurt: bool = false
 var speed: float = WALK_SPEED
 var running: bool = false
 
-func _ready() -> void:
-	knockback_component.knockback_started.connect(_on_knockback_started)
-
 func _process(_delta) -> void:
 	# print(primary_state_machine.current_state.state_name, speed)
 	debug_label.text = "Current Primary State: %s\nCurrent Secondary State: %s\nVelocity: %s\nBuffered Input: %s\nCurrent Animation: %s\nSpeed: %s" % \
@@ -46,13 +43,6 @@ func _physics_process(delta: float) -> void:
 	var is_falling = primary_state_machine.current_state.state_name == "fall"
 	var is_jumping = primary_state_machine.current_state.state_name == "jump"
 	gravity_component.handle_gravity(self, delta, is_falling, is_jumping)
-	# Can't mutate the array while looping, so loop a deep copy of it instead. Change this if it impacts performance.
-	if active_knockback_timer:
-		if active_knockback_timer.is_stopped():
-			active_knockback_timer = null
-		else:
-			knockback_component.handle_knockback_decay(delta)
-			# compounding_gravity = false # Disable compounding gravity during knockback to allow to bouncing in "below" attacks.
 
 	_set_player_speed()
 
@@ -65,7 +55,9 @@ func _physics_process(delta: float) -> void:
 		collide_one_way = true
 		_set_one_way_collision_detection(collide_one_way)
 
+	knockback_component.handle_knockback(self)
 	move_and_slide()
+	knockback_component.handle_knockback_decay()
 
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
@@ -79,7 +71,7 @@ func _physics_process(delta: float) -> void:
 				damage_direction = 1
 			else:
 				damage_direction = -1
-			health_component.damage(1, enemy, 10, Vector2i(damage_direction, 0)) # Player is knocked back horizontally with slightly vertical added.
+			health_component.damage(1, enemy, 10, Vector2i(damage_direction, -1)) # Player is knocked back horizontally with slightly vertical added.
 
 func _on_input_buffer_timer_timeout() -> void:
 	buffered_input = "" # Clear the input buffer it isn't consumed in 200ms.

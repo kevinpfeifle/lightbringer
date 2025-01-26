@@ -7,7 +7,6 @@ extends State
 @export var front_hurtbox: Area2D
 @export var below_hurtbox: Area2D
 @export var attack_timer: Timer # AttackTimer ensures we leave the state when the animations ends. It is the length of attack.
-@export var attack_knockback_timer: Timer # AttackKnockbackTimer lets us add a small, short impulse knockback in the opposite direction of an attack.
 @export var attack_reset_timer: Timer # AttackResetTimer marks attack frequency. Once per timer cycle.
 
 var active_hurtbox: Area2D
@@ -66,7 +65,8 @@ func _add_attack_knockback(force_direction_vector: Vector2i) -> void:
 			state_name
 		])
 	else:
-		parent.knockback_component.handle_knockback(attack_knockback_timer, force_direction_vector, 250.0)
+		# Otherwise give a noticeable horizontal impulse in the opposition direction of attack.
+		parent.knockback_component.initialize_knockback(force_direction_vector, Vector2(1750.0, 0))
 
 func _map_attack_dir_to_opposite_force_dir(direction: String) -> Vector2i:
 	if attack_direction == "above":

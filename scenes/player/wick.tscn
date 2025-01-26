@@ -777,7 +777,7 @@ states/idle/position = Vector2(418, 83)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf"), "Movement", "Attacking", SubResource("AnimationNodeStateMachineTransition_fcyrd"), "Attacking", "Movement", SubResource("AnimationNodeStateMachineTransition_he3dd"), "Falling", "Attacking", SubResource("AnimationNodeStateMachineTransition_arfir"), "Attacking", "Falling", SubResource("AnimationNodeStateMachineTransition_w5eah"), "Attacking", "Jumping", SubResource("AnimationNodeStateMachineTransition_cvq2p"), "Jumping", "Attacking", SubResource("AnimationNodeStateMachineTransition_tf7rs"), "Attacking", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_48ypq")]
 graph_offset = Vector2(125, 190)
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "above_hurtbox", "coyote_timer", "debug_label", "front_hurtbox", "gravity_component", "health_component", "hurt_timer", "iframe_timer", "input_buffer_timer", "knockback_component", "primary_state_machine", "secondary_state_machine", "sprite")]
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "above_hurtbox", "coyote_timer", "debug_label", "front_hurtbox", "gravity_component", "health_component", "hurt_lockout_timer", "iframe_timer", "input_buffer_timer", "knockback_component", "primary_state_machine", "secondary_state_machine", "sprite")]
 z_index = 1
 collision_layer = 4
 collision_mask = 11
@@ -789,7 +789,7 @@ debug_label = NodePath("DebugLabel")
 front_hurtbox = NodePath("FrontHurtbox")
 gravity_component = NodePath("GravityComponent")
 health_component = NodePath("HealthComponent")
-hurt_timer = NodePath("HurtTimer")
+hurt_lockout_timer = NodePath("HurtLockoutTimer")
 iframe_timer = NodePath("IFrameTimer")
 input_buffer_timer = NodePath("InputBufferTimer")
 knockback_component = NodePath("KnockbackComponent")
@@ -803,11 +803,11 @@ hframes = 18
 vframes = 11
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(3, 17)
 shape = SubResource("CapsuleShape2D_dnu7f")
 
 [node name="FrontHurtbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 8
 input_pickable = false
@@ -820,6 +820,7 @@ disabled = true
 debug_color = Color(0.997729, 0, 0.159364, 0.42)
 
 [node name="AboveHurtbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 8
 monitorable = false
@@ -831,6 +832,7 @@ disabled = true
 debug_color = Color(0.997729, 0, 0.159364, 0.42)
 
 [node name="BelowHurtbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 8
 
@@ -861,7 +863,7 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
-[node name="HurtTimer" type="Timer" parent="."]
+[node name="HurtLockoutTimer" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
 
@@ -902,25 +904,20 @@ script = ExtResource("3_txmw8")
 current_state = NodePath("Ready")
 parent = NodePath("..")
 
-[node name="Attack" type="Node" parent="SecondaryStateMachine" node_paths=PackedStringArray("above_hurtbox", "front_hurtbox", "below_hurtbox", "attack_timer", "attack_knockback_timer", "attack_reset_timer")]
+[node name="Attack" type="Node" parent="SecondaryStateMachine" node_paths=PackedStringArray("above_hurtbox", "front_hurtbox", "below_hurtbox", "attack_timer", "attack_reset_timer")]
 script = ExtResource("12_rbxtj")
 above_hurtbox = NodePath("../../AboveHurtbox")
 front_hurtbox = NodePath("../../FrontHurtbox")
 below_hurtbox = NodePath("../../BelowHurtbox")
 attack_timer = NodePath("AttackTimer")
-attack_knockback_timer = NodePath("AttackKnockbackTimer")
 attack_reset_timer = NodePath("AttackResetTimer")
 
 [node name="AttackTimer" type="Timer" parent="SecondaryStateMachine/Attack"]
-wait_time = 0.2
+wait_time = 0.25
 one_shot = true
 
 [node name="AttackResetTimer" type="Timer" parent="SecondaryStateMachine/Attack"]
-wait_time = 0.35
-one_shot = true
-
-[node name="AttackKnockbackTimer" type="Timer" parent="SecondaryStateMachine/Attack"]
-wait_time = 0.2
+wait_time = 0.4
 one_shot = true
 
 [node name="Ready" type="Node" parent="SecondaryStateMachine"]
@@ -939,4 +936,4 @@ Buffed Input:
 Current Animation: idle"
 
 [connection signal="timeout" from="InputBufferTimer" to="." method="_on_input_buffer_timer_timeout"]
-[connection signal="timeout" from="HurtTimer" to="." method="_on_hurt_timer_timeout"]
+[connection signal="timeout" from="HurtLockoutTimer" to="." method="_on_hurt_timer_timeout"]
