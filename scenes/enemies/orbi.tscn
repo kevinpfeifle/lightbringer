@@ -149,17 +149,18 @@ libraries = {
 }
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(2, 0)
 shape = SubResource("CircleShape2D_wvo7m")
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 
 [node name="DetectionShape" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_ym8na")
 debug_color = Color(0.552135, 0.563155, 0, 0.42)
 
 [node name="WanderArea" type="Area2D" parent="."]
+visible = false
 
 [node name="WanderShape" type="CollisionShape2D" parent="WanderArea"]
 position = Vector2(2, 0)
