@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://gfsb4pp356dp"]
+[gd_scene load_steps=15 format=3 uid="uid://gfsb4pp356dp"]
 
 [ext_resource type="Script" path="res://scripts/enemies/orbi/orbi.gd" id="1_602bl"]
 [ext_resource type="Texture2D" uid="uid://dcav15q3kytrx" path="res://assets/sprites/enemies/orbi_sprite_sheet.png" id="2_4t65s"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d2u0r2ggj46r2" path="res://scenes/components/knockback_component.tscn" id="4_7diaq"]
 [ext_resource type="Script" path="res://scripts/state-machine/state_machine.gd" id="5_40qh3"]
 [ext_resource type="Script" path="res://scripts/enemies/orbi/states/orbi_wander_state.gd" id="6_fn13v"]
+[ext_resource type="Script" path="res://scripts/enemies/orbi/states/orbi_hurt_state.gd" id="7_fsi8c"]
 
 [sub_resource type="Animation" id="Animation_yekb2"]
 length = 0.001
@@ -123,13 +124,15 @@ radius = 700.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_pcl48"]
 radius = 256.125
 
-[node name="Orbi" type="CharacterBody2D" node_paths=PackedStringArray("home_point", "nav_agent", "wander_timer", "wander_area", "wait_timer", "animation_player", "health_component", "knockback_component")]
+[node name="Orbi" type="CharacterBody2D" node_paths=PackedStringArray("home_point", "hurt_timer", "nav_agent", "state_machine", "wander_timer", "wander_area", "wait_timer", "animation_player", "health_component", "knockback_component")]
 collision_layer = 8
 collision_mask = 7
 script = ExtResource("1_602bl")
 home_point = NodePath("HomePoint")
+hurt_timer = NodePath("HurtTimer")
 nav_agent = NodePath("NavAgent")
 speed = 100.0
+state_machine = NodePath("StateMachine")
 wander_timer = NodePath("WanderTimer")
 wander_area = NodePath("WanderArea")
 wander_leash_distance = 500
@@ -198,3 +201,6 @@ parent = NodePath("..")
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("6_fn13v")
+
+[node name="Hurt" type="Node" parent="StateMachine"]
+script = ExtResource("7_fsi8c")

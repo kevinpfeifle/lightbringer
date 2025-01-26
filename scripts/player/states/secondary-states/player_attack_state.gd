@@ -58,18 +58,15 @@ func physics_update(delta: float) -> void:
 		attack_timer.stop()
 		transition.emit("ready", [state_name])
 
-func _add_attack_knockback() -> void:
-	var force_direction_vector: Vector2i = _map_attack_dir_to_opposite_force_dir(attack_direction)
-	if force_direction_vector.x != 0:
-		parent.knockback_component.handle_knockback(attack_knockback_timer, force_direction_vector.x, 0, 250.0)
-	elif force_direction_vector.y == -1:
+func _add_attack_knockback(force_direction_vector: Vector2i) -> void:
+	if force_direction_vector.y == -1:
 		# For downward attacks, the "knockback" is actually a "bounce jump" so transition primary state into the jump state.
 		parent.primary_state_machine.current_state.transition.emit("jump", [
 			parent.primary_state_machine.current_state,
 			state_name
 		])
-	elif force_direction_vector.y == 1:
-		parent.knockback_component.handle_knockback(attack_knockback_timer, 0, 1, 250.0)
+	else:
+		parent.knockback_component.handle_knockback(attack_knockback_timer, force_direction_vector, 250.0)
 
 func _map_attack_dir_to_opposite_force_dir(direction: String) -> Vector2i:
 	if attack_direction == "above":
@@ -82,15 +79,16 @@ func _map_attack_dir_to_opposite_force_dir(direction: String) -> Vector2i:
 		return Vector2i(0, 0)
 
 ## TODO: Consider revising this to get list of all bodies in the area, and attacking the first.
-## I am not sure currently by what metric it picks for overlapping bodies. It probably is random?
+## I am not sure currently by what metric it picks for overlapping bodies. It probably is FIFO?
 func _on_attack_hurtbox_entered(body: Node2D) -> void:
 	if !landed_attack && body is CharacterBody2D:
 		if body.health_component != null:
 			if !attack_timer.is_stopped():
 				attack_timer.stop()
 				landed_attack = true
-				body.health_component.damage(1, parent, 0, parent.direction)
-				_add_attack_knockback()
+				var force_direction_vector: Vector2i = _map_attack_dir_to_opposite_force_dir(attack_direction)
+				body.health_component.damage(1, parent, 0, force_direction_vector * Vector2i(-1, -1)) # Enemy should move opposite of player
+				_add_attack_knockback(force_direction_vector)
 				transition.emit("ready", [state_name])
 
 func _on_attack_timer_timeout() -> void:
