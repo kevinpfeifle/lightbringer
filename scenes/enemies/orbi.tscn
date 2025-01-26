@@ -1,8 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://gfsb4pp356dp"]
+[gd_scene load_steps=14 format=3 uid="uid://gfsb4pp356dp"]
 
-[ext_resource type="Script" path="res://scripts/enemies/enemy.gd" id="1_f60fe"]
+[ext_resource type="Script" path="res://scripts/enemies/orbi/orbi.gd" id="1_602bl"]
 [ext_resource type="Texture2D" uid="uid://dcav15q3kytrx" path="res://assets/sprites/enemies/orbi_sprite_sheet.png" id="2_4t65s"]
 [ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3_3rt6r"]
+[ext_resource type="PackedScene" uid="uid://d2u0r2ggj46r2" path="res://scenes/components/knockback_component.tscn" id="4_7diaq"]
+[ext_resource type="Script" path="res://scripts/state-machine/state_machine.gd" id="5_40qh3"]
+[ext_resource type="Script" path="res://scripts/enemies/orbi/states/orbi_wander_state.gd" id="6_fn13v"]
 
 [sub_resource type="Animation" id="Animation_yekb2"]
 length = 0.001
@@ -21,7 +24,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/path = NodePath("Hitbox:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -94,7 +97,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CollisionShape2D:disabled")
+tracks/3/path = NodePath("Hitbox:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -114,12 +117,26 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvo7m"]
 radius = 48.0651
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("animation_player", "health_component")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ym8na"]
+radius = 700.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pcl48"]
+radius = 256.125
+
+[node name="Orbi" type="CharacterBody2D" node_paths=PackedStringArray("home_point", "nav_agent", "wander_timer", "wander_area", "wait_timer", "animation_player", "health_component", "knockback_component")]
 collision_layer = 8
 collision_mask = 7
-script = ExtResource("1_f60fe")
+script = ExtResource("1_602bl")
+home_point = NodePath("HomePoint")
+nav_agent = NodePath("NavAgent")
+speed = 100.0
+wander_timer = NodePath("WanderTimer")
+wander_area = NodePath("WanderArea")
+wander_leash_distance = 500
+wait_timer = NodePath("WaitTimer")
 animation_player = NodePath("AnimationPlayer")
 health_component = NodePath("HealthComponent")
+knockback_component = NodePath("KnockbackComponent")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_4t65s")
@@ -131,11 +148,52 @@ libraries = {
 "": SubResource("AnimationLibrary_yilmg")
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(2, 0)
 shape = SubResource("CircleShape2D_wvo7m")
 
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="DetectionShape" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_ym8na")
+debug_color = Color(0.552135, 0.563155, 0, 0.42)
+
+[node name="WanderArea" type="Area2D" parent="."]
+
+[node name="WanderShape" type="CollisionShape2D" parent="WanderArea"]
+position = Vector2(2, 0)
+shape = SubResource("CircleShape2D_pcl48")
+debug_color = Color(0, 0.645892, 0.249924, 0.42)
+
+[node name="HomePoint" type="Marker2D" parent="."]
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+
+[node name="HurtTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="WanderTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="WaitTimer" type="Timer" parent="."]
+wait_time = 5.1
+one_shot = true
+
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_3rt6r")
 max_health = 3.0
+
+[node name="KnockbackComponent" parent="." node_paths=PackedStringArray("body") instance=ExtResource("4_7diaq")]
+body = NodePath("..")
+default_y_impulse = 0.0
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
+script = ExtResource("5_40qh3")
+current_state = NodePath("Wander")
+parent = NodePath("..")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("6_fn13v")

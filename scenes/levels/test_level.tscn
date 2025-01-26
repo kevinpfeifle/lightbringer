@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://dg7wk3nnewlmm"]
+[gd_scene load_steps=11 format=4 uid="uid://dg7wk3nnewlmm"]
 
 [ext_resource type="Texture2D" uid="uid://bosurgkpi1dta" path="res://assets/tiles/land_1.png" id="1_j66ef"]
 [ext_resource type="Texture2D" uid="uid://candn6ekfe4fa" path="res://assets/tiles/land_2.png" id="2_bcget"]
 [ext_resource type="PackedScene" uid="uid://b47y40esxjr10" path="res://scenes/player/wick.tscn" id="3_5sbgu"]
-[ext_resource type="PackedScene" uid="uid://gfsb4pp356dp" path="res://scenes/enemy.tscn" id="4_hcdrm"]
+[ext_resource type="PackedScene" uid="uid://gfsb4pp356dp" path="res://scenes/enemies/orbi.tscn" id="4_hcdrm"]
+[ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="5_ffy5q"]
 [ext_resource type="PackedScene" uid="uid://dw0y6samnb3g1" path="res://scenes/backgrounds/gloomy_bridge_parallax_bg.tscn" id="5_gw60i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yxppt"]
@@ -24,6 +25,12 @@ tile_size = Vector2i(256, 102)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_yxppt")
 sources/1 = SubResource("TileSetAtlasSource_1gght")
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_0up4j"]
+vertices = PackedVector2Array(3940.07, 1068.96, 2203.61, 1063.33, -1271.29, 1052.03, -1272, 1028.7, -1267.02, -937.039, 3954.92, -960.953)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-1282, 1029, -1277, -947, 3965, -971, 3950, 1079, 2203.57, 1073.32, -1281, 1062)])
+parsed_collision_mask = 1
 
 [node name="TestLevel" type="Node2D"]
 
@@ -54,3 +61,11 @@ position = Vector2(-346, 267)
 
 [node name="Enemy4" parent="." instance=ExtResource("4_hcdrm")]
 position = Vector2(1254, 864)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_0up4j")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerHud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("5_ffy5q")]
+player = NodePath("../../Wick")
