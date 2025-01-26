@@ -11,7 +11,7 @@ extends CharacterBody2D
 @export var hurt_timer: Timer
 @export var iframe_timer: Timer
 @export var input_buffer_timer: Timer
-@export var knockback_component: Knockback_Component
+@export var knockback_component: KnockbackComponent
 @export var primary_state_machine: StateMachine
 @export var secondary_state_machine: StateMachine
 @export var sprite: Sprite2D
