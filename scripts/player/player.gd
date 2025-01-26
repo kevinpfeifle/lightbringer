@@ -79,7 +79,7 @@ func _physics_process(delta: float) -> void:
 				damage_direction = 1
 			else:
 				damage_direction = -1
-			health_component.damage(1, enemy, 10, damage_direction)
+			health_component.damage(1, enemy, 10, Vector2i(damage_direction, 0)) # Player is knocked back horizontally with slightly vertical added.
 
 func _on_input_buffer_timer_timeout() -> void:
 	buffered_input = "" # Clear the input buffer it isn't consumed in 200ms.

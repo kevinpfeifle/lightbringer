@@ -8,14 +8,14 @@ var state_locked: bool = false
 func _ready() -> void:
 	state_name = "hurt"
 
-## Args[1] should be the direction of the source of damage as an int.
+## Args[1] should be the direction of the source of damage as an Vector2i.
 func enter(args: Array) -> void:
 	super(args)
 	parent.is_hurt = true
 	state_locked = true
 	parent.knockback_component.knockback_finished.connect(_on_knockback_finished.bind(state_name))
 	# For a standard hurt knockback, we always want a small amount of upward knockback, so pass -1 for vert_direction.
-	parent.knockback_component.handle_knockback(parent.hurt_timer, args[1], -1)
+	parent.knockback_component.handle_knockback(parent.hurt_timer, args[1])
 
 func exit(new_state) -> void:
 	super(new_state)

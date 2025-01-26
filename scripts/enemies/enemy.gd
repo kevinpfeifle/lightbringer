@@ -17,7 +17,7 @@ func _on_knockback_finished():
 	pass
 
 ## Implement in the child class.
-func _on_damage():
+func _on_damage(_amount: float, _source: Node, _power: int, _direction: Vector2i):
 	pass
 
 func _on_dead():
