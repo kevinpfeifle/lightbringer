@@ -1,6 +1,4 @@
 # To-do List:
 
-1. Refactor Wick's state machine solution. Horizontal movement should be moved into a component. It'll make handling knockback easier.
-   - Currently there is an issue when attacking forward in air, where the knockback is negligable because it tries to set velocity to zero when you aren't moving.
-2. Figure out what is making Wick's bounce jump inconsistent. *Requires more testing, but might be fixed*
-3. Figure out in-air knockback for enemies. The 4 directional knockback feels bad.
+1. Consider refactoring Wick's state machine solution. Horizontal movement should be moved into a component, the exact same code is repeated in a few places. The move state would exist solely to block other states from occuring during ground movement, and for animations, much like with idle.
+   - Previously addressed issues from this have been resolved.
