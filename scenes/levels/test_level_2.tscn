@@ -9,10 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="7_eyiof"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_uuu7b"]
-vertices = PackedVector2Array(4213.99, 1645.84, 4218.65, 1781.85, 3033.02, 1765, 434.883, 13, 4166.57, 18.9766, 4162.03, 128.172, 4141.99, 368.719, 4146.86, 551.328, 4074.85, 609.727, 4011.23, 751.328, 281.391, 222.031, 372.031, 93.9531, 3999, 861.406, 3846.4, 1142.2, 251.719, 371.406, 3997.06, 1124.11, 4175.14, 1523.36, 4218.74, 1573.45, 4084, 1455, 4006.95, 1397.45, 4084, 1454.99, 3937.7, 1385.55, 3907.74, 1253.6, 3932.15, 1321.19, 3851.35, 1217.71, 212.961, 1219.05, 198, 876.906, 204.969, 527.547, 237.898, 1381.58, 327.5, 1728.95, 269.656, 1620.86, 484.68, 1755.31, 626.742, 1810.94, 1600.79, 1780)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5, 6), PackedInt32Array(3, 6, 7, 8), PackedInt32Array(3, 8, 9), PackedInt32Array(10, 11, 3, 9, 12, 13, 14), PackedInt32Array(12, 15, 13), PackedInt32Array(16, 17, 0, 2, 18), PackedInt32Array(19, 20, 18, 2, 21), PackedInt32Array(22, 23, 21, 2, 24), PackedInt32Array(25, 26, 27, 14, 13, 28), PackedInt32Array(29, 30, 28, 13, 31), PackedInt32Array(32, 31, 13, 33), PackedInt32Array(2, 33, 13, 24)])
+vertices = PackedVector2Array(4192.76, 1756.47, 3033.07, 1740, 3122, 1701.66, 4188.96, 1645.45, 3974.01, 859.93, 3972.22, 1101.92, 3819.91, 1120.2, 2968.77, 1092.17, 447.109, 38.0234, 2438, 1708.33, 1600.26, 1755.01, 3852.47, 1500, 3855.53, 1298.17, 3887.13, 1270.11, 3907.52, 1326.58, 3914.45, 1406.92, 3827.24, 1232, 3171, 1294.83, 4158.03, 1541.77, 4193.13, 1582.1, 3122, 1501.17, 3171, 1500, 4140.51, 43.9375, 4137.06, 126.797, 4116.96, 368.008, 2964.24, 1299.22, 2431.98, 1497.83, 2275.48, 1294.77, 631.07, 1785.79, 491.383, 1731.08, 4121.54, 539.68, 4054.49, 594.063, 3986.82, 744.672, 304.867, 232.133, 392.148, 108.813, 2278.51, 1088.83, 276.008, 377.453, 262.648, 1378.04, 237.883, 1216.55, 223.008, 876.477, 229.891, 531.477, 343.742, 1706.32, 293.859, 1613.1, 4069, 1475, 3996.79, 1421.06, 4069, 1474.99)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7, 8), PackedInt32Array(9, 2, 1, 10), PackedInt32Array(11, 12, 13, 14, 15), PackedInt32Array(16, 13, 12, 17), PackedInt32Array(18, 19, 3, 2, 20, 21, 11), PackedInt32Array(8, 22, 23, 24), PackedInt32Array(25, 7, 6, 16, 17), PackedInt32Array(25, 17, 21, 20, 26), PackedInt32Array(27, 26, 9, 10, 28, 29), PackedInt32Array(8, 24, 30, 31), PackedInt32Array(8, 31, 32), PackedInt32Array(8, 32, 4), PackedInt32Array(33, 34, 8, 7, 35, 36), PackedInt32Array(37, 38, 39, 40, 36, 35, 27), PackedInt32Array(41, 42, 37, 27, 29), PackedInt32Array(26, 27, 25), PackedInt32Array(43, 18, 11, 15, 44), PackedInt32Array(43, 44, 45)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(430, 3, 4177, 9, 4172, 129, 4152, 369, 4157, 556, 4083, 616, 4021, 754, 4009, 862, 4007, 1133, 3857, 1151, 3861, 1212, 3916, 1247, 3942, 1319, 3947, 1377, 4011, 1388, 4090, 1447, 4182, 1516, 4229, 1570, 4224, 1646, 4229, 1792, 3033, 1775, 1601, 1790, 625, 1821, 482, 1765, 321, 1738, 260, 1624, 228, 1383, 203, 1220, 188, 877, 195, 526, 242, 369, 272, 218, 364, 88)])
+parsed_collision_mask = 3
 cell_size = 16.0
+agent_radius = 35.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7fqx8"]
 size = Vector2(619, 132)
@@ -58,44 +60,52 @@ position = Vector2(3558, 495)
 position = Vector2(1079, 981)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Enemies"]
-visible = false
 navigation_polygon = SubResource("NavigationPolygon_uuu7b")
+
+[node name="Platform1" type="NavigationObstacle2D" parent="Enemies/NavigationRegion2D"]
+position = Vector2(2622, 1194)
+vertices = PackedVector2Array(-309, -70, 311, -67, 308, 70, -311, 66)
+affect_navigation_mesh = true
+
+[node name="Platform2" type="NavigationObstacle2D" parent="Enemies/NavigationRegion2D"]
+position = Vector2(3513, 1401)
+vertices = PackedVector2Array(307, -68, 305, 64, -307, 64, -307, -71)
+affect_navigation_mesh = true
+
+[node name="Platform3" type="NavigationObstacle2D" parent="Enemies/NavigationRegion2D"]
+position = Vector2(2776, 1603)
+vertices = PackedVector2Array(311, -67, -308, -70, -304, 70, 311, 64)
+affect_navigation_mesh = true
 
 [node name="TempPlatforms" type="Node" parent="."]
 
-[node name="StaticBody2D4" type="StaticBody2D" parent="TempPlatforms"]
-position = Vector2(2065, 825)
+[node name="Platform1" type="StaticBody2D" parent="TempPlatforms"]
+position = Vector2(2622, 1194)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TempPlatforms/StaticBody2D4"]
-position = Vector2(561, 295)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TempPlatforms/Platform1"]
 shape = SubResource("RectangleShape2D_7fqx8")
 
-[node name="Sprite2D" type="Sprite2D" parent="TempPlatforms/StaticBody2D4"]
-position = Vector2(562, 293.5)
+[node name="Sprite2D" type="Sprite2D" parent="TempPlatforms/Platform1"]
 scale = Vector2(616, 139)
 texture = SubResource("PlaceholderTexture2D_v7be5")
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="TempPlatforms"]
-position = Vector2(2911, 1080)
+[node name="Platform2" type="StaticBody2D" parent="TempPlatforms"]
+position = Vector2(3513, 1401)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TempPlatforms/StaticBody2D3"]
-position = Vector2(561, 295)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TempPlatforms/Platform2"]
 shape = SubResource("RectangleShape2D_7fqx8")
 
-[node name="Sprite2D" type="Sprite2D" parent="TempPlatforms/StaticBody2D3"]
-position = Vector2(562, 293.5)
+[node name="Sprite2D" type="Sprite2D" parent="TempPlatforms/Platform2"]
 scale = Vector2(616, 139)
 texture = SubResource("PlaceholderTexture2D_v7be5")
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="TempPlatforms"]
-position = Vector2(2168, 1328)
+[node name="Platform3" type="StaticBody2D" parent="TempPlatforms"]
+position = Vector2(2776, 1603)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TempPlatforms/StaticBody2D2"]
-position = Vector2(561, 295)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TempPlatforms/Platform3"]
 shape = SubResource("RectangleShape2D_7fqx8")
 
-[node name="Sprite2D" type="Sprite2D" parent="TempPlatforms/StaticBody2D2"]
-position = Vector2(562, 293.5)
+[node name="Sprite2D" type="Sprite2D" parent="TempPlatforms/Platform3"]
 scale = Vector2(616, 139)
 texture = SubResource("PlaceholderTexture2D_v7be5")
 
