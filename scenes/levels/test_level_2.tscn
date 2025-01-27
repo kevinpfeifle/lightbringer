@@ -1,0 +1,106 @@
+[gd_scene load_steps=11 format=3 uid="uid://cae50vnej7axf"]
+
+[ext_resource type="PackedScene" uid="uid://bqcslwnrixfs1" path="res://scenes/backgrounds/crypt_parallax_bg.tscn" id="4_faweq"]
+[ext_resource type="PackedScene" uid="uid://b47y40esxjr10" path="res://scenes/player/wick.tscn" id="4_fcqet"]
+[ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="5_1j388"]
+[ext_resource type="Texture2D" uid="uid://egrc4lsppf3" path="res://assets/rooms/crypt/room1/foreground_primary.png" id="5_wgr3h"]
+[ext_resource type="Texture2D" uid="uid://bo6fpdn24oa7r" path="res://assets/decor/dead_lightbringers.png" id="6_2oe3h"]
+[ext_resource type="PackedScene" uid="uid://gfsb4pp356dp" path="res://scenes/enemies/orbi.tscn" id="6_i1ysr"]
+[ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="7_eyiof"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_uuu7b"]
+vertices = PackedVector2Array(4213.99, 1645.84, 4218.65, 1781.85, 3033.02, 1765, 434.883, 13, 4166.57, 18.9766, 4162.03, 128.172, 4141.99, 368.719, 4146.86, 551.328, 4074.85, 609.727, 4011.23, 751.328, 281.391, 222.031, 372.031, 93.9531, 3999, 861.406, 3846.4, 1142.2, 251.719, 371.406, 3997.06, 1124.11, 4175.14, 1523.36, 4218.74, 1573.45, 4084, 1455, 4006.95, 1397.45, 4084, 1454.99, 3937.7, 1385.55, 3907.74, 1253.6, 3932.15, 1321.19, 3851.35, 1217.71, 212.961, 1219.05, 198, 876.906, 204.969, 527.547, 237.898, 1381.58, 327.5, 1728.95, 269.656, 1620.86, 484.68, 1755.31, 626.742, 1810.94, 1600.79, 1780)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5, 6), PackedInt32Array(3, 6, 7, 8), PackedInt32Array(3, 8, 9), PackedInt32Array(10, 11, 3, 9, 12, 13, 14), PackedInt32Array(12, 15, 13), PackedInt32Array(16, 17, 0, 2, 18), PackedInt32Array(19, 20, 18, 2, 21), PackedInt32Array(22, 23, 21, 2, 24), PackedInt32Array(25, 26, 27, 14, 13, 28), PackedInt32Array(29, 30, 28, 13, 31), PackedInt32Array(32, 31, 13, 33), PackedInt32Array(2, 33, 13, 24)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(430, 3, 4177, 9, 4172, 129, 4152, 369, 4157, 556, 4083, 616, 4021, 754, 4009, 862, 4007, 1133, 3857, 1151, 3861, 1212, 3916, 1247, 3942, 1319, 3947, 1377, 4011, 1388, 4090, 1447, 4182, 1516, 4229, 1570, 4224, 1646, 4229, 1792, 3033, 1775, 1601, 1790, 625, 1821, 482, 1765, 321, 1738, 260, 1624, 228, 1383, 203, 1220, 188, 877, 195, 526, 242, 369, 272, 218, 364, 88)])
+cell_size = 16.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7fqx8"]
+size = Vector2(619, 132)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_v7be5"]
+
+[node name="TestLevel2" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerHud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("7_eyiof")]
+player = NodePath("../../Wick")
+
+[node name="GloomyBridgeParallaxBG" parent="." instance=ExtResource("4_faweq")]
+
+[node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("4_fcqet")]
+position = Vector2(784, 1712)
+camera = NodePath("Camera")
+
+[node name="Camera" parent="Wick" instance=ExtResource("5_1j388")]
+position = Vector2(-4, 5)
+zoom = Vector2(0.8, 0.8)
+limit_left = 5
+limit_top = 0
+limit_right = 4320
+limit_bottom = 1920
+limit_smoothed = true
+
+[node name="Walls+Floor" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls+Floor"]
+polygon = PackedVector2Array(200, 8, 217, 363, 206, 374, 183, 379, 161, 387, 159, 944, 164, 953, 167, 973, 167, 985, 162, 995, 162, 1244, 189, 1249, 184, 1275, 187, 1295, 199, 1343, 221, 1420, 231, 1469, 240, 1550, 240, 1615, 240, 1664, 247, 1673, 255, 1689, 255, 1689, 256, 1707, 273, 1705, 281, 1717, 280, 1731, 273, 1747, 307, 1747, 312, 1752, 315, 1761, 319, 1776, 354, 1776, 385, 1780, 407, 1783, 432, 1787, 490, 1789, 529, 1788, 530, 1802, 529, 1821, 520, 1837, 734, 1841, 1075, 1838, 1157, 1823, 1381, 1820, 1472, 1820, 1523, 1810, 1706, 1804, 1839, 1798, 1919, 1807, 2022, 1804, 2181, 1807, 2338, 1803, 2536, 1803, 2664, 1790, 2889, 1788, 2984, 1789, 3028, 1796, 3098, 1806, 3292, 1807, 3484, 1808, 3529, 1820, 3612, 1815, 3682, 1813, 3737, 1804, 3942, 1807, 4012, 1807, 4136, 1797, 4258, 1805, 4263, 1803, 4258, 1780, 4262, 1767, 4275, 1761, 4278, 1748, 4273, 1731, 4265, 1716, 4269, 1700, 4275, 1680, 4260, 1657, 4244, 1649, 4253, 1630, 4255, 1620, 4252, 1602, 4252, 1588, 4269, 1578, 4271, 1567, 4217, 1520, 4186, 1489, 4156, 1444, 4123, 1395, 4084, 1367, 4041, 1339, 3995, 1337, 3981, 1341, 3986, 1351, 3980, 1363, 3966, 1372, 3956, 1365, 3963, 1345, 3970, 1310, 3968, 1270, 3962, 1233, 3947, 1197, 3874, 1199, 3868, 1191, 3865, 1166, 3879, 1156, 4015, 1150, 4016, 840, 4049, 768, 4074, 689, 4097, 614, 4175, 587, 4183, 549, 4181, 468, 4182, 408, 4171, 355, 4188, 310, 4189, 271, 4189, 165, 4194, 107, 4187, 7, 4327, 11, 4328, 1927, 6, 1926, 0, 10)
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls+Floor"]
+position = Vector2(2168, 968)
+texture = ExtResource("5_wgr3h")
+
+[node name="Enemies" type="Node" parent="."]
+
+[node name="Orbi" parent="Enemies" instance=ExtResource("6_i1ysr")]
+position = Vector2(3558, 495)
+
+[node name="Orbi2" parent="Enemies" instance=ExtResource("6_i1ysr")]
+position = Vector2(1079, 981)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Enemies"]
+navigation_polygon = SubResource("NavigationPolygon_uuu7b")
+
+[node name="TempPlatforms" type="Node" parent="."]
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="TempPlatforms"]
+position = Vector2(2065, 825)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TempPlatforms/StaticBody2D4"]
+position = Vector2(561, 295)
+shape = SubResource("RectangleShape2D_7fqx8")
+
+[node name="Sprite2D" type="Sprite2D" parent="TempPlatforms/StaticBody2D4"]
+position = Vector2(562, 293.5)
+scale = Vector2(616, 139)
+texture = SubResource("PlaceholderTexture2D_v7be5")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="TempPlatforms"]
+position = Vector2(2911, 1080)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TempPlatforms/StaticBody2D3"]
+position = Vector2(561, 295)
+shape = SubResource("RectangleShape2D_7fqx8")
+
+[node name="Sprite2D" type="Sprite2D" parent="TempPlatforms/StaticBody2D3"]
+position = Vector2(562, 293.5)
+scale = Vector2(616, 139)
+texture = SubResource("PlaceholderTexture2D_v7be5")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="TempPlatforms"]
+position = Vector2(2168, 1328)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TempPlatforms/StaticBody2D2"]
+position = Vector2(561, 295)
+shape = SubResource("RectangleShape2D_7fqx8")
+
+[node name="Sprite2D" type="Sprite2D" parent="TempPlatforms/StaticBody2D2"]
+position = Vector2(562, 293.5)
+scale = Vector2(616, 139)
+texture = SubResource("PlaceholderTexture2D_v7be5")
+
+[node name="Decor" type="Node" parent="."]
+
+[node name="DeadLightbringers" type="Sprite2D" parent="Decor"]
+position = Vector2(1128, 1679)
+texture = ExtResource("6_2oe3h")

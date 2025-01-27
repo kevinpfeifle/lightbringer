@@ -28,9 +28,9 @@ sources/0 = SubResource("TileSetAtlasSource_yxppt")
 sources/1 = SubResource("TileSetAtlasSource_1gght")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0up4j"]
-vertices = PackedVector2Array(3940.07, 1068.96, 2203.6, 1063.32, -1271.29, 1052.03, -1272, 1028.7, -1267.02, -937.039, 3954.92, -960.953)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-1282, 1029, -1277, -947, 3965, -971, 3950, 1079, 2203.57, 1073.32, -1281, 1062)])
+vertices = PackedVector2Array(3940.07, 1068.96, 2203.6, 1063.32, -1269.99, 1052.03, -1267.01, -937.039, 3954.92, -960.953)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-1280, 1056, -1277, -947, 3965, -971, 3950, 1079, 2203.57, 1073.32, -1281, 1062)])
 parsed_collision_mask = 1
 cell_size = 16.0
 
