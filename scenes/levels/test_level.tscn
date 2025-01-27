@@ -43,13 +43,6 @@ tile_set = SubResource("TileSet_ena3r")
 [node name="Wick" parent="." instance=ExtResource("3_5sbgu")]
 position = Vector2(964, 539)
 
-[node name="Camera2D" type="Camera2D" parent="Wick"]
-position_smoothing_enabled = true
-position_smoothing_speed = 6.0
-drag_vertical_enabled = true
-drag_top_margin = 0.5
-drag_bottom_margin = 0.5
-
 [node name="Enemy" parent="." instance=ExtResource("4_hcdrm")]
 position = Vector2(1961, 109)
 
@@ -60,7 +53,7 @@ position = Vector2(2712, 863)
 position = Vector2(-346, 267)
 
 [node name="Enemy4" parent="." instance=ExtResource("4_hcdrm")]
-position = Vector2(1254, 864)
+position = Vector2(1248, 923)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_0up4j")

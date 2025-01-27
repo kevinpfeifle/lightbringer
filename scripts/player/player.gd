@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 @export var animation_player: AnimationPlayer
 @export var above_hurtbox: Area2D
+@export var camera: Camera
 @export var coyote_timer: Timer
 @export var debug_label: Label
 @export var front_hurtbox: Area2D
