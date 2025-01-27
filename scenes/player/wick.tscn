@@ -860,9 +860,9 @@ position_smoothing_speed = 6.0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 drag_left_margin = 0.1
-drag_top_margin = 0.4
+drag_top_margin = 0.3
 drag_right_margin = 0.1
-drag_bottom_margin = 0.4
+drag_bottom_margin = 0.1
 script = ExtResource("3_76oy1")
 
 [node name="CoyoteTimer" type="Timer" parent="."]
@@ -942,6 +942,7 @@ one_shot = true
 script = ExtResource("13_kphsf")
 
 [node name="DebugLabel" type="Label" parent="."]
+visible = false
 offset_left = 51.0
 offset_top = -212.0
 offset_right = 278.0
