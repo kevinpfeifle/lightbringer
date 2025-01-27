@@ -29,13 +29,12 @@ player = NodePath("../../Wick")
 [node name="GloomyBridgeParallaxBG" parent="." instance=ExtResource("4_faweq")]
 
 [node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("4_fcqet")]
-position = Vector2(784, 1712)
+position = Vector2(415, 1690)
 camera = NodePath("Camera")
 
 [node name="Camera" parent="Wick" instance=ExtResource("5_1j388")]
-position = Vector2(-4, 5)
 zoom = Vector2(0.8, 0.8)
-limit_left = 5
+limit_left = 10
 limit_top = 0
 limit_right = 4320
 limit_bottom = 1920
@@ -59,6 +58,7 @@ position = Vector2(3558, 495)
 position = Vector2(1079, 981)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Enemies"]
+visible = false
 navigation_polygon = SubResource("NavigationPolygon_uuu7b")
 
 [node name="TempPlatforms" type="Node" parent="."]

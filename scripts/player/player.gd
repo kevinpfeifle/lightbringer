@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var camera: Camera
 @export var coyote_timer: Timer
 @export var debug_label: Label
+@export var starting_direction: Direction = Direction.RIGHT # -1 or 1 to represent left or right respectively.
 @export var front_hurtbox: Area2D
 @export var gravity_component: GravityComponent
 @export var health_component: HealthComponent
@@ -17,13 +18,15 @@ extends CharacterBody2D
 @export var secondary_state_machine: StateMachine
 @export var sprite: Sprite2D
 
+signal speed_changed(running: bool)
+
+enum Direction { LEFT, RIGHT }
+
 const ENEMY_COLLISION_LAYER: int = 4
 const JUMP_VELOCITY: float = -1000.0
 const ONE_WAY_PLATFORM_COLLISION_LAYER: int = 2
 const WALK_SPEED: float = 400.0
 const RUN_SPEED: float = 600.0
-
-signal speed_changed(running: bool)
 
 var active_knockback_timer: Timer
 var alive: bool = true
@@ -37,6 +40,10 @@ var running: bool = false
 
 func _ready() -> void:
 	iframe_timer.timeout.connect(_on_i_frames_timeout)
+	if starting_direction == Direction.LEFT:
+		set_facing_direction(-1)
+	elif starting_direction == Direction.RIGHT:
+		set_facing_direction(1)
 
 func _process(_delta) -> void:
 	# print(primary_state_machine.current_state.state_name, speed)
