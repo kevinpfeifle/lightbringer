@@ -11,6 +11,10 @@ func _ready() -> void:
 	state_name = "idle"
 	look_timer.timeout.connect(_on_look_timer_timeout)
 
+func exit(new_state) -> void:
+	super(new_state)
+	parent.camera.center_camera()
+
 func update(_delta) -> void:
 	if Input.is_action_just_pressed("player_up"):
 		look_timer.start()
