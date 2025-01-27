@@ -28,10 +28,11 @@ sources/0 = SubResource("TileSetAtlasSource_yxppt")
 sources/1 = SubResource("TileSetAtlasSource_1gght")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0up4j"]
-vertices = PackedVector2Array(3940.07, 1068.96, 2203.61, 1063.33, -1271.29, 1052.03, -1272, 1028.7, -1267.02, -937.039, 3954.92, -960.953)
+vertices = PackedVector2Array(3940.07, 1068.96, 2203.6, 1063.32, -1271.29, 1052.03, -1272, 1028.7, -1267.02, -937.039, 3954.92, -960.953)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-1282, 1029, -1277, -947, 3965, -971, 3950, 1079, 2203.57, 1073.32, -1281, 1062)])
 parsed_collision_mask = 1
+cell_size = 16.0
 
 [node name="TestLevel" type="Node2D"]
 
@@ -42,7 +43,7 @@ tile_map_data = PackedByteArray("AAACAAoAAAAAAAAAAAADAAoAAAAAAAAAAAAEAAoAAAAAAAA
 tile_set = SubResource("TileSet_ena3r")
 
 [node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("3_5sbgu")]
-position = Vector2(896, 960)
+position = Vector2(-440, 912)
 camera = NodePath("Camera")
 
 [node name="Camera" parent="Wick" instance=ExtResource("5_jbqkn")]
@@ -52,20 +53,19 @@ limit_right = 5000
 limit_bottom = 1088
 limit_smoothed = true
 
-[node name="Enemy" parent="." instance=ExtResource("4_hcdrm")]
-position = Vector2(1961, 109)
-
-[node name="Enemy2" parent="." instance=ExtResource("4_hcdrm")]
-position = Vector2(2712, 863)
-
-[node name="Enemy3" parent="." instance=ExtResource("4_hcdrm")]
-position = Vector2(-346, 267)
-
 [node name="Enemy4" parent="." instance=ExtResource("4_hcdrm")]
 position = Vector2(1248, 923)
 
+[node name="Enemy5" parent="." instance=ExtResource("4_hcdrm")]
+position = Vector2(3448, 496)
+
+[node name="Enemy6" parent="." instance=ExtResource("4_hcdrm")]
+position = Vector2(-344, 96)
+
+[node name="Enemy7" parent="." instance=ExtResource("4_hcdrm")]
+position = Vector2(1768, -104)
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-visible = false
 navigation_polygon = SubResource("NavigationPolygon_0up4j")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
