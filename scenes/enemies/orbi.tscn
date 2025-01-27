@@ -128,6 +128,7 @@ radius = 640.0
 radius = 256.125
 
 [node name="Orbi" type="CharacterBody2D" node_paths=PackedStringArray("chase_area", "detection_area", "home_point", "nav_agent", "state_machine", "wander_timer", "wander_area", "wait_timer", "animation_player", "health_component", "knockback_component")]
+z_index = 3
 collision_layer = 8
 collision_mask = 3
 script = ExtResource("1_602bl")
@@ -189,7 +190,6 @@ debug_color = Color(0, 0.645892, 0.249924, 0.42)
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
 path_desired_distance = 10.0
 target_desired_distance = 1.0
-path_postprocessing = 1
 avoidance_enabled = true
 debug_enabled = true
 
