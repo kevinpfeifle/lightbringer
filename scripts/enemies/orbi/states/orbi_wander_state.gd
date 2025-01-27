@@ -53,9 +53,6 @@ func physics_update(delta) -> void:
 
 func _new_wander_target() -> Vector2:
 	# If the Orbi hasn't wandered too far, keep wandering.
-	print(parent.position.x)
-	print(parent.position.y)
-	print(wander_leash_distance)
 	if parent.global_position.distance_to(parent.home) <= wander_leash_distance:
 		var shape = parent.wander_area.get_child(0).shape as CircleShape2D
 		var radius = shape.radius
