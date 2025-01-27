@@ -17,6 +17,8 @@ func enter(args) -> void:
 	NavigationServer2D.map_changed.connect(_on_map_ready)
 	parent.wait_timer.timeout.connect(_on_wait_timer_timeout)
 	parent.wander_timer.timeout.connect(_on_wander_timer_timeout)
+	if nav_ready:
+		parent.wander_timer.start()
 
 func exit(new_state) -> void:
 	super(new_state)
@@ -51,7 +53,10 @@ func physics_update(delta) -> void:
 
 func _new_wander_target() -> Vector2:
 	# If the Orbi hasn't wandered too far, keep wandering.
-	if (!parent.to_local(parent.position).x >= wander_leash_distance && !parent.to_local(parent.position).y >= wander_leash_distance):
+	print(parent.position.x)
+	print(parent.position.y)
+	print(wander_leash_distance)
+	if parent.global_position.distance_to(parent.home) <= wander_leash_distance:
 		var shape = parent.wander_area.get_child(0).shape as CircleShape2D
 		var radius = shape.radius
 		var angle = randf() * TAU # Generate a random point within the circle
@@ -61,7 +66,7 @@ func _new_wander_target() -> Vector2:
 		wander_target = parent.wander_area.to_global(local_point)
 	else:
 		# Otherwise wander back towards the Orbi's home location this cycle.
-		wander_target = parent.home_point.global_position
+		wander_target = parent.home
 	parent.nav_agent.target_position = wander_target
 	return wander_target
 

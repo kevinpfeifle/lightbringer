@@ -29,21 +29,26 @@ func physics_update(delta) -> void:
 	super(delta)
 
 	# Start the timer to abandon the chase if the player leaves the range.
-	if !parent.player_detected:
+	if !parent.player_detected && chasing && abandon_chase_timer.is_stopped():
 		abandon_chase_timer.start()
 		chasing = false
 		parent.velocity = Vector2.ZERO
-	else:
+	elif !chase_target.alive && !returning_home:
+		chasing = false
+		returning_home = true
+		_update_target_position()
+	elif chase_target.alive && parent.player_detected:
 		# If the player is detected while it was waiting to abandon, stop the timer, continue chase.
 		if !abandon_chase_timer.is_stopped():
 			abandon_chase_timer.stop()
 			chasing = true
 		# If the Orbi was returning home, the player has to enter its detection range again to agro, not just its chase range.
 		elif returning_home && parent.player_noticed:
+			chasing = true
 			returning_home = false
 		_update_target_position()
 
-	if chasing && !parent.nav_agent.is_navigation_finished():
+	if (chasing || returning_home) && !parent.nav_agent.is_navigation_finished():
 		var speed = parent.speed
 		if parent.player_noticed:
 			speed = parent.chase_speed
@@ -51,6 +56,8 @@ func physics_update(delta) -> void:
 		var next_location = parent.nav_agent.get_next_path_position()
 		parent.velocity = parent.velocity.lerp((next_location - current_location).normalized() * speed, 0.1)
 		parent.knockback_component.handle_knockback(parent)
+	elif parent.global_position.distance_to(parent.home) < 10:
+		transition.emit("wander", [state_name])
 
 func _on_chase_abandoned() -> void:
 	returning_home = true
@@ -58,7 +65,7 @@ func _on_chase_abandoned() -> void:
 
 func _update_target_position() -> Vector2:
 	if returning_home:
-		target_position = parent.home_point.global_position
+		target_position = parent.home
 	else:
 		var new_target_position: Vector2 = chase_target.global_position
 		if new_target_position != target_position:

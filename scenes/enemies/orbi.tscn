@@ -157,10 +157,12 @@ libraries = {
 }
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(2, 0)
 shape = SubResource("CircleShape2D_wvo7m")
 
 [node name="ChaseArea" type="Area2D" parent="."]
+visible = false
 position = Vector2(2, 0)
 collision_layer = 0
 collision_mask = 4
@@ -170,6 +172,7 @@ shape = SubResource("CircleShape2D_3pcad")
 debug_color = Color(0.997729, 0, 0.159364, 0.42)
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 4
 
@@ -178,6 +181,7 @@ shape = SubResource("CircleShape2D_ym8na")
 debug_color = Color(0.552135, 0.563155, 0, 0.42)
 
 [node name="WanderArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="WanderShape" type="CollisionShape2D" parent="WanderArea"]
@@ -216,7 +220,7 @@ parent = NodePath("..")
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("6_fn13v")
-wander_leash_distance = 500
+wander_leash_distance = 300
 
 [node name="Chase" type="Node" parent="StateMachine" node_paths=PackedStringArray("abandon_chase_timer")]
 script = ExtResource("7_y5c5n")

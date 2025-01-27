@@ -12,6 +12,7 @@ extends Enemy
 @export var wander_area: Area2D
 @export var wait_timer: Timer # A timer for how long to wait between wanders. Max 5 seconds.
 
+var home: Vector2
 var is_hurt: bool = false
 var player_detected: bool = false
 var player_noticed: bool = false
@@ -22,6 +23,7 @@ func _ready() -> void:
 	chase_area.body_exited.connect(_on_chase_area_exited)
 	detection_area.body_entered.connect(_on_detection_area_entered)
 	detection_area.body_exited.connect(_on_detection_area_exited)
+	home = home_point.global_position
 
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
