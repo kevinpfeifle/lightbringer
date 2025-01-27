@@ -17,6 +17,7 @@ extends CharacterBody2D
 @export var secondary_state_machine: StateMachine
 @export var sprite: Sprite2D
 
+const ENEMY_COLLISION_LAYER: int = 4
 const JUMP_VELOCITY: float = -1000.0
 const ONE_WAY_PLATFORM_COLLISION_LAYER: int = 2
 const WALK_SPEED: float = 400.0
@@ -33,6 +34,9 @@ var direction: int = 0
 var is_hurt: bool = false
 var speed: float = WALK_SPEED
 var running: bool = false
+
+func _ready() -> void:
+	iframe_timer.timeout.connect(_on_i_frames_timeout)
 
 func _process(_delta) -> void:
 	# print(primary_state_machine.current_state.state_name, speed)
@@ -73,6 +77,9 @@ func _physics_process(delta: float) -> void:
 			else:
 				damage_direction = -1
 			health_component.damage(1, enemy, 10, Vector2i(damage_direction, -1)) # Player is knocked back horizontally with slightly vertical added.
+
+func _on_i_frames_timeout() -> void:
+	set_collision_mask_value(ENEMY_COLLISION_LAYER, true)
 
 func _on_input_buffer_timer_timeout() -> void:
 	buffered_input = "" # Clear the input buffer it isn't consumed in 200ms.
