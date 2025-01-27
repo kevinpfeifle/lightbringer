@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dg7wk3nnewlmm"]
+[gd_scene load_steps=12 format=4 uid="uid://cnsq0ym5yeede"]
 
 [ext_resource type="Texture2D" uid="uid://bosurgkpi1dta" path="res://assets/tiles/land_1.png" id="1_j66ef"]
 [ext_resource type="Texture2D" uid="uid://candn6ekfe4fa" path="res://assets/tiles/land_2.png" id="2_bcget"]
@@ -34,7 +34,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-1280, 1056, -1277, -94
 parsed_collision_mask = 1
 cell_size = 16.0
 
-[node name="TestLevel" type="Node2D"]
+[node name="TestLevel1" type="Node2D"]
 
 [node name="GloomyBridgeParallaxBG" parent="." instance=ExtResource("5_gw60i")]
 
