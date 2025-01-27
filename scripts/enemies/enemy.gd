@@ -7,17 +7,11 @@ extends CharacterBody2D
 
 func _ready() -> void:
 	animation_player.play("alive")
-	health_component.damaged.connect(_on_damage)
+	health_component.damaged.connect(_on_damaged)
 	health_component.dead.connect(_on_dead)
-	if knockback_component:
-		knockback_component.knockback_finished.connect(_on_knockback_finished)
 
 ## Implement in the child class.
-func _on_knockback_finished():
-	pass
-
-## Implement in the child class.
-func _on_damage(_amount: float, _source: Node, _power: int, _direction: Vector2i):
+func _on_damaged(_amount: float, _source: Node, _power: int, _direction: Vector2):
 	pass
 
 func _on_dead():

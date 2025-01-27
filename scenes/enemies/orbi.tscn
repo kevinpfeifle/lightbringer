@@ -124,16 +124,17 @@ radius = 700.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_pcl48"]
 radius = 256.125
 
-[node name="Orbi" type="CharacterBody2D" node_paths=PackedStringArray("home_point", "hurt_timer", "nav_agent", "state_machine", "wander_timer", "wander_area", "wait_timer", "animation_player", "health_component", "knockback_component")]
+[node name="Orbi" type="CharacterBody2D" node_paths=PackedStringArray("detection_area", "home_point", "hurt_timer", "nav_agent", "state_machine", "wander_timer", "wander_area", "wait_timer", "animation_player", "health_component", "knockback_component")]
 collision_layer = 8
 collision_mask = 7
 script = ExtResource("1_602bl")
 chase_leash_distance = 1500
-chase_speed = 150.0
+chase_speed = 350.0
+detection_area = NodePath("DetectionArea")
 home_point = NodePath("HomePoint")
 hurt_timer = NodePath("HurtTimer")
 nav_agent = NodePath("NavAgent")
-speed = 100.0
+speed = 200.0
 state_machine = NodePath("StateMachine")
 wander_timer = NodePath("WanderTimer")
 wander_area = NodePath("WanderArea")
@@ -154,17 +155,18 @@ libraries = {
 }
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(2, 0)
 shape = SubResource("CircleShape2D_wvo7m")
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 
 [node name="DetectionShape" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_ym8na")
 debug_color = Color(0.552135, 0.563155, 0, 0.42)
 
 [node name="WanderArea" type="Area2D" parent="."]
-visible = false
 
 [node name="WanderShape" type="CollisionShape2D" parent="WanderArea"]
 position = Vector2(2, 0)
@@ -193,7 +195,7 @@ max_health = 3.0
 
 [node name="KnockbackComponent" parent="." node_paths=PackedStringArray("body") instance=ExtResource("4_7diaq")]
 body = NodePath("..")
-default_y_impulse = 0.0
+default_impulse = Vector2(1500, 1500)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
 script = ExtResource("5_40qh3")

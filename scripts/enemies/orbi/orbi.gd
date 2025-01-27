@@ -18,14 +18,16 @@ var is_hurt: bool = false
 var player_dectected: bool = false
 
 func _ready() -> void:
+	super()
 	detection_area.body_entered.connect(_on_detection_area_entered)
 	detection_area.body_exited.connect(_on_detection_area_exited)
 
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
+	knockback_component.handle_knockback_decay(0.1)
 
-func _on_damage(_amount: float, _source: Node, _power: int, direction: Vector2i):
-	state_machine.current_state.transition.emit("hurt", [state_machine.current_state.state_name, direction])
+func _on_damaged(_amount: float, _source: Node, _power: int, direction: Vector2):
+	knockback_component.initialize_knockback(direction)
 
 func _on_detection_area_entered(body: Node2D) -> void:
 	if body is Player:

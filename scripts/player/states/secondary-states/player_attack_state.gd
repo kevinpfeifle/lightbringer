@@ -57,7 +57,8 @@ func physics_update(delta: float) -> void:
 		attack_timer.stop()
 		transition.emit("ready", [state_name])
 
-func _add_attack_knockback(force_direction_vector: Vector2i) -> void:
+func _add_attack_knockback() -> void:
+	var force_direction_vector: Vector2i = _map_attack_dir_to_opposite_force_dir(attack_direction)
 	if force_direction_vector.y == -1:
 		# For downward attacks, the "knockback" is actually a "bounce jump" so transition primary state into the jump state.
 		parent.primary_state_machine.current_state.transition.emit("jump", [
@@ -66,8 +67,14 @@ func _add_attack_knockback(force_direction_vector: Vector2i) -> void:
 		])
 	else:
 		# Otherwise give a noticeable horizontal impulse in the opposition direction of attack.
-		parent.knockback_component.initialize_knockback(force_direction_vector, Vector2(1750.0, 0))
+		parent.knockback_component.initialize_knockback(force_direction_vector, Vector2(1500.0, 0))
 
+func _get_target_knockback_dir(target: CharacterBody2D) -> Vector2:
+	var direction = target.global_position - parent.global_position # The knockback component will normalize this vector later.
+	return direction
+	
+## This function doesn't rely on vector math because the player's knockback will only ever be opposite of attack with slight vertical.
+## We don't want a complicated knockback angle for the player.
 func _map_attack_dir_to_opposite_force_dir(direction: String) -> Vector2i:
 	if attack_direction == "above":
 		return Vector2i(0, 1) 
@@ -86,9 +93,9 @@ func _on_attack_hurtbox_entered(body: Node2D) -> void:
 			if !attack_timer.is_stopped():
 				attack_timer.stop()
 				landed_attack = true
-				var force_direction_vector: Vector2i = _map_attack_dir_to_opposite_force_dir(attack_direction)
-				body.health_component.damage(1, parent, 0, force_direction_vector * Vector2i(-1, -1)) # Enemy should move opposite of player
-				_add_attack_knockback(force_direction_vector)
+				var target_knockback_dir = _get_target_knockback_dir(body)
+				body.health_component.damage(1, parent, 0, target_knockback_dir)
+				_add_attack_knockback()
 				transition.emit("ready", [state_name])
 
 func _on_attack_timer_timeout() -> void:

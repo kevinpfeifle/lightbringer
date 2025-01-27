@@ -27,13 +27,17 @@ func physics_update(delta) -> void:
 			var next_location = parent.nav_agent.get_next_path_position()
 			if parent.nav_agent.is_target_reachable():
 				parent.velocity = (next_location - current_location).normalized() * parent.speed
+				print(parent.velocity)
+				parent.knockback_component.handle_knockback(parent)
 			else:
 				parent.velocity = Vector2(0, 0)
+				parent.knockback_component.handle_knockback(parent)
 				if parent.wait_timer.is_stopped():
 					parent.wait_timer.start()
 					parent.wander_timer.stop()
 		else:
 			parent.velocity = Vector2(0, 0)
+			parent.knockback_component.handle_knockback(parent)
 			if parent.wait_timer.is_stopped():
 				parent.wait_timer.start()
 				parent.wander_timer.stop()
