@@ -7,7 +7,6 @@ extends State
 @export var front_hurtbox: Area2D
 @export var below_hurtbox: Area2D
 @export var attack_timer: Timer # AttackTimer ensures we leave the state when the animations ends. It is the length of attack.
-@export var attack_knockback_timer: Timer # AttackKnockbackTimer lets us add a small, short impulse knockback in the opposite direction of an attack.
 @export var attack_reset_timer: Timer # AttackResetTimer marks attack frequency. Once per timer cycle.
 
 var active_hurtbox: Area2D
@@ -60,17 +59,22 @@ func physics_update(delta: float) -> void:
 
 func _add_attack_knockback() -> void:
 	var force_direction_vector: Vector2i = _map_attack_dir_to_opposite_force_dir(attack_direction)
-	if force_direction_vector.x != 0:
-		parent.knockback_component.handle_knockback(attack_knockback_timer, force_direction_vector.x, 0, 250.0)
-	elif force_direction_vector.y == -1:
+	if force_direction_vector.y == -1:
 		# For downward attacks, the "knockback" is actually a "bounce jump" so transition primary state into the jump state.
 		parent.primary_state_machine.current_state.transition.emit("jump", [
 			parent.primary_state_machine.current_state,
 			state_name
 		])
-	elif force_direction_vector.y == 1:
-		parent.knockback_component.handle_knockback(attack_knockback_timer, 0, 1, 250.0)
+	else:
+		# Otherwise give a noticeable horizontal impulse in the opposition direction of attack.
+		parent.knockback_component.initialize_knockback(force_direction_vector, Vector2(1500.0, 0))
 
+func _get_target_knockback_dir(target: CharacterBody2D) -> Vector2:
+	var direction = target.global_position - parent.global_position # The knockback component will normalize this vector later.
+	return direction
+	
+## This function doesn't rely on vector math because the player's knockback will only ever be opposite of attack with slight vertical.
+## We don't want a complicated knockback angle for the player.
 func _map_attack_dir_to_opposite_force_dir(direction: String) -> Vector2i:
 	if attack_direction == "above":
 		return Vector2i(0, 1) 
@@ -82,14 +86,15 @@ func _map_attack_dir_to_opposite_force_dir(direction: String) -> Vector2i:
 		return Vector2i(0, 0)
 
 ## TODO: Consider revising this to get list of all bodies in the area, and attacking the first.
-## I am not sure currently by what metric it picks for overlapping bodies. It probably is random?
+## I am not sure currently by what metric it picks for overlapping bodies. It probably is FIFO?
 func _on_attack_hurtbox_entered(body: Node2D) -> void:
 	if !landed_attack && body is CharacterBody2D:
 		if body.health_component != null:
 			if !attack_timer.is_stopped():
 				attack_timer.stop()
 				landed_attack = true
-				body.health_component.damage(1, parent, 0, parent.direction)
+				var target_knockback_dir = _get_target_knockback_dir(body)
+				body.health_component.damage(1, parent, 0, target_knockback_dir)
 				_add_attack_knockback()
 				transition.emit("ready", [state_name])
 

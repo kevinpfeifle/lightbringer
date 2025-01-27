@@ -60,7 +60,7 @@ func _check_for_state_change() -> StringName:
 	
 	return ""
 
-func _on_player_damaged(_amount: float, _source: Node, _power: int, direction: int) -> void:
+func _on_player_damaged(_amount: float, _source: Node, _power: int, direction: Vector2) -> void:
 	active = false
 	transition.emit("hurt", [state_name, direction])
 
