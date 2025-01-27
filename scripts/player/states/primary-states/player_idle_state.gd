@@ -3,7 +3,7 @@ extends PlayerState
 
 @export var look_timer: Timer
 
-enum LookDirection {UP, DOWN}
+enum LookDirection { UP, DOWN }
 
 var direction: LookDirection
 

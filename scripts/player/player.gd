@@ -1,26 +1,39 @@
 class_name Player
 extends CharacterBody2D
 
-@export var animation_player: AnimationPlayer
-@export var above_hurtbox: Area2D
+
 @export var camera: Camera
-@export var coyote_timer: Timer
-@export var debug_label: Label
-@export var starting_direction: Direction = Direction.RIGHT # -1 or 1 to represent left or right respectively.
-@export var front_hurtbox: Area2D
+@export var starting_direction: DirectionComponent.Direction = DirectionComponent.Direction.LEFT
+
+@export_group("Components")
+@export var direction_component: DirectionComponent
 @export var gravity_component: GravityComponent
 @export var health_component: HealthComponent
+@export var knockback_component: KnockbackComponent
+
+@export_group("State Machine")
+@export var primary_state_machine: StateMachine
+@export var secondary_state_machine: StateMachine
+
+@export_group("Sprite")
+@export var sprite: Sprite2D
+@export var animation_player: AnimationPlayer
+
+@export_group("Hurtboxes")
+@export var above_hurtbox: Area2D
+@export var front_hurtbox: Area2D
+
+@export_group("Timers")
+@export var coyote_timer: Timer
 @export var hurt_lockout_timer: Timer # Duration the player cannot act after getting hurt.
 @export var iframe_timer: Timer # Duration the player gets invulnerability frames after being hurt.
 @export var input_buffer_timer: Timer # Duration to buffer inputs like attacking and jumping if they are doing rapdily.
-@export var knockback_component: KnockbackComponent
-@export var primary_state_machine: StateMachine
-@export var secondary_state_machine: StateMachine
-@export var sprite: Sprite2D
+
+@export_group("Debug")
+@export var debug_enabled: bool = false
+@export var debug_label: Label
 
 signal speed_changed(running: bool)
-
-enum Direction { LEFT, RIGHT }
 
 const ENEMY_COLLISION_LAYER: int = 4
 const JUMP_VELOCITY: float = -1000.0
@@ -33,23 +46,20 @@ var alive: bool = true
 var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See BufferedInputTimer.
 var collide_one_way: bool = true
 var compounding_gravity: bool = true
-var direction: int = 0
 var is_hurt: bool = false
 var speed: float = WALK_SPEED
 var running: bool = false
 
 func _ready() -> void:
 	iframe_timer.timeout.connect(_on_i_frames_timeout)
-	if starting_direction == Direction.LEFT:
-		set_facing_direction(-1)
-	elif starting_direction == Direction.RIGHT:
-		set_facing_direction(1)
+	direction_component.current_direction = starting_direction
+	set_facing_direction(direction_component.get_direction_as_int())
 
 func _process(_delta) -> void:
-	# print(primary_state_machine.current_state.state_name, speed)
-	debug_label.text = "Current Primary State: %s\nCurrent Secondary State: %s\nVelocity: %s\nBuffered Input: %s\nCurrent Animation: %s\nSpeed: %s" % \
-		[primary_state_machine.current_state.state_name, secondary_state_machine.current_state.state_name, 
-		velocity, buffered_input, animation_player.current_animation, speed]
+	if debug_enabled:
+		debug_label.text = "Current Primary State: %s\nCurrent Secondary State: %s\nVelocity: %s\nBuffered Input: %s\nCurrent Animation: %s\nSpeed: %s" % \
+			[primary_state_machine.current_state.state_name, secondary_state_machine.current_state.state_name, 
+			velocity, buffered_input, animation_player.current_animation, speed]
 
 func _physics_process(delta: float) -> void:
 	var is_falling = primary_state_machine.current_state.state_name == "fall"
@@ -96,7 +106,7 @@ func _on_knockback_started(timer) -> void:
 	active_knockback_timer = timer
 
 func set_facing_direction(new_direction: int) -> void:
-	direction = new_direction
+	direction_component.set_direction_from_int(new_direction)
 	if new_direction > 0:
 		sprite.flip_h = true
 		front_hurtbox.scale.x = -1

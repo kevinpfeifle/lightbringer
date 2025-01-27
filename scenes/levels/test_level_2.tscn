@@ -33,6 +33,7 @@ player = NodePath("../../Wick")
 [node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("4_fcqet")]
 position = Vector2(415, 1690)
 camera = NodePath("Camera")
+starting_direction = 1
 
 [node name="Camera" parent="Wick" instance=ExtResource("5_1j388")]
 zoom = Vector2(0.8, 0.8)
