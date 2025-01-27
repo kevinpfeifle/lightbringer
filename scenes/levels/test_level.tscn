@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://dg7wk3nnewlmm"]
+[gd_scene load_steps=12 format=4 uid="uid://dg7wk3nnewlmm"]
 
 [ext_resource type="Texture2D" uid="uid://bosurgkpi1dta" path="res://assets/tiles/land_1.png" id="1_j66ef"]
 [ext_resource type="Texture2D" uid="uid://candn6ekfe4fa" path="res://assets/tiles/land_2.png" id="2_bcget"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://gfsb4pp356dp" path="res://scenes/enemies/orbi.tscn" id="4_hcdrm"]
 [ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="5_ffy5q"]
 [ext_resource type="PackedScene" uid="uid://dw0y6samnb3g1" path="res://scenes/backgrounds/gloomy_bridge_parallax_bg.tscn" id="5_gw60i"]
+[ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="5_jbqkn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yxppt"]
 texture = ExtResource("1_j66ef")
@@ -40,8 +41,16 @@ parsed_collision_mask = 1
 tile_map_data = PackedByteArray("AAACAAoAAAAAAAAAAAADAAoAAAAAAAAAAAAEAAoAAAAAAAAAAAAFAAoAAAAAAAAAAAAGAAoAAAAAAAAAAAABAAoAAAAAAAAAAAAAAAoAAAAAAAAAAAAHAAoAAAAAAAAAAAAIAAoAAAAAAAAAAAAJAAoAAAAAAAAAAAAKAAoAAAAAAAAAAAALAAoAAAAAAAAAAAAMAAoAAAAAAAAAAAANAAoAAAAAAAAAAAAOAAoAAAAAAAAAAAAPAAoAAAAAAAAAAAAQAAoAAAAAAAAAAAARAAoAAAAAAAAAAAASAAoAAAAAAAAAAAATAAoAAAAAAAAAAAAUAAoAAAAAAAAAAAAVAAoAAAAAAAAAAAAWAAoAAAAAAAAAAAAXAAoAAAAAAAAAAAD//woAAAAAAAAAAAD+/woAAAAAAAAAAAD9/woAAAAAAAAAAAD8/woAAAAAAAAAAAD7/woAAAAAAAAAAAD6/woAAAAAAAAAAAD5/woAAAAAAAAAAAD4/woAAAAAAAAAAAD3/woAAAAAAAAAAAD2/woAAAAAAAAAAAD1/woAAAAAAAAAAAD0/woAAAAAAAAAAADz/woAAAAAAAAAAAAEAAMAAAAAAAAAAAAFAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAABAAcAAAAAAAAAAAD7/wcAAAAAAAAAAAD8/wcAAAAAAAAAAAD9/wcAAAAAAAAAAAD+/wcAAAAAAAAAAAD//wcAAAAAAAAAAAAAAAcAAAAAAAAAAAD8/wQAAAAAAAAAAAD9/wQAAAAAAAAAAAD+/wQAAAAAAAAAAAD//wQAAAAAAAAAAAALAAcAAAAAAAAAAAAMAAcAAAAAAAAAAAANAAcAAAAAAAAAAAAOAAcAAAAAAAAAAAAHAAUAAAAAAAAAAAAIAAUAAAAAAAAAAAAJAAUAAAAAAAAAAAAIAP//AAAAAAAAAAAJAP//AAAAAAAAAAAKAP//AAAAAAAAAAA=")
 tile_set = SubResource("TileSet_ena3r")
 
-[node name="Wick" parent="." instance=ExtResource("3_5sbgu")]
-position = Vector2(964, 539)
+[node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("3_5sbgu")]
+position = Vector2(896, 960)
+camera = NodePath("Camera")
+
+[node name="Camera" parent="Wick" instance=ExtResource("5_jbqkn")]
+position = Vector2(-4, 5)
+limit_left = -2700
+limit_right = 5000
+limit_bottom = 1088
+limit_smoothed = true
 
 [node name="Enemy" parent="." instance=ExtResource("4_hcdrm")]
 position = Vector2(1961, 109)
@@ -56,6 +65,7 @@ position = Vector2(-346, 267)
 position = Vector2(1248, 923)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
 navigation_polygon = SubResource("NavigationPolygon_0up4j")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

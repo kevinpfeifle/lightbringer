@@ -60,7 +60,6 @@ scale = Vector2(0.535714, 0.383523)
 texture = ExtResource("5_17bj7")
 
 [node name="ImageBG5Reversed" type="Sprite2D" parent="ParallaxBG5"]
-visible = false
 position = Vector2(960, 1048)
 scale = Vector2(0.536, -0.384)
 texture = ExtResource("5_17bj7")
