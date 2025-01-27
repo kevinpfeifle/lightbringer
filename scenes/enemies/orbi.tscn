@@ -195,7 +195,6 @@ debug_color = Color(0, 0.645892, 0.249924, 0.42)
 path_desired_distance = 10.0
 target_desired_distance = 1.0
 avoidance_enabled = true
-debug_enabled = true
 
 [node name="WanderTimer" type="Timer" parent="."]
 wait_time = 5.0
