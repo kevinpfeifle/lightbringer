@@ -1,6 +1,8 @@
 class_name OrbiWanderState
 extends State
 
+@export var wander_leash_distance: int
+
 const WANDER_MIN_TIMER: int = 1
 const WANDER_MAX_TIMER: int = 5
 
@@ -16,18 +18,23 @@ func enter(args) -> void:
 	parent.wait_timer.timeout.connect(_on_wait_timer_timeout)
 	parent.wander_timer.timeout.connect(_on_wander_timer_timeout)
 
+func exit(new_state) -> void:
+	super(new_state)
+	NavigationServer2D.map_changed.disconnect(_on_map_ready)
+	parent.wait_timer.timeout.disconnect(_on_wait_timer_timeout)
+	parent.wander_timer.timeout.disconnect(_on_wander_timer_timeout)
+
 func physics_update(delta) -> void:
 	super(delta)
 
 	if nav_ready:
-		if parent.position.distance_to(wander_target) > 0.5 && !parent.nav_agent.is_target_reached():
+		if parent.global_position.distance_to(wander_target) > 0.5 && !parent.nav_agent.is_target_reached():
 			if parent.wander_timer.is_stopped():
 				parent.wander_timer.start()
-			var current_location = parent.position
+			var current_location = parent.global_position
 			var next_location = parent.nav_agent.get_next_path_position()
 			if parent.nav_agent.is_target_reachable():
 				parent.velocity = (next_location - current_location).normalized() * parent.speed
-				print(parent.velocity)
 				parent.knockback_component.handle_knockback(parent)
 			else:
 				parent.velocity = Vector2(0, 0)
@@ -44,7 +51,7 @@ func physics_update(delta) -> void:
 
 func _new_wander_target() -> Vector2:
 	# If the Orbi hasn't wandered too far, keep wandering.
-	if (!parent.to_local(parent.position).x >= parent.wander_leash_distance && !parent.to_local(parent.position).y >= parent.wander_leash_distance):
+	if (!parent.to_local(parent.position).x >= wander_leash_distance && !parent.to_local(parent.position).y >= wander_leash_distance):
 		var shape = parent.wander_area.get_child(0).shape as CircleShape2D
 		var radius = shape.radius
 		var angle = randf() * TAU # Generate a random point within the circle
@@ -54,8 +61,7 @@ func _new_wander_target() -> Vector2:
 		wander_target = parent.wander_area.to_global(local_point)
 	else:
 		# Otherwise wander back towards the Orbi's home location this cycle.
-		wander_target = parent.to_global(parent.home_point.position)
-
+		wander_target = parent.home_point.global_position
 	parent.nav_agent.target_position = wander_target
 	return wander_target
 
