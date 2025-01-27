@@ -6,7 +6,6 @@ extends CharacterBody2D
 @export var knockback_component: KnockbackComponent
 
 func _ready() -> void:
-	animation_player.play("alive")
 	health_component.damaged.connect(_on_damaged)
 	health_component.dead.connect(_on_dead)
 

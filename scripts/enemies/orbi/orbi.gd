@@ -19,6 +19,7 @@ var player_noticed: bool = false
 
 func _ready() -> void:
 	super()
+	animation_player.play("alive")
 	chase_area.body_entered.connect(_on_chase_area_entered)
 	chase_area.body_exited.connect(_on_chase_area_exited)
 	detection_area.body_entered.connect(_on_detection_area_entered)
