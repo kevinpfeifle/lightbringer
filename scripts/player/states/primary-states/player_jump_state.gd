@@ -11,6 +11,7 @@ func _ready() -> void:
 # args[0] is the previous state, args[1] is *perhaps* the secondary state, ie, attack.
 func enter(args: Array) -> void:
 	super(args)
+
 	if len(args) == 2 && args[1] == "attack":
 		jump_action = "player_attack" # Enables reusing this component as an attack "bounce jump"
 
@@ -25,6 +26,7 @@ func exit(new_state) -> void:
 
 func physics_update(delta) -> void: 
 	super(delta)
+	parent.decrease_light()
 
 	# Buffer the next jump if a player is attempting a new jump mid-jump. This might happen when platforming.
 	var attempted_jump: bool = Input.is_action_just_pressed("player_jump")

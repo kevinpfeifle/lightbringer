@@ -18,6 +18,7 @@ extends CharacterBody2D
 @export_group("Sprite")
 @export var sprite: Sprite2D
 @export var animation_player: AnimationPlayer
+@export var player_light: PointLight2D
 
 @export_group("Hurtboxes")
 @export var above_hurtbox: Area2D
@@ -35,13 +36,23 @@ extends CharacterBody2D
 
 signal speed_changed(running: bool)
 
-const ENEMY_COLLISION_LAYER: int = 4
+# Constants for use in the light related functions that some states use.
+const CLOAK_CLOSED_LIGHT_ENERGY: float = 0.8
+const CLOAK_CLOSED_LIGHT_DISTANCE: Vector2 = Vector2(20, 20)
+const CLOAK_OPEN_LIGHT_ENERGY: float = 1.25
+const CLOAK_OPEN_LIGHT_DISTANCE: Vector2 = Vector2(35, 35)
+const ATTACK_LIGHT_ENERGY: float = 1.5
+const ATTACK_LIGHT_DISTANCE: Vector2 = Vector2(50, 50)
+const DEATH_LIGHT_ENERGY: float = 0.5
+const DEATH_LIGHT_DISTANCE: Vector2 = Vector2(15, 15)
+# Physics Constants.
 const JUMP_VELOCITY: float = -1000.0
-const ONE_WAY_PLATFORM_COLLISION_LAYER: int = 2
 const WALK_SPEED: float = 400.0
 const RUN_SPEED: float = 600.0
+# Collision Layer constants.
+const ENEMY_COLLISION_LAYER: int = 4
+const ONE_WAY_PLATFORM_COLLISION_LAYER: int = 2
 
-var active_knockback_timer: Timer
 var alive: bool = true
 var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See BufferedInputTimer.
 var collide_one_way: bool = true
@@ -114,9 +125,6 @@ func _on_i_frames_timeout() -> void:
 func _on_input_buffer_timer_timeout() -> void:
 	buffered_input = "" # Clear the input buffer it isn't consumed in 200ms.
 
-func _on_knockback_started(timer) -> void:
-	active_knockback_timer = timer
-
 func _set_player_speed() -> void:
 	if Input.is_action_just_pressed("player_run"):
 		speed = RUN_SPEED
@@ -130,3 +138,23 @@ func _set_player_speed() -> void:
 ## Updates the collision mask used for one-way platforms so Wick can either fall through them or stand on them.
 func _set_one_way_collision_detection(collide: bool) -> void:
 	set_collision_mask_value(ONE_WAY_PLATFORM_COLLISION_LAYER, collide)
+
+func decrease_light() -> void:
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	player_light.energy = lerp(player_light.energy, CLOAK_CLOSED_LIGHT_ENERGY * light_factor, 0.1)
+	player_light.scale = lerp(player_light.scale, CLOAK_CLOSED_LIGHT_DISTANCE * light_factor, 0.1)
+
+func increase_light() -> void:
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	player_light.energy = lerp(player_light.energy, CLOAK_OPEN_LIGHT_ENERGY * light_factor, 0.1)
+	player_light.scale = lerp(player_light.scale, CLOAK_OPEN_LIGHT_DISTANCE * light_factor, 0.1)
+
+func death_light() -> void:
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	player_light.energy = lerp(player_light.energy, DEATH_LIGHT_ENERGY * light_factor, 0.1)
+	player_light.scale = lerp(player_light.scale, DEATH_LIGHT_DISTANCE * light_factor, 0.1)
+
+func attack_light() -> void:
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	player_light.energy = lerp(player_light.energy, ATTACK_LIGHT_ENERGY * light_factor, 0.1)
+	player_light.scale = lerp(player_light.scale, ATTACK_LIGHT_DISTANCE * light_factor, 0.1)

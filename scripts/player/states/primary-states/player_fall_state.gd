@@ -11,7 +11,7 @@ func _ready() -> void:
 ## Args[0] should be the name of the previous state.
 func enter(args: Array) -> void:
 	super(args)
-	
+
 	# Setup Coyote Time if this is a natural fall.
 	if args[0] != "jump":
 		parent.coyote_timer.timeout.connect(_on_coyote_timer_timeout)
@@ -35,6 +35,7 @@ func exit(new_state: StringName) -> void:
 ## Fall state overrides the default state change logic due to coyote time interactions with jumping.
 func physics_update(delta) -> void:
 	super(delta)
+	parent.increase_light()
 	
 	var attempted_jump: bool = Input.is_action_just_pressed("player_jump")
 	if attempted_jump && grace_jump:

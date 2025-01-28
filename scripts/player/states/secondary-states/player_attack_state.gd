@@ -45,6 +45,8 @@ func enter(args) -> void:
 
 func exit(new_state) -> void:
 	super(new_state)
+	if parent.primary_state_machine.current_state.state_name == "idle":
+		parent.decrease_light()
 	if could_attack:
 		active_hurtbox.body_entered.disconnect(_on_attack_hurtbox_entered)
 		attack_timer.timeout.disconnect(_on_attack_timer_timeout)
@@ -53,6 +55,7 @@ func exit(new_state) -> void:
 
 func physics_update(delta: float) -> void:
 	super(delta)
+	parent.attack_light()
 	if !attack_timer.is_stopped() && parent.is_hurt:
 		attack_timer.stop()
 		transition.emit("ready", [state_name])

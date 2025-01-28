@@ -13,6 +13,7 @@ func enter(args: Array) -> void:
 	super(args)
 	state_locked = true
 
+	parent.decrease_light()
 	parent.is_hurt = true
 	parent.set_collision_mask_value(parent.ENEMY_COLLISION_LAYER, false) # Disable collisions with enemies for iframe timer duration. Will auto turn back on in Player.gd.
 	
@@ -30,6 +31,7 @@ func exit(new_state) -> void:
 
 func physics_update(delta) -> void:
 	# Block checking for other states until the knockback timer has completed.
+	parent.decrease_light()
 	if !state_locked:
 		super(delta)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://gfsb4pp356dp"]
+[gd_scene load_steps=17 format=3 uid="uid://gfsb4pp356dp"]
 
 [ext_resource type="Script" path="res://scripts/enemies/orbi/orbi.gd" id="1_602bl"]
 [ext_resource type="Texture2D" uid="uid://dcav15q3kytrx" path="res://assets/sprites/enemies/orbi_sprite_sheet.png" id="2_4t65s"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/state-machine/state_machine.gd" id="5_40qh3"]
 [ext_resource type="Script" path="res://scripts/enemies/orbi/states/orbi_wander_state.gd" id="6_fn13v"]
 [ext_resource type="Script" path="res://scripts/enemies/orbi/states/orbi_chase_state.gd" id="7_y5c5n"]
+[ext_resource type="Texture2D" uid="uid://cdo38s0whfrwd" path="res://assets/textures/point_light.tres" id="8_dgr1g"]
 
 [sub_resource type="Animation" id="Animation_yekb2"]
 length = 0.001
@@ -145,6 +146,7 @@ knockback_component = NodePath("KnockbackComponent")
 animation_player = NodePath("AnimationPlayer")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+z_index = 1
 texture = ExtResource("2_4t65s")
 hframes = 7
 vframes = 2
@@ -227,3 +229,10 @@ abandon_chase_timer = NodePath("AbandonChaseTimer")
 [node name="AbandonChaseTimer" type="Timer" parent="StateMachine/Chase"]
 wait_time = 5.0
 one_shot = true
+
+[node name="GloomLight" type="PointLight2D" parent="."]
+position = Vector2(-3, -4)
+scale = Vector2(10, 10)
+color = Color(0.521973, 0.401991, 0.710316, 1)
+energy = 1.5
+texture = ExtResource("8_dgr1g")

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cmxihuphbrhum"]
+
+[node name="AmbientLight" type="Node2D"]
+
+[node name="DarknessLayer" type="DirectionalLight2D" parent="."]
+energy = 0.75
+blend_mode = 1
+
+[node name="ShadowLayer" type="DirectionalLight2D" parent="."]
+visible = false
+color = Color(0.494118, 0.580392, 0.196078, 1)
+blend_mode = 1
+
+[node name="LesserDarknessLayer" type="DirectionalLight2D" parent="."]
+visible = false
+energy = 0.25

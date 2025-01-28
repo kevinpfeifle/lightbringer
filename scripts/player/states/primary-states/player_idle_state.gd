@@ -11,7 +11,10 @@ func _ready() -> void:
 	state_name = "idle"
 	look_timer.timeout.connect(_on_look_timer_timeout)
 
-func exit(new_state) -> void:
+func enter(args: Array) -> void:
+	super(args)
+
+func exit(new_state: StringName) -> void:
 	super(new_state)
 	parent.camera.center_camera()
 
@@ -35,6 +38,7 @@ func update(_delta) -> void:
 
 func physics_update(delta) -> void:
 	super(delta)
+	parent.decrease_light()
 	parent.velocity.x = move_toward(parent.velocity.x, 0, parent.speed)
 
 func _on_look_timer_timeout() -> void:
