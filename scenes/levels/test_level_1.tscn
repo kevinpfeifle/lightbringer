@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://cnsq0ym5yeede"]
+[gd_scene load_steps=13 format=4 uid="uid://cnsq0ym5yeede"]
 
 [ext_resource type="Texture2D" uid="uid://bosurgkpi1dta" path="res://assets/tiles/land_1.png" id="1_j66ef"]
 [ext_resource type="Texture2D" uid="uid://candn6ekfe4fa" path="res://assets/tiles/land_2.png" id="2_bcget"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="5_ffy5q"]
 [ext_resource type="PackedScene" uid="uid://dw0y6samnb3g1" path="res://scenes/backgrounds/gloomy_bridge_parallax_bg.tscn" id="5_gw60i"]
 [ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="5_jbqkn"]
+[ext_resource type="PackedScene" uid="uid://crqgq0wfyveif" path="res://scenes/enemies/sludge.tscn" id="7_e4ajh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yxppt"]
 texture = ExtResource("1_j66ef")
@@ -53,6 +54,9 @@ limit_right = 5000
 limit_bottom = 1088
 limit_smoothed = true
 
+[node name="Sludge" parent="." instance=ExtResource("7_e4ajh")]
+position = Vector2(-885, 708)
+
 [node name="Enemy4" parent="." instance=ExtResource("4_hcdrm")]
 position = Vector2(1248, 923)
 
@@ -66,6 +70,7 @@ position = Vector2(-344, 96)
 position = Vector2(1768, -104)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
 navigation_polygon = SubResource("NavigationPolygon_0up4j")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
