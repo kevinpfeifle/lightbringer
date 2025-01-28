@@ -3,7 +3,7 @@
 [node name="AmbientLight" type="Node2D"]
 
 [node name="DarknessLayer" type="DirectionalLight2D" parent="."]
-energy = 0.75
+energy = 0.5
 blend_mode = 1
 
 [node name="ShadowLayer" type="DirectionalLight2D" parent="."]
