@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://cnsq0ym5yeede"]
+[gd_scene load_steps=14 format=4 uid="uid://cnsq0ym5yeede"]
 
 [ext_resource type="Texture2D" uid="uid://bosurgkpi1dta" path="res://assets/tiles/land_1.png" id="1_j66ef"]
 [ext_resource type="Texture2D" uid="uid://candn6ekfe4fa" path="res://assets/tiles/land_2.png" id="2_bcget"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dw0y6samnb3g1" path="res://scenes/backgrounds/gloomy_bridge_parallax_bg.tscn" id="5_gw60i"]
 [ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="5_jbqkn"]
 [ext_resource type="PackedScene" uid="uid://crqgq0wfyveif" path="res://scenes/enemies/sludge.tscn" id="7_e4ajh"]
+[ext_resource type="PackedScene" uid="uid://cmxihuphbrhum" path="res://scenes/level-design/ambient_light.tscn" id="9_3as3v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yxppt"]
 texture = ExtResource("1_j66ef")
@@ -77,3 +78,5 @@ navigation_polygon = SubResource("NavigationPolygon_0up4j")
 
 [node name="PlayerHud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("5_ffy5q")]
 player = NodePath("../../Wick")
+
+[node name="AmbientLight" parent="." instance=ExtResource("9_3as3v")]
