@@ -13,14 +13,14 @@ func _ready() -> void:
 	state_name = "chase"
 
 # args[1] is a reference to the body being chased, the Player.
-func enter(args) -> void:
+func enter(args: Array) -> void:
 	super(args)
 	abandon_chase_timer.timeout.connect(_on_chase_abandoned)
 	chasing = true
 	chase_target = args[1]
 	target_position = _update_target_position()
 
-func exit(new_state) -> void:
+func exit(new_state: StringName) -> void:
 	super(new_state)
 	chasing = false
 	abandon_chase_timer.timeout.disconnect(_on_chase_abandoned)

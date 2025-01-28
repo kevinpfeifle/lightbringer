@@ -76,12 +76,12 @@ func _get_target_knockback_dir(target: CharacterBody2D) -> Vector2:
 ## This function doesn't rely on vector math because the player's knockback will only ever be opposite of attack with slight vertical.
 ## We don't want a complicated knockback angle for the player.
 func _map_attack_dir_to_opposite_force_dir(direction: String) -> Vector2i:
-	if attack_direction == "above":
+	if direction == "above":
 		return Vector2i(0, 1) 
-	elif attack_direction == "below":
+	elif direction == "below":
 		return Vector2i(0, -1)
-	elif attack_direction == "forward":
-		return Vector2i(parent.direction * -1, 0)
+	elif direction == "forward":
+		return Vector2i(parent.direction_component.get_direction_as_int() * -1, 0)
 	else:
 		return Vector2i(0, 0)
 

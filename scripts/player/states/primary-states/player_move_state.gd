@@ -10,7 +10,7 @@ func physics_update(delta) -> void:
 	if !parent.is_hurt:
 		var direction: float = Input.get_axis("player_left", "player_right")
 		if direction:
-			parent.set_facing_direction(direction)
+			parent.direction_component.set_direction_from_int(direction)
 			parent.velocity.x = direction * parent.speed
 		else:
 			parent.velocity.x = move_toward(parent.velocity.x, 0, parent.speed)
