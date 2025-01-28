@@ -39,3 +39,6 @@ func damage(amount: float, source: Node, power: int, direction: Vector2) -> void
 func heal(amount: float) -> void:
 	current_health += amount
 	healed.emit(amount)
+
+func full_health() -> bool:
+	return current_health == max_health

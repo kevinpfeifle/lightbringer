@@ -21,9 +21,10 @@ extends CharacterBody2D
 @export var animation_player: AnimationPlayer
 @export var player_light: PointLight2D
 
-@export_group("Hurtboxes")
+@export_group("Areas")
 @export var above_hurtbox: Area2D
 @export var front_hurtbox: Area2D
+@export var interact_box: Area2D
 
 @export_group("Timers")
 @export var coyote_timer: Timer
@@ -68,7 +69,10 @@ func _ready() -> void:
 	light_component.depleted.connect(_on_light_depleted)
 	light_component.restored.connect(_on_light_restored)
 	
+	interact_box.body_entered.connect(_on_interact_box_body_entered)
+
 	iframe_timer.timeout.connect(_on_i_frames_timeout)
+
 	direction_component.direction_changed.connect(_on_direction_changed)
 	direction_component.current_direction = starting_direction
 
@@ -103,9 +107,9 @@ func _physics_process(delta: float) -> void:
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
-		var enemy: Enemy = collider as Enemy
-
-		if enemy:
+		
+		if collider is Enemy:
+			var enemy: Enemy = collider as Enemy
 			var collision_direction = (global_position - enemy.global_position).normalized()
 			var damage_direction: int
 			if collision_direction.x >= 0:
@@ -178,8 +182,26 @@ func _on_light_depleted():
 	else:
 		light_component.block_resource()
 
-func _on_light_restored(amount: float):
-	light_accumulated += amount as int
-	if light_accumulated >= light_component.max_resource:
-		health_component.heal(1)
-		light_accumulated -= light_component.max_resource as int
+func _on_light_restored(_amount_restored: float, residual_amount: float):
+	# Only worry about healing and overflow if Wick is damaged.
+	if !health_component.full_health():
+		if residual_amount > 0:
+			var heal_total: int = 1
+			while residual_amount / 5 >= 1:
+				heal_total += 1
+				residual_amount -= 5
+			health_component.heal(heal_total)
+
+		if light_component.full_resource() && residual_amount > 0:
+			light_component.overflow(residual_amount)
+
+func _on_interact_box_body_entered(body: Node2D) -> void:
+	if body is LightMote:
+		# If we have full light and health, ignore Light Motes.
+		if light_component.full_resource() && health_component.full_health():
+			return
+		# If we are missing light, or have full light and are missing health (ie missing a layer of light), collect Light Motes.
+		elif !light_component.full_resource() || (light_component.full_resource() && !health_component.full_health()):
+			var light_mote: LightMote = body as LightMote
+			light_component.restore(light_mote.light_amount)
+			light_mote.consume()

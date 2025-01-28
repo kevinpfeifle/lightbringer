@@ -1,4 +1,4 @@
-[gd_scene load_steps=119 format=3 uid="uid://b47y40esxjr10"]
+[gd_scene load_steps=120 format=3 uid="uid://b47y40esxjr10"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_k8idb"]
 [ext_resource type="Texture2D" uid="uid://c2wk3sy130j4o" path="res://assets/sprites/wick.png" id="2_gwv0f"]
@@ -21,6 +21,10 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dnu7f"]
 radius = 31.0
 height = 148.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mq4sw"]
+radius = 31.0
+height = 146.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rjttw"]
 size = Vector2(166, 224)
@@ -780,7 +784,7 @@ states/idle/position = Vector2(418, 83)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf"), "Movement", "Attacking", SubResource("AnimationNodeStateMachineTransition_fcyrd"), "Attacking", "Movement", SubResource("AnimationNodeStateMachineTransition_he3dd"), "Falling", "Attacking", SubResource("AnimationNodeStateMachineTransition_arfir"), "Attacking", "Falling", SubResource("AnimationNodeStateMachineTransition_w5eah"), "Attacking", "Jumping", SubResource("AnimationNodeStateMachineTransition_cvq2p"), "Jumping", "Attacking", SubResource("AnimationNodeStateMachineTransition_tf7rs"), "Attacking", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_48ypq")]
 graph_offset = Vector2(-141, 38)
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("direction_component", "gravity_component", "health_component", "knockback_component", "light_component", "primary_state_machine", "secondary_state_machine", "sprite", "animation_player", "player_light", "above_hurtbox", "front_hurtbox", "coyote_timer", "hurt_lockout_timer", "iframe_timer", "input_buffer_timer", "debug_label")]
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("direction_component", "gravity_component", "health_component", "knockback_component", "light_component", "primary_state_machine", "secondary_state_machine", "sprite", "animation_player", "player_light", "above_hurtbox", "front_hurtbox", "interact_box", "coyote_timer", "hurt_lockout_timer", "iframe_timer", "input_buffer_timer", "debug_label")]
 z_index = 5
 collision_layer = 4
 collision_mask = 11
@@ -797,6 +801,7 @@ animation_player = NodePath("AnimationPlayer")
 player_light = NodePath("InternalLight")
 above_hurtbox = NodePath("AboveHurtbox")
 front_hurtbox = NodePath("FrontHurtbox")
+interact_box = NodePath("InteractBox")
 coyote_timer = NodePath("CoyoteTimer")
 hurt_lockout_timer = NodePath("HurtLockoutTimer")
 iframe_timer = NodePath("IFrameTimer")
@@ -814,9 +819,17 @@ color = Color(0.917041, 0.827178, 0.551819, 1)
 texture = ExtResource("16_8rp34")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(3, 17)
 shape = SubResource("CapsuleShape2D_dnu7f")
+
+[node name="InteractBox" type="Area2D" parent="."]
+position = Vector2(3, 17)
+collision_layer = 0
+collision_mask = 16
+
+[node name="InteractBoxCollisionShape" type="CollisionShape2D" parent="InteractBox"]
+shape = SubResource("CapsuleShape2D_mq4sw")
+debug_color = Color(0.799207, 0.421479, 0, 0.42)
 
 [node name="FrontHurtbox" type="Area2D" parent="."]
 visible = false

@@ -268,7 +268,7 @@ graph_offset = Vector2(-89, -6)
 radius = 19.0
 
 [node name="Sludge" type="CharacterBody2D" node_paths=PackedStringArray("hitbox", "gravity_component", "movement_component", "sprite", "state_machine", "direction_component", "health_component", "knockback_component", "animation_player")]
-z_index = 3
+z_index = 4
 scale = Vector2(1.25, 1.25)
 collision_layer = 8
 collision_mask = 3

@@ -15,19 +15,26 @@ var block_last_light: bool = false
 var light_depleted: bool = false
 var total_light: int
 
+var light_1_active: bool = true
+var light_2_active: bool = true
+var light_3_active: bool = true
+var light_4_active: bool = true
+var light_5_active: bool = true
+
 func _ready() -> void:
 	health_pool_ap.play("full_health")
-	light_1_ap.play("available")
-	light_2_ap.play("available")
-	light_3_ap.play("available")
-	light_4_ap.play("available")
-	light_5_ap.play("available")
+	light_1_ap.play("hud_light_1/available")
+	light_2_ap.play("hud_light_2/available")
+	light_3_ap.play("hud_light_3/available")
+	light_4_ap.play("hud_light_4/available")
+	light_5_ap.play("hud_light_5/available")
 
 	total_light = player.light_component.max_resource as int
 	player.light_component.consumed.connect(_on_light_consumed)
 	player.light_component.depleted.connect(_on_light_depleted)
 	player.light_component.resource_reset.connect(_on_light_reset)
 	player.light_component.restored.connect(_on_light_restored)
+	player.light_component.overflowed.connect(_on_light_overflowed)
 
 func _process(_delta) -> void:
 	# Animate the health pool based on the current health.
@@ -51,22 +58,32 @@ func _on_light_consumed(amount: float) -> void:
 
 	# Animate the proper light slot as consumed based on current light.
 	if total_light <= 1:
-		light_2_ap.play("consumed")
+		light_2_ap.play("hud_light_2/consumed")
+		light_2_active = false
 	elif total_light <= 2:
-		light_3_ap.play("consumed")
+		light_3_ap.play("hud_light_3/consumed")
+		light_3_active = false
 	elif total_light <= 3:
-		light_4_ap.play("consumed")
+		light_4_ap.play("hud_light_4/consumed")
+		light_4_active = false
 	elif total_light <= 4:
-		light_5_ap.play("consumed")	
+		light_5_ap.play("hud_light_5/consumed")	
+		light_5_active = false
 
 func _on_light_depleted() -> void:	
 	light_depleted = true
 	# Animate all light slots going to shadow to show that player took damage.
-	light_1_ap.play("shadow_consumed")
-	light_2_ap.play("shadow_consumed")
-	light_3_ap.play("shadow_consumed")
-	light_4_ap.play("shadow_consumed")
-	light_5_ap.play("shadow_consumed")
+	light_1_ap.play("hud_light_1/shadow_consumed")
+	light_2_ap.play("hud_light_2/shadow_consumed")
+	light_3_ap.play("hud_light_3/shadow_consumed")
+	light_4_ap.play("hud_light_4/shadow_consumed")
+	light_5_ap.play("hud_light_5/shadow_consumed")
+
+	light_1_active = false
+	light_2_active = false
+	light_3_active = false
+	light_4_active = false
+	light_5_active = false
 
 func _on_light_reset() -> void:
 	light_depleted = false
@@ -74,44 +91,105 @@ func _on_light_reset() -> void:
 	# Animate all light slots returning to show full light. 
 	# If player is at 1 health, show slot 1 as shadow to denote it unavailable.
 	if block_last_light:
-		light_1_ap.queue("shadow_restored")
+		light_1_ap.queue("hud_light_1/shadow_restored")
 	else:
-		light_1_ap.queue("restored")
-	light_2_ap.queue("restored")
-	light_3_ap.queue("restored")
-	light_4_ap.queue("restored")
-	light_5_ap.queue("restored")
+		light_1_ap.queue("hud_light_1/restored")
+	light_2_ap.queue("hud_light_2/restored")
+	light_3_ap.queue("hud_light_3/restored")
+	light_4_ap.queue("hud_light_4/restored")
+	light_5_ap.queue("hud_light_5/restored")
+
+	light_1_active = true
+	light_2_active = true
+	light_3_active = true
+	light_4_active = true
+	light_5_active = true
 
 	# Animate all light slots as active
 	# If player is at 1 health, show slot 1 as shadow to denote it unavailable.
 	if block_last_light:
-		light_1_ap.queue("shadow_available")
+		light_1_ap.queue("hud_light_1/shadow_available")
 	else:
-		light_1_ap.queue("available")
-	light_2_ap.queue("available")
-	light_3_ap.queue("available")
-	light_4_ap.queue("available")
-	light_5_ap.queue("available")
+		light_1_ap.queue("hud_light_1/available")
+	light_2_ap.queue("hud_light_2/available")
+	light_3_ap.queue("hud_light_3/available")
+	light_4_ap.queue("hud_light_4/available")
+	light_5_ap.queue("hud_light_5/available")
 
 	total_light = player.light_component.max_resource as int
 
-func _on_light_restored(amount: float) -> void:
-	total_light += amount as int
+func _on_light_restored(amount_restored: float, _residual_amount: float) -> void:
+	var overflowed: bool = false
+	total_light += amount_restored as int
 	light_depleted = false
-	# Animation each light slot restored and then shown as available.
-	# TODO: This will likely need updates once light restored is actually implemented.
+
+	# Animate each light slot restored and then shown as available.
+	if total_light > 5 && !player.health_component.full_health():
+		# If we have more than 5 light after collecting some, overflow the animation to denote healing.
+		overflowed = true
+		light_1_ap.play("hud_light_1/overflow")
+		light_2_ap.play("hud_light_2/overflow")
+		light_3_ap.play("hud_light_3/overflow")
+		light_4_ap.play("hud_light_4/overflow")
+		light_5_ap.play("hud_light_5/overflow")
+	else:
+		if total_light > 5 && player.health_component.full_health():
+			total_light = 5 # Never go back 5 light, if the player hits full and there is additional light, its lost.
+			
+		if total_light > 1 && !light_2_active:
+			light_2_ap.queue("hud_light_2/restored")
+			light_2_active = true
+		if total_light > 2 && !light_3_active:
+			light_3_ap.queue("hud_light_3/restored")
+			light_3_active = true
+		if total_light > 3 && !light_4_active:
+			light_4_ap.queue("hud_light_4/restored")
+			light_4_active = true
+		if total_light > 4 && !light_5_active:
+			light_5_ap.queue("hud_light_5/restored")
+			light_5_active = true
+
+	# Queue each animation to play the standard available once after its processing is finished.
+	if !overflowed:
+		if light_2_active:
+			light_2_ap.queue("hud_light_2/available")
+		if light_3_active:
+			light_3_ap.queue("hud_light_3/available")
+		if light_4_active:
+			light_4_ap.queue("hud_light_4/available")
+		if light_5_active:
+			light_5_ap.queue("hud_light_5/available")
+
+func _on_light_overflowed(overflow_amount: float) -> void:
+	# If we overflowed, set the amount to the overflow amount.
+	total_light = overflow_amount as int
+	light_1_active = false
+	light_2_active = false
+	light_3_active = false
+	light_4_active = false
+	light_5_active = false
+
+	# Restore lights to denote the amount present after overflow.
+	if total_light > 0:
+		light_1_ap.queue("hud_light_1/restored")
+		light_1_ap.queue("hud_light_1/available")
+		light_1_active = true
 	if total_light > 1:
-		light_2_ap.play("restored")
-		light_2_ap.queue("available")
+		light_2_ap.queue("hud_light_2/restored")
+		light_2_ap.queue("hud_light_2/available")
+		light_2_active = true
 	if total_light > 2:
-		light_3_ap.play("restored")
-		light_3_ap.queue("available")
+		light_3_ap.queue("hud_light_3/restored")
+		light_3_ap.queue("hud_light_3/available")
+		light_3_active = true
 	if total_light > 3:
-		light_4_ap.play("restored")
-		light_4_ap.queue("available")
+		light_4_ap.queue("hud_light_4/restored")
+		light_4_ap.queue("hud_light_4/available")
+		light_4_active = true
 	if total_light > 4:
-		light_5_ap.play("restored")
-		light_5_ap.queue("available")
+		light_5_ap.queue("hud_light_5/restored")
+		light_5_ap.queue("hud_light_5/available")
+		light_5_active = true
 
 func _block_last_light() -> bool:
 	return player.health_component.current_health == 1
