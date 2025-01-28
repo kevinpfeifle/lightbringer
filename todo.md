@@ -5,5 +5,8 @@
 2. Refactor Wick's attacks so that it hits all enemies in the hitbox exactly once, instead of just hitting a single time.
    - This can be done by keeping a list of enemies that had the hit processed, and ignoring them on future frames.
 3. Update the HealthComponent to simplify damage(). Take the iframe conditional and just move that logic to its own function that gets called inside of damage() instead of duplicating code.
+   - Add the clamping here too like you did in ResourceComponent.
+   - IMPORTANT, ensure that the iframe timer doesn't trigger for self-harm like losing light? TEST TEST TEST
 4. Add a light behind Orbi, and probably Sludge, to make it easier to see them in the scene. Consider light purple, blue, or pink?
 5. Continue to improve knockback. It still  isn't perfect. Look at Sludge, try to see how you can improve the feel. It works for now though.
+6. Determine a way to make the player look hurt from self-damage, without interupting animation. This is for light-depletion based damage.
