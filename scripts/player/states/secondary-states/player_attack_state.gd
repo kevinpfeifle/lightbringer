@@ -20,6 +20,9 @@ func _ready() -> void:
 
 func enter(args) -> void:
 	super(args)
+	if !parent.light_component.can_consume():
+		can_attack = false
+
 	if can_attack:
 		if Input.is_action_pressed("player_up"):
 			attack_direction = "above"
@@ -37,6 +40,7 @@ func enter(args) -> void:
 		can_attack = false
 		could_attack = true
 		landed_attack = false
+		parent.light_component.consume(1)
 		attack_timer.start()
 		attack_reset_timer.start()
 	else:

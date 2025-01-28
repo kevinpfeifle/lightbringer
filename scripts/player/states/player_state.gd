@@ -60,9 +60,11 @@ func _check_for_state_change() -> StringName:
 	
 	return ""
 
-func _on_player_damaged(_amount: float, _source: Node, _power: int, direction: Vector2) -> void:
-	active = false
-	transition.emit("hurt", [state_name, direction])
+func _on_player_damaged(_amount: float, source: Node, _power: int, direction: Vector2) -> void:
+	# TODO: Determine a way to make the player look hurt from self-damage, without interupting animation.
+	if source != parent:
+		active = false
+		transition.emit("hurt", [state_name, direction])
 
 func _on_player_death() -> void:
 	active = false

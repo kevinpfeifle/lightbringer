@@ -1,4 +1,4 @@
-[gd_scene load_steps=118 format=3 uid="uid://b47y40esxjr10"]
+[gd_scene load_steps=119 format=3 uid="uid://b47y40esxjr10"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_k8idb"]
 [ext_resource type="Texture2D" uid="uid://c2wk3sy130j4o" path="res://assets/sprites/wick.png" id="2_gwv0f"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_move_state.gd" id="5_dolbb"]
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_jump_state.gd" id="6_vmp7e"]
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_fall_state.gd" id="7_j24fh"]
+[ext_resource type="PackedScene" uid="uid://cvd4hbha8hrey" path="res://scenes/components/resource_component.tscn" id="8_81gry"]
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_hurt_state.gd" id="10_k3l5u"]
 [ext_resource type="Script" path="res://scripts/player/states/primary-states/player_death_state.gd" id="11_imntp"]
 [ext_resource type="Script" path="res://scripts/player/states/secondary-states/player_attack_state.gd" id="12_rbxtj"]
@@ -779,7 +780,7 @@ states/idle/position = Vector2(418, 83)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf"), "Movement", "Attacking", SubResource("AnimationNodeStateMachineTransition_fcyrd"), "Attacking", "Movement", SubResource("AnimationNodeStateMachineTransition_he3dd"), "Falling", "Attacking", SubResource("AnimationNodeStateMachineTransition_arfir"), "Attacking", "Falling", SubResource("AnimationNodeStateMachineTransition_w5eah"), "Attacking", "Jumping", SubResource("AnimationNodeStateMachineTransition_cvq2p"), "Jumping", "Attacking", SubResource("AnimationNodeStateMachineTransition_tf7rs"), "Attacking", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_48ypq")]
 graph_offset = Vector2(-141, 38)
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("direction_component", "gravity_component", "health_component", "knockback_component", "primary_state_machine", "secondary_state_machine", "sprite", "animation_player", "player_light", "above_hurtbox", "front_hurtbox", "coyote_timer", "hurt_lockout_timer", "iframe_timer", "input_buffer_timer", "debug_label")]
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("direction_component", "gravity_component", "health_component", "knockback_component", "light_component", "primary_state_machine", "secondary_state_machine", "sprite", "animation_player", "player_light", "above_hurtbox", "front_hurtbox", "coyote_timer", "hurt_lockout_timer", "iframe_timer", "input_buffer_timer", "debug_label")]
 z_index = 5
 collision_layer = 4
 collision_mask = 11
@@ -788,6 +789,7 @@ direction_component = NodePath("DirectionComponent")
 gravity_component = NodePath("GravityComponent")
 health_component = NodePath("HealthComponent")
 knockback_component = NodePath("KnockbackComponent")
+light_component = NodePath("ResourceComponent")
 primary_state_machine = NodePath("PrimaryStateMachine")
 secondary_state_machine = NodePath("SecondaryStateMachine")
 sprite = NodePath("Sprite")
@@ -887,6 +889,10 @@ max_health = 5.0
 
 [node name="KnockbackComponent" parent="." node_paths=PackedStringArray("body") instance=ExtResource("5_241v0")]
 body = NodePath("..")
+
+[node name="ResourceComponent" parent="." instance=ExtResource("8_81gry")]
+resource_name = "Light"
+max_resource = 5.0
 
 [node name="PrimaryStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
 script = ExtResource("3_txmw8")

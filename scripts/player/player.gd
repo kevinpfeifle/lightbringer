@@ -10,6 +10,7 @@ extends CharacterBody2D
 @export var gravity_component: GravityComponent
 @export var health_component: HealthComponent
 @export var knockback_component: KnockbackComponent
+@export var light_component: ResourceComponent
 
 @export_group("State Machine")
 @export var primary_state_machine: StateMachine
@@ -58,10 +59,15 @@ var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See Buff
 var collide_one_way: bool = true
 var compounding_gravity: bool = true
 var is_hurt: bool = false
+var light_accumulated: int = 0
 var speed: float = WALK_SPEED
 var running: bool = false
 
 func _ready() -> void:
+	# light_component.consumed.connect(_on_light_consumed)
+	light_component.depleted.connect(_on_light_depleted)
+	light_component.restored.connect(_on_light_restored)
+	
 	iframe_timer.timeout.connect(_on_i_frames_timeout)
 	direction_component.direction_changed.connect(_on_direction_changed)
 	direction_component.current_direction = starting_direction
@@ -158,3 +164,22 @@ func attack_light() -> void:
 	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
 	player_light.energy = lerp(player_light.energy, ATTACK_LIGHT_ENERGY * light_factor, 0.1)
 	player_light.scale = lerp(player_light.scale, ATTACK_LIGHT_DISTANCE * light_factor, 0.1)
+
+## These methods are for tracking the player's light for attacks and abilities.
+# func _on_light_consumed(_amount: float):
+# 	pass
+
+func _on_light_depleted():
+	# If we consume all 5 light, Wick takes damage, and we get 5 light back if we have 1 or more health.
+	health_component.damage(1, self, 0, Vector2.ZERO)
+	light_component.reset()
+	if health_component.current_health > 1:
+		light_component.unblock_resource()
+	else:
+		light_component.block_resource()
+
+func _on_light_restored(amount: float):
+	light_accumulated += amount as int
+	if light_accumulated >= light_component.max_resource:
+		health_component.heal(1)
+		light_accumulated -= light_component.max_resource as int
