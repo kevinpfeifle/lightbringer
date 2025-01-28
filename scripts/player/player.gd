@@ -52,14 +52,16 @@ var running: bool = false
 
 func _ready() -> void:
 	iframe_timer.timeout.connect(_on_i_frames_timeout)
+	direction_component.direction_changed.connect(_on_direction_changed)
 	direction_component.current_direction = starting_direction
-	set_facing_direction(direction_component.get_direction_as_int())
 
 func _process(_delta) -> void:
 	if debug_enabled:
 		debug_label.text = "Current Primary State: %s\nCurrent Secondary State: %s\nVelocity: %s\nBuffered Input: %s\nCurrent Animation: %s\nSpeed: %s" % \
 			[primary_state_machine.current_state.state_name, secondary_state_machine.current_state.state_name, 
 			velocity, buffered_input, animation_player.current_animation, speed]
+	else:
+		debug_label.visible = false
 
 func _physics_process(delta: float) -> void:
 	var is_falling = primary_state_machine.current_state.state_name == "fall"
@@ -95,6 +97,16 @@ func _physics_process(delta: float) -> void:
 				damage_direction = -1
 			health_component.damage(1, enemy, 10, Vector2i(damage_direction, -1)) # Player is knocked back horizontally with slightly vertical added.
 
+func _on_direction_changed() -> void:
+	if direction_component.current_direction == direction_component.Direction.RIGHT:
+		sprite.flip_h = true
+		front_hurtbox.scale.x = -1
+		above_hurtbox.scale.x = -1
+	elif direction_component.current_direction == direction_component.Direction.LEFT:
+		sprite.flip_h = false
+		front_hurtbox.scale.x = 1
+		above_hurtbox.scale.x = 1
+
 func _on_i_frames_timeout() -> void:
 	if alive:
 		set_collision_mask_value(ENEMY_COLLISION_LAYER, true)
@@ -104,17 +116,6 @@ func _on_input_buffer_timer_timeout() -> void:
 
 func _on_knockback_started(timer) -> void:
 	active_knockback_timer = timer
-
-func set_facing_direction(new_direction: int) -> void:
-	direction_component.set_direction_from_int(new_direction)
-	if new_direction > 0:
-		sprite.flip_h = true
-		front_hurtbox.scale.x = -1
-		above_hurtbox.scale.x = -1
-	elif new_direction < 0:
-		sprite.flip_h = false
-		front_hurtbox.scale.x = 1
-		above_hurtbox.scale.x = 1
 
 func _set_player_speed() -> void:
 	if Input.is_action_just_pressed("player_run"):
