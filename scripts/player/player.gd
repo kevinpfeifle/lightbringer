@@ -43,7 +43,7 @@ const CLOAK_OPEN_LIGHT_ENERGY: float = 1.25
 const CLOAK_OPEN_LIGHT_DISTANCE: Vector2 = Vector2(35, 35)
 const ATTACK_LIGHT_ENERGY: float = 1.5
 const ATTACK_LIGHT_DISTANCE: Vector2 = Vector2(50, 50)
-const DEATH_LIGHT_ENERGY: float = 0.5
+const DEATH_LIGHT_ENERGY: float = 0.75
 const DEATH_LIGHT_DISTANCE: Vector2 = Vector2(15, 15)
 # Physics Constants.
 const JUMP_VELOCITY: float = -1000.0
