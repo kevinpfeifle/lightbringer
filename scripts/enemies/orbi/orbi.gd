@@ -2,11 +2,11 @@ class_name Orbi
 extends Enemy
 
 @export var chase_area: Area2D
-@export var chase_speed: float
+@export var chase_speed: float = 300.0
 @export var detection_area: Area2D
 @export var home_point: Marker2D
 @export var nav_agent: NavigationAgent2D
-@export var speed: float
+@export var speed: float = 150.0
 @export var state_machine: StateMachine
 @export var wander_timer: Timer # A timer for 5 seconds, it is the max wander duration.
 @export var wander_area: Area2D
@@ -29,9 +29,6 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	knockback_component.handle_knockback_decay(0.1)
-
-func _on_damaged(_amount: float, _source: Node, _power: int, direction: Vector2):
-	knockback_component.initialize_knockback(direction)
 
 func _on_chase_area_entered(body: Node2D) -> void:
 	if body is Player:

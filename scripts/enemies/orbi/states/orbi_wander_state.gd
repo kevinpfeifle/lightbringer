@@ -12,7 +12,7 @@ var wander_target: Vector2
 func _ready() -> void:
 	state_name = "wander"
 
-func enter(args) -> void:
+func enter(args: Array) -> void:
 	super(args)
 	NavigationServer2D.map_changed.connect(_on_map_ready)
 	parent.wait_timer.timeout.connect(_on_wait_timer_timeout)
@@ -20,7 +20,7 @@ func enter(args) -> void:
 	if nav_ready:
 		parent.wander_timer.start()
 
-func exit(new_state) -> void:
+func exit(new_state: StringName) -> void:
 	super(new_state)
 	NavigationServer2D.map_changed.disconnect(_on_map_ready)
 	parent.wait_timer.timeout.disconnect(_on_wait_timer_timeout)
