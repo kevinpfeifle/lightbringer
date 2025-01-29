@@ -182,17 +182,21 @@ func _on_light_depleted():
 	else:
 		light_component.block_resource()
 
+@warning_ignore("INTEGER_DIVISION")
 func _on_light_restored(_amount_restored: float, residual_amount: float):
 	# Only worry about healing and overflow if Wick is damaged.
 	if !health_component.full_health():
 		if residual_amount > 0:
 			var heal_total: int = 1
-			while residual_amount / 5 >= 1:
+			var remaining_residual: float = residual_amount
+			while remaining_residual / light_component.max_resource > 1:
 				heal_total += 1
-				residual_amount -= 5
+				remaining_residual -= light_component.max_resource
 			health_component.heal(heal_total)
 
 		if light_component.full_resource() && residual_amount > 0:
+			while residual_amount / 5 > 1:
+				residual_amount -= 5
 			light_component.overflow(residual_amount)
 
 func _on_interact_box_body_entered(body: Node2D) -> void:
@@ -203,5 +207,6 @@ func _on_interact_box_body_entered(body: Node2D) -> void:
 		# If we are missing light, or have full light and are missing health (ie missing a layer of light), collect Light Motes.
 		elif !light_component.full_resource() || (light_component.full_resource() && !health_component.full_health()):
 			var light_mote: LightMote = body as LightMote
-			light_component.restore(light_mote.light_amount)
-			light_mote.consume()
+			if !light_mote.consumed:
+				light_component.restore(light_mote.light_amount)
+				light_mote.consume()

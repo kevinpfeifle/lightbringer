@@ -62,7 +62,7 @@ texture = ExtResource("5_wgr3h")
 position = Vector2(3558, 495)
 
 [node name="Orbi2" parent="Enemies" instance=ExtResource("6_i1ysr")]
-position = Vector2(1079, 981)
+position = Vector2(2814, 678)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Enemies"]
 visible = false
@@ -87,7 +87,7 @@ affect_navigation_mesh = true
 position = Vector2(2535, 1511)
 
 [node name="Sludge2" parent="Enemies" instance=ExtResource("7_20jnt")]
-position = Vector2(1558, 1782)
+position = Vector2(1562, 1775)
 
 [node name="Sludge3" parent="Enemies" instance=ExtResource("7_20jnt")]
 position = Vector2(2869, 1103)
@@ -135,4 +135,4 @@ texture = ExtResource("6_2oe3h")
 
 [node name="LightMote" parent="." instance=ExtResource("10_hnnj2")]
 position = Vector2(1138, 1695)
-light_amount = 3
+light_amount = 10

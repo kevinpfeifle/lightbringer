@@ -6,6 +6,8 @@ extends StaticBody2D
 @export var light_amount: int = 1
 @export var light_aura: PointLight2D
 
+var consumed: bool = false
+
 @warning_ignore("INTEGER_DIVISION")
 func _ready() -> void:
 	dissipation_timer.timeout.connect(dissipate)
@@ -18,8 +20,10 @@ func _ready() -> void:
 	dissipation_timer.start()
 
 func consume() -> void:
-	dissipation_timer.stop()
-	dissipate()
+	if !consumed:
+		dissipation_timer.stop()
+		consumed = true
+		dissipate()
 
 func dissipate() -> void:
 	dissipation_timer.timeout.disconnect(dissipate)

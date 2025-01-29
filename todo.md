@@ -13,3 +13,4 @@
 7. Consider adding a "resource overflow" like temp hp, if a player has full light and gets more...
 8. NEXT THING -- TEST SCENARIO WHERE LIGHT is 5 plus, for healing more than 1 for example.
    -- Also test grabbing two smaller motes in rapid succession as well!
+   -- FIGURE OUT WHY HEALING AT HIGH VALUES IS WRONG. For now, no heals larger than 3! Spawn extra motes!
