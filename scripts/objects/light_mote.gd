@@ -3,7 +3,7 @@ extends StaticBody2D
 
 @export var animation_player: AnimationPlayer
 @export var dissipation_timer: Timer
-@export var light_amount: int = 1
+@export_range(1, 3) var light_amount: int = 1
 @export var light_aura: PointLight2D
 
 var consumed: bool = false

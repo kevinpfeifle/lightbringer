@@ -13,7 +13,6 @@ extends Control
 
 var block_last_light: bool = false
 var light_depleted: bool = false
-# var total_light: int
 
 var light_1_active: bool = true
 var light_2_active: bool = true
@@ -29,7 +28,6 @@ func _ready() -> void:
 	light_4_ap.play("hud_light_4/available")
 	light_5_ap.play("hud_light_5/available")
 
-	# total_light = player.light_component.max_resource as int
 	player.health_component.damaged.connect(_on_player_damaged)
 	player.health_component.healed.connect(_on_player_healed)
 	player.light_component.consumed.connect(_on_light_consumed)
@@ -61,17 +59,6 @@ func update_health_bar() -> void:
 			_on_light_depleted()
 		health_pool_ap.play("dead")
 		return
-	
-	# var was_blocked: bool = block_last_light
-	# block_last_light = _block_last_light()
-	# # Animate all light slots returning to show full light. 
-	# # If player is at 1 health, show slot 1 as shadow to denote it unavailable.
-	# if block_last_light:
-	# 	light_1_ap.play("hud_light_1/shadow_restored")
-	# 	light_1_ap.queue("hud_light_1/shadow_available")
-	# elif was_blocked:
-	# 	light_1_ap.play("hud_light_1/restored")
-	# 	light_1_ap.queue("hud_light_1/available")
 
 func _on_light_consumed(_amount: float) -> void:
 	var total_light: int = player.light_component.current_resource as int
