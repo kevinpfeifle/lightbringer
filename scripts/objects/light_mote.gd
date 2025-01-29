@@ -14,8 +14,9 @@ func _ready() -> void:
 	animation_player.play("idle")
 
 	# The Point Light of the mote gets more intense the more concentrated the light source.
-	light_aura.energy = light_aura.energy + (light_amount / 10)
-	light_aura.scale = light_aura.scale * light_amount
+	if light_amount > 1:
+		light_aura.energy = light_aura.energy + (light_amount / 10)
+		light_aura.scale = light_aura.scale * light_amount
 
 	dissipation_timer.start()
 
