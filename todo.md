@@ -11,3 +11,5 @@
 5. Continue to improve knockback. It still  isn't perfect. Look at Sludge, try to see how you can improve the feel. It works for now though.
 6. Determine a way to make the player look hurt from self-damage, without interupting animation. This is for light-depletion based damage.
 7. Consider adding a "resource overflow" like temp hp, if a player has full light and gets more...
+8. NEXT THING -- TEST SCENARIO WHERE LIGHT is 5 plus, for healing more than 1 for example.
+   -- Also test grabbing two smaller motes in rapid succession as well!
