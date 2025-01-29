@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://cae50vnej7axf"]
+[gd_scene load_steps=15 format=3 uid="uid://cae50vnej7axf"]
 
+[ext_resource type="PackedScene" uid="uid://1h5776gfjkdp" path="res://scenes/enemies/lightbug.tscn" id="3_arrv4"]
 [ext_resource type="PackedScene" uid="uid://bqcslwnrixfs1" path="res://scenes/backgrounds/crypt_parallax_bg.tscn" id="4_faweq"]
 [ext_resource type="PackedScene" uid="uid://b47y40esxjr10" path="res://scenes/player/wick.tscn" id="4_fcqet"]
 [ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="5_1j388"]
@@ -32,6 +33,9 @@ size = Vector2(619, 132)
 player = NodePath("../../Wick")
 
 [node name="GloomyBridgeParallaxBG" parent="." instance=ExtResource("4_faweq")]
+
+[node name="Lightbug" parent="GloomyBridgeParallaxBG" instance=ExtResource("3_arrv4")]
+position = Vector2(778, 1345)
 
 [node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("4_fcqet")]
 position = Vector2(415, 1690)

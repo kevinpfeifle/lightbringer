@@ -1,0 +1,365 @@
+[gd_scene load_steps=34 format=3 uid="uid://1h5776gfjkdp"]
+
+[ext_resource type="Script" path="res://scripts/enemies/lightbug/lightbug.gd" id="1_5won4"]
+[ext_resource type="Texture2D" uid="uid://cxumkfirk4b8y" path="res://assets/sprites/lightbug.png" id="1_a6j4u"]
+[ext_resource type="Texture2D" uid="uid://cdo38s0whfrwd" path="res://assets/textures/point_light.tres" id="2_edtoi"]
+[ext_resource type="Script" path="res://scripts/state-machine/state_machine.gd" id="3_uanwh"]
+[ext_resource type="Script" path="res://scripts/components/direction_component.gd" id="4_ba332"]
+[ext_resource type="Script" path="res://scripts/enemies/lightbug/states/lightbug_wander_state.gd" id="4_c56fo"]
+[ext_resource type="Script" path="res://scripts/enemies/lightbug/states/lightbug_stunned_state.gd" id="7_r4vww"]
+[ext_resource type="Script" path="res://scripts/enemies/lightbug/states/lightbug_death_state.gd" id="8_1wp8h"]
+
+[sub_resource type="Animation" id="Animation_17yev"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LightAura:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_gvlgs"]
+resource_name = "death"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LightAura:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ooeip"]
+resource_name = "stunned"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [9, 10]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LightAura:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_w31rf"]
+resource_name = "stunned_end"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [10, 9, 8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LightAura:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_orowe"]
+resource_name = "stunned_start"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [8, 9, 10]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LightAura:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_iholk"]
+resource_name = "wander"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LightAura:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7h26w"]
+_data = {
+"RESET": SubResource("Animation_17yev"),
+"death": SubResource("Animation_gvlgs"),
+"stunned": SubResource("Animation_ooeip"),
+"stunned_end": SubResource("Animation_w31rf"),
+"stunned_start": SubResource("Animation_orowe"),
+"wander": SubResource("Animation_iholk")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q0es0"]
+animation = &"stunned"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0cuht"]
+animation = &"stunned_end"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yy3vy"]
+animation = &"stunned_start"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_f6row"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nnopm"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yvcyy"]
+advance_mode = 2
+advance_expression = "state_machine.current_state.state_name != \"stunned\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4eb6f"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_t3nnr"]
+states/End/position = Vector2(902, 90)
+states/stunned/node = SubResource("AnimationNodeAnimation_q0es0")
+states/stunned/position = Vector2(539, 100)
+states/stunned_end/node = SubResource("AnimationNodeAnimation_0cuht")
+states/stunned_end/position = Vector2(701, 100)
+states/stunned_start/node = SubResource("AnimationNodeAnimation_yy3vy")
+states/stunned_start/position = Vector2(376, 100)
+transitions = ["Start", "stunned_start", SubResource("AnimationNodeStateMachineTransition_f6row"), "stunned_start", "stunned", SubResource("AnimationNodeStateMachineTransition_nnopm"), "stunned", "stunned_end", SubResource("AnimationNodeStateMachineTransition_yvcyy"), "stunned_end", "End", SubResource("AnimationNodeStateMachineTransition_4eb6f")]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_l14o6"]
+animation = &"death"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kfrx6"]
+animation = &"wander"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_um4rd"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_v437g"]
+advance_mode = 2
+advance_expression = "state_machine.current_state.state_name == \"stunned\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_arqbp"]
+switch_mode = 2
+advance_mode = 2
+advance_expression = "state_machine.current_state.state_name = \"wander\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6u4uo"]
+advance_mode = 2
+advance_expression = "state_machine.current_state.state_name == \"death\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5x3ga"]
+advance_mode = 2
+advance_expression = "state_machine.current_state.state_name == \"death\""
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_tox7o"]
+states/Stunned/node = SubResource("AnimationNodeStateMachine_t3nnr")
+states/Stunned/position = Vector2(447, 206)
+states/death/node = SubResource("AnimationNodeAnimation_l14o6")
+states/death/position = Vector2(705, 147)
+states/wander/node = SubResource("AnimationNodeAnimation_kfrx6")
+states/wander/position = Vector2(516, 100)
+transitions = ["Start", "wander", SubResource("AnimationNodeStateMachineTransition_um4rd"), "wander", "Stunned", SubResource("AnimationNodeStateMachineTransition_v437g"), "Stunned", "wander", SubResource("AnimationNodeStateMachineTransition_arqbp"), "wander", "death", SubResource("AnimationNodeStateMachineTransition_6u4uo"), "Stunned", "death", SubResource("AnimationNodeStateMachineTransition_5x3ga")]
+graph_offset = Vector2(49, 5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_plhy7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3hv06"]
+radius = 190.168
+
+[node name="Lightbug" type="CharacterBody2D" node_paths=PackedStringArray("direction_component", "home_point", "nav_agent", "wander_timer", "wander_area", "wait_timer", "animation_player", "sprite", "state_machine")]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("1_5won4")
+speed = 125.0
+direction_component = NodePath("DirectionComponent")
+home_point = NodePath("HomePoint")
+nav_agent = NodePath("NavAgent")
+wander_timer = NodePath("StateMachine/Wander/WanderTimer")
+wander_area = NodePath("WanderArea")
+wait_timer = NodePath("StateMachine/Wander/WaitTimer")
+animation_player = NodePath("AnimationPlayer")
+sprite = NodePath("Sprite")
+state_machine = NodePath("StateMachine")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, 8)
+texture = ExtResource("1_a6j4u")
+offset = Vector2(24, 0)
+hframes = 8
+vframes = 2
+frame = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7h26w")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_tox7o")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_plhy7")
+
+[node name="LightAura" type="PointLight2D" parent="."]
+scale = Vector2(10, 10)
+color = Color(0.8568, 0.752157, 0, 1)
+texture = ExtResource("2_edtoi")
+
+[node name="HomePoint" type="Marker2D" parent="."]
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
+target_desired_distance = 1.0
+avoidance_enabled = true
+
+[node name="WanderArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="WanderShape" type="CollisionShape2D" parent="WanderArea"]
+position = Vector2(2, 0)
+shape = SubResource("CircleShape2D_3hv06")
+debug_color = Color(0, 0.645892, 0.249924, 0.42)
+
+[node name="DirectionComponent" type="Node" parent="."]
+script = ExtResource("4_ba332")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "parent")]
+script = ExtResource("3_uanwh")
+current_state = NodePath("Wander")
+parent = NodePath("..")
+
+[node name="Wander" type="Node" parent="StateMachine"]
+script = ExtResource("4_c56fo")
+wander_leash_distance = 200
+
+[node name="WanderTimer" type="Timer" parent="StateMachine/Wander"]
+wait_time = 5.0
+one_shot = true
+
+[node name="WaitTimer" type="Timer" parent="StateMachine/Wander"]
+wait_time = 5.0
+one_shot = true
+
+[node name="Stunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("stunned_timer")]
+script = ExtResource("7_r4vww")
+stunned_timer = NodePath("StunnedTimer")
+
+[node name="StunnedTimer" type="Timer" parent="StateMachine/Stunned"]
+wait_time = 5.0
+one_shot = true
+
+[node name="Death" type="Node" parent="StateMachine"]
+script = ExtResource("8_1wp8h")

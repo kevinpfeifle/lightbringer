@@ -1,7 +1,12 @@
-class_name OrbiWanderState
+class_name LightbugWanderState
 extends State
 
 @export var wander_leash_distance: int
+
+# TODO: Reusing the Orbi wander logic for the sake of time. Post-jam refactor this whole section and make it 
+# a "WanderComponent" or something similar since it is clearly re-usable logic. The knockback component would need
+# to stay in OrbiWanderState, but the rest likely could get added into some sort of component that tells you
+# what your velocity should be.
 
 const WANDER_MIN_TIMER: int = 1
 const WANDER_MAX_TIMER: int = 5
@@ -37,19 +42,18 @@ func physics_update(delta) -> void:
 			var next_location = parent.nav_agent.get_next_path_position()
 			if parent.nav_agent.is_target_reachable():
 				parent.velocity = (next_location - current_location).normalized() * parent.speed
-				parent.knockback_component.handle_knockback(parent)
 			else:
 				parent.velocity = Vector2(0, 0)
-				parent.knockback_component.handle_knockback(parent)
 				if parent.wait_timer.is_stopped():
 					parent.wait_timer.start()
 					parent.wander_timer.stop()
 		else:
 			parent.velocity = Vector2(0, 0)
-			parent.knockback_component.handle_knockback(parent)
 			if parent.wait_timer.is_stopped():
 				parent.wait_timer.start()
 				parent.wander_timer.stop()
+
+	parent.direction_component.set_direction_from_int(parent.velocity.x)
 
 func _new_wander_target() -> Vector2:
 	# If the Orbi hasn't wandered too far, keep wandering.
