@@ -30,7 +30,6 @@ func _on_direction_changed() -> void:
 
 ## Implement in the child class.
 func _on_damaged(_amount: float, _source: Node, _power: int, direction: Vector2):
-	print(direction)
 	var clamped_direction: Vector2i
 	if direction.x >= 0:
 		clamped_direction.x = 1
@@ -40,4 +39,5 @@ func _on_damaged(_amount: float, _source: Node, _power: int, direction: Vector2)
 	knockback_component.initialize_knockback(clamped_direction)
 
 func _on_death():
+	_drop_light_mote()
 	state_machine.current_state.transition.emit("death", [state_machine.current_state])

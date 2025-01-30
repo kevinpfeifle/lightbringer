@@ -30,7 +30,7 @@ func physics_update(delta) -> void:
 	super(delta)
 
 	if nav_ready:
-		if parent.global_position.distance_to(wander_target) > 0.5 && !parent.nav_agent.is_target_reached():
+		if parent.global_position.distance_to(wander_target) > 5 && !parent.nav_agent.is_target_reached():
 			if parent.wander_timer.is_stopped():
 				parent.wander_timer.start()
 			var current_location = parent.global_position

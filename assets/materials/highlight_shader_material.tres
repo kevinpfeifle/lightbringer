@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cfh66yk32k0rn"]
+
+[ext_resource type="Shader" path="res://assets/shaders/highlight.gdshader" id="1_ymf6m"]
+
+[resource]
+shader = ExtResource("1_ymf6m")
+shader_parameter/size_effect = 0.1
+shader_parameter/speed = 0.5
+shader_parameter/highlight_strength = 0.1
+shader_parameter/color_mode_toggle = false
+shader_parameter/is_horizontal = false
+shader_parameter/pause_duration = 0.5

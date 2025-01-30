@@ -20,6 +20,9 @@ func _ready() -> void:
 
 func enter(args) -> void:
 	super(args)
+	if !parent.light_component.can_consume():
+		can_attack = false
+
 	if can_attack:
 		if Input.is_action_pressed("player_up"):
 			attack_direction = "above"
@@ -37,6 +40,8 @@ func enter(args) -> void:
 		can_attack = false
 		could_attack = true
 		landed_attack = false
+		if !parent.in_light_source:
+			parent.light_component.consume(1)
 		attack_timer.start()
 		attack_reset_timer.start()
 	else:
@@ -45,6 +50,8 @@ func enter(args) -> void:
 
 func exit(new_state) -> void:
 	super(new_state)
+	if parent.primary_state_machine.current_state.state_name == "idle":
+		parent.decrease_light()
 	if could_attack:
 		active_hurtbox.body_entered.disconnect(_on_attack_hurtbox_entered)
 		attack_timer.timeout.disconnect(_on_attack_timer_timeout)
@@ -53,6 +60,7 @@ func exit(new_state) -> void:
 
 func physics_update(delta: float) -> void:
 	super(delta)
+	parent.attack_light()
 	if !attack_timer.is_stopped() && parent.is_hurt:
 		attack_timer.stop()
 		transition.emit("ready", [state_name])

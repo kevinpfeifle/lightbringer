@@ -10,6 +10,7 @@ extends CharacterBody2D
 @export var gravity_component: GravityComponent
 @export var health_component: HealthComponent
 @export var knockback_component: KnockbackComponent
+@export var light_component: ResourceComponent
 
 @export_group("State Machine")
 @export var primary_state_machine: StateMachine
@@ -18,10 +19,13 @@ extends CharacterBody2D
 @export_group("Sprite")
 @export var sprite: Sprite2D
 @export var animation_player: AnimationPlayer
+@export var animation_tree: AnimationTree
+@export var player_light: PointLight2D
 
-@export_group("Hurtboxes")
+@export_group("Areas")
 @export var above_hurtbox: Area2D
 @export var front_hurtbox: Area2D
+@export var interact_box: Area2D
 
 @export_group("Timers")
 @export var coyote_timer: Timer
@@ -35,25 +39,41 @@ extends CharacterBody2D
 
 signal speed_changed(running: bool)
 
-const ENEMY_COLLISION_LAYER: int = 4
+# Constants for use in the light related functions that some states use.
+const CLOAK_CLOSED_LIGHT_ENERGY: float = 0.8
+const CLOAK_CLOSED_LIGHT_DISTANCE: Vector2 = Vector2(20, 20)
+const CLOAK_OPEN_LIGHT_ENERGY: float = 1.25
+const CLOAK_OPEN_LIGHT_DISTANCE: Vector2 = Vector2(35, 35)
+const ATTACK_LIGHT_ENERGY: float = 1.5
+const ATTACK_LIGHT_DISTANCE: Vector2 = Vector2(50, 50)
+const DEATH_LIGHT_ENERGY: float = 0.75
+const DEATH_LIGHT_DISTANCE: Vector2 = Vector2(15, 15)
+# Physics Constants.
 const JUMP_VELOCITY: float = -1000.0
-const ONE_WAY_PLATFORM_COLLISION_LAYER: int = 2
 const WALK_SPEED: float = 400.0
 const RUN_SPEED: float = 600.0
+# Collision Layer constants.
+const ENEMY_COLLISION_LAYER: int = 4
+const ONE_WAY_PLATFORM_COLLISION_LAYER: int = 2
 
-var active_knockback_timer: Timer
 var alive: bool = true
 var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See BufferedInputTimer.
 var collide_one_way: bool = true
 var compounding_gravity: bool = true
+var in_light_source: bool = false
 var is_hurt: bool = false
+var light_accumulated: int = 0
 var speed: float = WALK_SPEED
 var running: bool = false
 
 func _ready() -> void:
+	light_component.depleted.connect(_on_light_depleted)
+	light_component.restored.connect(_on_light_restored)
+	interact_box.body_entered.connect(_on_interact_box_body_entered)
 	iframe_timer.timeout.connect(_on_i_frames_timeout)
 	direction_component.direction_changed.connect(_on_direction_changed)
 	direction_component.current_direction = starting_direction
+	health_component.healed.connect(_on_healed)
 
 func _process(_delta) -> void:
 	if debug_enabled:
@@ -86,9 +106,9 @@ func _physics_process(delta: float) -> void:
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
-		var enemy: Enemy = collider as Enemy
-
-		if enemy:
+		
+		if collider is Enemy:
+			var enemy: Enemy = collider as Enemy
 			var collision_direction = (global_position - enemy.global_position).normalized()
 			var damage_direction: int
 			if collision_direction.x >= 0:
@@ -114,9 +134,6 @@ func _on_i_frames_timeout() -> void:
 func _on_input_buffer_timer_timeout() -> void:
 	buffered_input = "" # Clear the input buffer it isn't consumed in 200ms.
 
-func _on_knockback_started(timer) -> void:
-	active_knockback_timer = timer
-
 func _set_player_speed() -> void:
 	if Input.is_action_just_pressed("player_run"):
 		speed = RUN_SPEED
@@ -130,3 +147,66 @@ func _set_player_speed() -> void:
 ## Updates the collision mask used for one-way platforms so Wick can either fall through them or stand on them.
 func _set_one_way_collision_detection(collide: bool) -> void:
 	set_collision_mask_value(ONE_WAY_PLATFORM_COLLISION_LAYER, collide)
+
+func decrease_light() -> void:
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	player_light.energy = lerp(player_light.energy, CLOAK_CLOSED_LIGHT_ENERGY * light_factor, 0.1)
+	player_light.scale = lerp(player_light.scale, CLOAK_CLOSED_LIGHT_DISTANCE * light_factor, 0.1)
+
+func increase_light() -> void:
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	player_light.energy = lerp(player_light.energy, CLOAK_OPEN_LIGHT_ENERGY * light_factor, 0.1)
+	player_light.scale = lerp(player_light.scale, CLOAK_OPEN_LIGHT_DISTANCE * light_factor, 0.1)
+
+func death_light() -> void:
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	player_light.energy = lerp(player_light.energy, DEATH_LIGHT_ENERGY * light_factor, 0.1)
+	player_light.scale = lerp(player_light.scale, DEATH_LIGHT_DISTANCE * light_factor, 0.1)
+
+func attack_light() -> void:
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	player_light.energy = lerp(player_light.energy, ATTACK_LIGHT_ENERGY * light_factor, 0.1)
+	player_light.scale = lerp(player_light.scale, ATTACK_LIGHT_DISTANCE * light_factor, 0.1)
+
+## These methods are for tracking the player's light for attacks and abilities.
+func _on_light_depleted():
+	# If we consume all 5 light, Wick takes damage, and we get 5 light back if we have 1 or more health.
+	health_component.damage(1, self, 0, Vector2.ZERO)
+	light_component.reset()
+	if health_component.current_health > 1:
+		light_component.unblock_resource()
+	else:
+		light_component.block_resource()
+
+@warning_ignore("INTEGER_DIVISION")
+func _on_light_restored(_amount_restored: float, residual_amount: float):
+	# Only worry about healing and overflow if Wick is damaged.
+	if !health_component.full_health():
+		if residual_amount > 0:
+			var heal_total: int = 1
+			var remaining_residual: float = residual_amount
+			while remaining_residual / light_component.max_resource > 1:
+				heal_total += 1
+				remaining_residual -= light_component.max_resource
+			health_component.heal(heal_total)
+
+		if light_component.full_resource() && residual_amount > 0:
+			while residual_amount / 5 > 1:
+				residual_amount -= 5
+			light_component.overflow(residual_amount)
+
+func _on_interact_box_body_entered(body: Node2D) -> void:
+	if body is LightMote || body is Lightbug:
+		# If we have full light and health, ignore Light Motes.
+		if light_component.full_resource() && health_component.full_health():
+			return
+		# If we are missing light, or have full light and are missing health (ie missing a layer of light), collect Light Motes.
+		elif !light_component.full_resource() || (light_component.full_resource() && !health_component.full_health()):
+			# var light_mote: LightMote = body as LightMote
+			if !body.consumed:
+				light_component.restore(body.light_amount)
+				body.consume()
+	
+func _on_healed(_amount: int) -> void:
+	if health_component.current_health > 1:
+		light_component.unblock_resource()

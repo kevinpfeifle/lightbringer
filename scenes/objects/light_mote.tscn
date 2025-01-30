@@ -1,0 +1,178 @@
+[gd_scene load_steps=11 format=3 uid="uid://cxfc8llj2poxm"]
+
+[ext_resource type="Script" path="res://scripts/objects/light_mote.gd" id="1_op3kp"]
+[ext_resource type="Texture2D" uid="uid://cxumkfirk4b8y" path="res://assets/sprites/lightbug.png" id="1_t1hgp"]
+[ext_resource type="Material" uid="uid://he7ayan4pifl" path="res://assets/materials/bounce_shader_material.tres" id="2_wwgjp"]
+[ext_resource type="Texture2D" uid="uid://cdo38s0whfrwd" path="res://assets/textures/point_light.tres" id="3_sxrx4"]
+
+[sub_resource type="Animation" id="Animation_hucc3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../MoteAura:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_2h1qx"]
+resource_name = "appear"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [15, 14, 13, 12, 11, 10]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../MoteAura:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_vud0i"]
+resource_name = "dissipate"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../MoteAura:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_hlf85"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [10, 9]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../MoteAura:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kgo4v"]
+_data = {
+"RESET": SubResource("Animation_hucc3"),
+"appear": SubResource("Animation_2h1qx"),
+"dissipate": SubResource("Animation_vud0i"),
+"idle": SubResource("Animation_hlf85")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a3wsh"]
+
+[node name="LightMote" type="StaticBody2D" node_paths=PackedStringArray("animation_player", "dissipation_timer", "light_aura")]
+z_index = 3
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_op3kp")
+animation_player = NodePath("AnimationPlayer")
+dissipation_timer = NodePath("DissipationTimer")
+light_aura = NodePath("MoteAura")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+material = ExtResource("2_wwgjp")
+position = Vector2(24, 8)
+texture = ExtResource("1_t1hgp")
+hframes = 8
+vframes = 2
+frame = 10
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite")
+libraries = {
+"": SubResource("AnimationLibrary_kgo4v")
+}
+
+[node name="MoteAura" type="PointLight2D" parent="."]
+scale = Vector2(5, 5)
+color = Color(0.917041, 0.827178, 0.551819, 1)
+texture = ExtResource("3_sxrx4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_a3wsh")
+
+[node name="DissipationTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true

@@ -53,6 +53,8 @@ func _check_for_state_change() -> StringName:
 		return "fall"
 	elif parent.is_on_floor() && Input.is_action_just_pressed("player_jump") && !parent.is_hurt:
 		return "jump"
+	elif parent.is_on_floor() && Input.is_action_just_pressed("player_secondary") && !parent.is_hurt && parent.light_component.can_consume():
+		return "glowing"
 	elif parent.is_on_floor() && Input.get_axis("player_left", "player_right") != 0:
 		return "move"
 	elif parent.is_on_floor() && parent.velocity == Vector2.ZERO:
@@ -60,9 +62,13 @@ func _check_for_state_change() -> StringName:
 	
 	return ""
 
-func _on_player_damaged(_amount: float, _source: Node, _power: int, direction: Vector2) -> void:
-	active = false
-	transition.emit("hurt", [state_name, direction])
+func _on_player_damaged(_amount: float, source: Node, _power: int, direction: Vector2) -> void:
+	# TODO: Determine a way to make the player look hurt from self-damage, without interupting animation.
+	if source != parent:
+		active = false
+		if parent.health_component.current_health == 1:
+			parent.light_component.block_resource()
+		transition.emit("hurt", [state_name, direction])
 
 func _on_player_death() -> void:
 	active = false

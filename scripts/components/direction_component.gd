@@ -22,9 +22,9 @@ func get_direction_as_int() -> int:
 	return _convert_direction_to_int(current_direction)
 
 func set_direction_from_int(direction: int) -> void:
-	if direction == -1:
+	if direction <= -1:
 		current_direction = Direction.LEFT
-	elif direction == 1:
+	elif direction >= 1:
 		current_direction = Direction.RIGHT
 	else:
 		current_direction = Direction.UNKNOWN
