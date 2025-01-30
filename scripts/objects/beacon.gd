@@ -15,7 +15,7 @@ func _ready() -> void:
 	light_aura.body_entered.connect(_on_body_entered_light_aura)
 	light_aura.body_exited.connect(_on_body_exited_light_aura)
 	current_state = state
-	animation_player.play("off")
+	animation_player.play("unlit")
 
 func light() -> void:
 	if current_state == BeaconState.OFF:
