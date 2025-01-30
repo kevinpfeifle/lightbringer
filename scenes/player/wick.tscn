@@ -858,7 +858,6 @@ coyote_timer = NodePath("CoyoteTimer")
 hurt_lockout_timer = NodePath("HurtLockoutTimer")
 iframe_timer = NodePath("IFrameTimer")
 input_buffer_timer = NodePath("InputBufferTimer")
-debug_enabled = true
 debug_label = NodePath("DebugLabel")
 
 [node name="Sprite" type="Sprite2D" parent="."]
