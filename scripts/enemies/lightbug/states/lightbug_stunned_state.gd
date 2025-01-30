@@ -22,5 +22,9 @@ func exit(next_state: StringName) -> void:
 	parent.set_collision_layer_value(LIGHTBUG_DEFAULT_COLLISION_LAYER, true)
 	parent.set_collision_layer_value(LIGHTBUG_OBJECT_COLLISION_LAYER, false)
 
+func physics_update(delta):
+	super(delta)
+	parent.velocity = Vector2.ZERO
+
 func _on_stunned_timer_timeout():
 	transition.emit("wander", [state_name])

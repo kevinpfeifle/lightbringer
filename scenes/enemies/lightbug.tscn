@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://1h5776gfjkdp"]
+[gd_scene load_steps=37 format=3 uid="uid://1h5776gfjkdp"]
 
 [ext_resource type="Script" path="res://scripts/enemies/lightbug/lightbug.gd" id="1_5won4"]
 [ext_resource type="Texture2D" uid="uid://cxumkfirk4b8y" path="res://assets/sprites/lightbug.png" id="1_a6j4u"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/state-machine/state_machine.gd" id="3_uanwh"]
 [ext_resource type="Script" path="res://scripts/components/direction_component.gd" id="4_ba332"]
 [ext_resource type="Script" path="res://scripts/enemies/lightbug/states/lightbug_wander_state.gd" id="4_c56fo"]
+[ext_resource type="Script" path="res://scripts/enemies/lightbug/states/lightbug_follow_state.gd" id="6_oa0oe"]
 [ext_resource type="Script" path="res://scripts/enemies/lightbug/states/lightbug_stunned_state.gd" id="7_r4vww"]
 [ext_resource type="Script" path="res://scripts/enemies/lightbug/states/lightbug_death_state.gd" id="8_1wp8h"]
 
@@ -109,7 +110,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_w31rf"]
 resource_name = "stunned_end"
-length = 0.45
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -117,7 +118,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3),
+"times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [10, 9, 8]
@@ -137,7 +138,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_orowe"]
 resource_name = "stunned_start"
-length = 0.45
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -145,7 +146,7 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3),
+"times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [8, 9, 10]
@@ -227,11 +228,11 @@ switch_mode = 2
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_t3nnr"]
-states/End/position = Vector2(902, 90)
+states/End/position = Vector2(908, 100)
 states/stunned/node = SubResource("AnimationNodeAnimation_q0es0")
 states/stunned/position = Vector2(539, 100)
 states/stunned_end/node = SubResource("AnimationNodeAnimation_0cuht")
-states/stunned_end/position = Vector2(701, 100)
+states/stunned_end/position = Vector2(714, 100)
 states/stunned_start/node = SubResource("AnimationNodeAnimation_yy3vy")
 states/stunned_start/position = Vector2(376, 100)
 transitions = ["Start", "stunned_start", SubResource("AnimationNodeStateMachineTransition_f6row"), "stunned_start", "stunned", SubResource("AnimationNodeStateMachineTransition_nnopm"), "stunned", "stunned_end", SubResource("AnimationNodeStateMachineTransition_yvcyy"), "stunned_end", "End", SubResource("AnimationNodeStateMachineTransition_4eb6f")]
@@ -252,7 +253,7 @@ advance_expression = "state_machine.current_state.state_name == \"stunned\""
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_arqbp"]
 switch_mode = 2
 advance_mode = 2
-advance_expression = "state_machine.current_state.state_name = \"wander\""
+advance_expression = "state_machine.current_state.state_name == \"wander\""
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6u4uo"]
 advance_mode = 2
@@ -277,12 +278,21 @@ graph_offset = Vector2(49, 5)
 [sub_resource type="CircleShape2D" id="CircleShape2D_3hv06"]
 radius = 190.168
 
-[node name="Lightbug" type="CharacterBody2D" node_paths=PackedStringArray("direction_component", "home_point", "nav_agent", "wander_timer", "wander_area", "wait_timer", "animation_player", "sprite", "state_machine")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_2fyy3"]
+radius = 448.071
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8it34"]
+radius = 702.41
+
+[node name="Lightbug" type="CharacterBody2D" node_paths=PackedStringArray("direction_component", "follow_area", "detection_area", "home_point", "nav_agent", "wander_timer", "wander_area", "wait_timer", "animation_player", "sprite", "state_machine")]
+z_index = 4
 collision_layer = 32
-collision_mask = 0
+collision_mask = 3
 script = ExtResource("1_5won4")
-speed = 125.0
+speed = 150.0
 direction_component = NodePath("DirectionComponent")
+follow_area = NodePath("FollowArea")
+detection_area = NodePath("DetectionArea")
 home_point = NodePath("HomePoint")
 nav_agent = NodePath("NavAgent")
 wander_timer = NodePath("StateMachine/Wander/WanderTimer")
@@ -311,6 +321,7 @@ advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_plhy7")
 
 [node name="LightAura" type="PointLight2D" parent="."]
@@ -326,12 +337,32 @@ target_desired_distance = 1.0
 avoidance_enabled = true
 
 [node name="WanderArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="WanderShape" type="CollisionShape2D" parent="WanderArea"]
 position = Vector2(2, 0)
 shape = SubResource("CircleShape2D_3hv06")
 debug_color = Color(0, 0.645892, 0.249924, 0.42)
+
+[node name="DetectionArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 4
+
+[node name="DetectionShape" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_2fyy3")
+debug_color = Color(0.552135, 0.563155, 0, 0.42)
+
+[node name="FollowArea" type="Area2D" parent="."]
+visible = false
+position = Vector2(2, 0)
+collision_layer = 0
+collision_mask = 4
+
+[node name="FollowShape" type="CollisionShape2D" parent="FollowArea"]
+shape = SubResource("CircleShape2D_8it34")
+debug_color = Color(0.997729, 0, 0.159364, 0.42)
 
 [node name="DirectionComponent" type="Node" parent="."]
 script = ExtResource("4_ba332")
@@ -340,6 +371,14 @@ script = ExtResource("4_ba332")
 script = ExtResource("3_uanwh")
 current_state = NodePath("Wander")
 parent = NodePath("..")
+
+[node name="Follow" type="Node" parent="StateMachine" node_paths=PackedStringArray("abandon_follow_timer")]
+script = ExtResource("6_oa0oe")
+abandon_follow_timer = NodePath("AbandonFollowTimer")
+
+[node name="AbandonFollowTimer" type="Timer" parent="StateMachine/Follow"]
+wait_time = 5.0
+one_shot = true
 
 [node name="Wander" type="Node" parent="StateMachine"]
 script = ExtResource("4_c56fo")
@@ -350,7 +389,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="WaitTimer" type="Timer" parent="StateMachine/Wander"]
-wait_time = 5.0
+wait_time = 3.0
 one_shot = true
 
 [node name="Stunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("stunned_timer")]

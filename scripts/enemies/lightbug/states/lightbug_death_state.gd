@@ -6,4 +6,4 @@ func _ready() -> void:
 
 func enter(args: Array):
 	super(args)
-	parent.movement_component.velocity = Vector2.ZERO
+	parent.velocity = Vector2.ZERO

@@ -9,7 +9,7 @@ extends State
 # what your velocity should be.
 
 const WANDER_MIN_TIMER: int = 1
-const WANDER_MAX_TIMER: int = 5
+const WANDER_MAX_TIMER: int = 3
 
 var nav_ready: bool = false
 var wander_target: Vector2
@@ -23,6 +23,7 @@ func enter(args: Array) -> void:
 	parent.wait_timer.timeout.connect(_on_wait_timer_timeout)
 	parent.wander_timer.timeout.connect(_on_wander_timer_timeout)
 	if nav_ready:
+		parent.nav_agent.target_position = parent.home
 		parent.wander_timer.start()
 
 func exit(new_state: StringName) -> void:
