@@ -32,6 +32,11 @@ func exit(new_state: StringName) -> void:
 func physics_update(delta) -> void:
 	super(delta)
 
+	# As soon as a lantern is seen by the Lightbug, its "home" changes to the lantern, so exit follow logic.
+	if parent.lantern_home:
+		transition.emit("wander", [state_name])
+		return
+
 	# Start the timer to abandon the chase if the player leaves the range.
 	if !parent.player_detected && following && abandon_follow_timer.is_stopped():
 		abandon_follow_timer.start()
