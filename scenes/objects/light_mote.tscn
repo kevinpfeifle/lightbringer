@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cxfc8llj2poxm"]
+[gd_scene load_steps=10 format=3 uid="uid://cxfc8llj2poxm"]
 
 [ext_resource type="Script" path="res://scripts/objects/light_mote.gd" id="1_op3kp"]
 [ext_resource type="Texture2D" uid="uid://cxumkfirk4b8y" path="res://assets/sprites/lightbug.png" id="1_t1hgp"]
+[ext_resource type="Material" uid="uid://he7ayan4pifl" path="res://assets/materials/bounce_shader_material.tres" id="2_wwgjp"]
 [ext_resource type="Texture2D" uid="uid://cdo38s0whfrwd" path="res://assets/textures/point_light.tres" id="3_sxrx4"]
 
 [sub_resource type="Animation" id="Animation_hucc3"]
@@ -121,6 +122,7 @@ dissipation_timer = NodePath("DissipationTimer")
 light_aura = NodePath("MoteAura")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+material = ExtResource("2_wwgjp")
 position = Vector2(24, 8)
 texture = ExtResource("1_t1hgp")
 hframes = 8

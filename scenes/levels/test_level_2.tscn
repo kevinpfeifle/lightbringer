@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cae50vnej7axf"]
+[gd_scene load_steps=16 format=3 uid="uid://cae50vnej7axf"]
 
 [ext_resource type="PackedScene" uid="uid://1h5776gfjkdp" path="res://scenes/enemies/lightbug.tscn" id="3_arrv4"]
 [ext_resource type="PackedScene" uid="uid://bqcslwnrixfs1" path="res://scenes/backgrounds/crypt_parallax_bg.tscn" id="4_faweq"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://crqgq0wfyveif" path="res://scenes/enemies/sludge.tscn" id="7_20jnt"]
 [ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="7_eyiof"]
 [ext_resource type="PackedScene" uid="uid://cmxihuphbrhum" path="res://scenes/level-design/ambient_light.tscn" id="9_qeobm"]
+[ext_resource type="PackedScene" uid="uid://cxfc8llj2poxm" path="res://scenes/objects/light_mote.tscn" id="10_hnnj2"]
+[ext_resource type="PackedScene" uid="uid://dy5h3m223es3h" path="res://scenes/objects/lantern.tscn" id="11_ccy5y"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_uuu7b"]
 vertices = PackedVector2Array(4192.76, 1756.47, 3033.07, 1740, 3122, 1701.66, 4188.96, 1645.45, 3974.01, 859.93, 3972.22, 1101.92, 3819.91, 1120.2, 2968.77, 1092.17, 447.109, 38.0234, 2438, 1708.33, 1600.26, 1755.01, 3852.47, 1500, 3855.53, 1298.17, 3887.13, 1270.11, 3907.52, 1326.58, 3914.45, 1406.92, 3827.24, 1232, 3171, 1294.83, 4158.03, 1541.77, 4193.13, 1582.1, 3122, 1501.17, 3171, 1500, 4140.51, 43.9375, 4137.06, 126.797, 4116.96, 368.008, 2964.24, 1299.22, 2431.98, 1497.83, 2275.48, 1294.77, 631.07, 1785.79, 491.383, 1731.08, 4121.54, 539.68, 4054.49, 594.063, 3986.82, 744.672, 304.867, 232.133, 392.148, 108.813, 2278.51, 1088.83, 276.008, 377.453, 262.648, 1378.04, 237.883, 1216.55, 223.008, 876.477, 229.891, 531.477, 343.742, 1706.32, 293.859, 1613.1, 4069, 1475, 3996.79, 1421.06, 4069, 1474.99)
@@ -135,3 +137,9 @@ position = Vector2(1128, 1679)
 texture = ExtResource("6_2oe3h")
 
 [node name="AmbientLight" parent="." instance=ExtResource("9_qeobm")]
+
+[node name="Lantern" parent="." instance=ExtResource("11_ccy5y")]
+position = Vector2(746, 1781)
+
+[node name="LightMote" parent="Lantern" instance=ExtResource("10_hnnj2")]
+position = Vector2(302, -93)
