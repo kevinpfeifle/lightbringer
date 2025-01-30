@@ -100,7 +100,7 @@ position = Vector2(1562, 1775)
 
 [node name="Sludge3" parent="Enemies" instance=ExtResource("7_20jnt")]
 position = Vector2(2869, 1103)
-starting_direction = 0
+starting_direction = null
 
 [node name="TempPlatforms" type="Node" parent="."]
 

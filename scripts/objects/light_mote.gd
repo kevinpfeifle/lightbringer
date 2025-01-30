@@ -11,7 +11,8 @@ var consumed: bool = false
 @warning_ignore("INTEGER_DIVISION")
 func _ready() -> void:
 	dissipation_timer.timeout.connect(dissipate)
-	animation_player.play("idle")
+	animation_player.play("appear")
+	animation_player.queue("idle")
 
 	# The Point Light of the mote gets more intense the more concentrated the light source.
 	if light_amount > 1:

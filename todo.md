@@ -1,6 +1,7 @@
 # To-do List:
 1. Refactor Wick's attacks so that it hits all enemies in the hitbox exactly once, instead of just hitting a single time.
    - This can be done by keeping a list of enemies that had the hit processed, and ignoring them on future frames.
+2. Fix the camera so you can't pan it out of bounds by looking up/down!
 
 # Improvements:
 1. Create components for the pathfinding logic in Orbi. It already got reused in Lightbug, it could be better written to extend to any flying enemy that wanders/chases.
