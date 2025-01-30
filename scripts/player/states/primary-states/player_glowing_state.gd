@@ -35,3 +35,6 @@ func _on_lightbox_body_entered(body: Node2D):
 	if body is Lightbug:
 		var lightbug: Lightbug = body as Lightbug
 		lightbug.stun()
+	elif body is Lantern:
+		var lantern: Lantern = body as Lantern
+		lantern.light()

@@ -36,7 +36,7 @@ player = NodePath("../../Wick")
 [node name="GloomyBridgeParallaxBG" parent="." instance=ExtResource("4_faweq")]
 
 [node name="Lightbug" parent="GloomyBridgeParallaxBG" instance=ExtResource("3_arrv4")]
-position = Vector2(778, 1345)
+position = Vector2(949, 1236)
 
 [node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("4_fcqet")]
 position = Vector2(415, 1690)
@@ -138,8 +138,8 @@ texture = ExtResource("6_2oe3h")
 
 [node name="AmbientLight" parent="." instance=ExtResource("9_qeobm")]
 
+[node name="LightMote" parent="." instance=ExtResource("10_hnnj2")]
+position = Vector2(1048, 1688)
+
 [node name="Lantern" parent="." instance=ExtResource("11_ccy5y")]
 position = Vector2(746, 1781)
-
-[node name="LightMote" parent="Lantern" instance=ExtResource("10_hnnj2")]
-position = Vector2(302, -93)

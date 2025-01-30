@@ -60,6 +60,7 @@ var alive: bool = true
 var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See BufferedInputTimer.
 var collide_one_way: bool = true
 var compounding_gravity: bool = true
+var in_light_source: bool = false
 var is_hurt: bool = false
 var light_accumulated: int = 0
 var speed: float = WALK_SPEED
