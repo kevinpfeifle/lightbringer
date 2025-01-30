@@ -66,16 +66,13 @@ var speed: float = WALK_SPEED
 var running: bool = false
 
 func _ready() -> void:
-	# light_component.consumed.connect(_on_light_consumed)
 	light_component.depleted.connect(_on_light_depleted)
 	light_component.restored.connect(_on_light_restored)
-	
 	interact_box.body_entered.connect(_on_interact_box_body_entered)
-
 	iframe_timer.timeout.connect(_on_i_frames_timeout)
-
 	direction_component.direction_changed.connect(_on_direction_changed)
 	direction_component.current_direction = starting_direction
+	health_component.healed.connect(_on_healed)
 
 func _process(_delta) -> void:
 	if debug_enabled:
@@ -209,3 +206,6 @@ func _on_interact_box_body_entered(body: Node2D) -> void:
 				light_component.restore(body.light_amount)
 				body.consume()
 	
+func _on_healed(_amount: int) -> void:
+	if health_component.current_health > 1:
+		light_component.unblock_resource()

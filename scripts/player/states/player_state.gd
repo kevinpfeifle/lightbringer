@@ -66,6 +66,8 @@ func _on_player_damaged(_amount: float, source: Node, _power: int, direction: Ve
 	# TODO: Determine a way to make the player look hurt from self-damage, without interupting animation.
 	if source != parent:
 		active = false
+		if parent.health_component.current_health == 1:
+			parent.light_component.block_resource()
 		transition.emit("hurt", [state_name, direction])
 
 func _on_player_death() -> void:

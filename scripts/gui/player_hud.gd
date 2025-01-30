@@ -36,13 +36,15 @@ func _ready() -> void:
 	player.light_component.restored.connect(_on_light_restored)
 	player.light_component.overflowed.connect(_on_light_overflowed)
 
-func _on_player_damaged(_amount: float, _source: Node, _power: int, _direction: Vector2):
-	update_health_bar()
+func _on_player_damaged(_amount: float, source: Node, _power: int, _direction: Vector2):
+	update_health_bar(source)
 
 func _on_player_healed(_amount: float):
 	update_health_bar()
 
-func update_health_bar() -> void:
+func update_health_bar(damage_source: Node2D = null) -> void:
+	block_last_light = _block_last_light()
+
 	# Animate the health pool based on the current health.
 	if player.health_component.current_health == 5:
 		health_pool_ap.play("full_health")
@@ -58,7 +60,10 @@ func update_health_bar() -> void:
 		if !light_depleted:
 			_on_light_depleted()
 		health_pool_ap.play("dead")
-		return
+	
+	if damage_source != Player && block_last_light:
+		light_1_ap.play("hud_light_1/shadow_restored")
+		light_1_ap.queue("hud_light_1/shadow_available")
 
 func _on_light_consumed(_amount: float) -> void:
 	var total_light: int = player.light_component.current_resource as int
