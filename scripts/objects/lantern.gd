@@ -16,16 +16,17 @@ func _ready() -> void:
 	extinguish_timer.timeout.connect(_extinguish)
 	light_aura.body_entered.connect(_on_body_entered_light_aura)
 	light_aura.body_exited.connect(_on_body_exited_light_aura)
-	current_state = state
+	current_state = state # Prelit lanterns never go out.
 
 func _extinguish() -> void:
 	current_state = LanternState.OFF
 	lantern_extinguished.emit(self)
 
 func light() -> void:
-	current_state = LanternState.ON
-	lantern_lit.emit(self)
-	extinguish_timer.start()
+	if state == LanternState.OFF:
+		current_state = LanternState.ON
+		lantern_lit.emit(self)
+		extinguish_timer.start()
 
 func _on_body_entered_light_aura(body: Node2D) -> void:
 	if body is Player:

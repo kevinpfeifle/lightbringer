@@ -40,7 +40,8 @@ func enter(args) -> void:
 		can_attack = false
 		could_attack = true
 		landed_attack = false
-		parent.light_component.consume(1)
+		if !parent.in_light_source:
+			parent.light_component.consume(1)
 		attack_timer.start()
 		attack_reset_timer.start()
 	else:

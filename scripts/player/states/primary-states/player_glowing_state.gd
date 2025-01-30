@@ -13,7 +13,8 @@ func enter(args: Array) -> void:
 	parent.animation_tree.animation_finished.connect(_on_animation_finished)
 	lightbox.body_entered.connect(_on_lightbox_body_entered)
 	state_locked = true
-	parent.light_component.consume(1)
+	if !parent.in_light_source:
+		parent.light_component.consume(1)
 
 func exit(new_state: StringName) -> void:
 	super(new_state)
