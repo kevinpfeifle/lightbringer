@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dyftspwin1ltk"
-path="res://.godot/imported/beacon.png-24e8e38dae3a088f424d26988308f479.ctex"
+path="res://.godot/imported/beacon.png-8ecd78de6452b9edb7850730e2356995.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/objects/beacon.png"
-dest_files=["res://.godot/imported/beacon.png-24e8e38dae3a088f424d26988308f479.ctex"]
+source_file="res://assets/sprites/objects/beacon.png"
+dest_files=["res://.godot/imported/beacon.png-8ecd78de6452b9edb7850730e2356995.ctex"]
 
 [params]
 

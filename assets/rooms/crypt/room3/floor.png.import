@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dysuvvpxndvks"
-path="res://.godot/imported/lantern.png-d2e583c9b8a71848af893a9c919d6516.ctex"
+uid="uid://dg7ljxkie28r0"
+path="res://.godot/imported/floor.png-9d7b2f1b1e7e23a6be3db5bdeb4f0178.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/objects/lantern.png"
-dest_files=["res://.godot/imported/lantern.png-d2e583c9b8a71848af893a9c919d6516.ctex"]
+source_file="res://assets/rooms/crypt/room3/floor.png"
+dest_files=["res://.godot/imported/floor.png-9d7b2f1b1e7e23a6be3db5bdeb4f0178.ctex"]
 
 [params]
 
