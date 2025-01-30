@@ -16,3 +16,5 @@
 8. Time allowing... make Wick's light based on his health. Greater starting light, less light as you lose health.
 9. Implement a stunned effect when Wick produces light in close range to a non-boss enemy.
 10. Create components for the pathfinding logic in Orbi. It already got reused in Lightbug, it could be better written to extend to any flying enemy that wanders/chases.
+11. Fix scenario where death is screwed up -- using all your light can kill you right now...
+   - This happens when you have light and are damaged down to 1 hp. If you go from 2-1 health via light usage it works correctly.

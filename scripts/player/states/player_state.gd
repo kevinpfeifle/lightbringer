@@ -53,6 +53,8 @@ func _check_for_state_change() -> StringName:
 		return "fall"
 	elif parent.is_on_floor() && Input.is_action_just_pressed("player_jump") && !parent.is_hurt:
 		return "jump"
+	elif parent.is_on_floor() && Input.is_action_just_pressed("player_secondary") && !parent.is_hurt && parent.light_component.can_consume():
+		return "glowing"
 	elif parent.is_on_floor() && Input.get_axis("player_left", "player_right") != 0:
 		return "move"
 	elif parent.is_on_floor() && parent.velocity == Vector2.ZERO:

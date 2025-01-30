@@ -24,7 +24,7 @@ func physics_update(delta: float) -> void:
 
 ## Returns the name of the next state based on user input actions. Empty string = no change.
 func _check_for_state_change() -> StringName:
-	if Input.is_action_just_pressed("player_attack"):
+	if Input.is_action_just_pressed("player_attack") && parent.primary_state_machine.current_state.state_name != "glowing":
 		return "attack"
 	
 	return ""

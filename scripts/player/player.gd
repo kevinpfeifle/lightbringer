@@ -19,6 +19,7 @@ extends CharacterBody2D
 @export_group("Sprite")
 @export var sprite: Sprite2D
 @export var animation_player: AnimationPlayer
+@export var animation_tree: AnimationTree
 @export var player_light: PointLight2D
 
 @export_group("Areas")
@@ -170,9 +171,6 @@ func attack_light() -> void:
 	player_light.scale = lerp(player_light.scale, ATTACK_LIGHT_DISTANCE * light_factor, 0.1)
 
 ## These methods are for tracking the player's light for attacks and abilities.
-# func _on_light_consumed(_amount: float):
-# 	pass
-
 func _on_light_depleted():
 	# If we consume all 5 light, Wick takes damage, and we get 5 light back if we have 1 or more health.
 	health_component.damage(1, self, 0, Vector2.ZERO)
@@ -200,13 +198,14 @@ func _on_light_restored(_amount_restored: float, residual_amount: float):
 			light_component.overflow(residual_amount)
 
 func _on_interact_box_body_entered(body: Node2D) -> void:
-	if body is LightMote:
+	if body is LightMote || body is Lightbug:
 		# If we have full light and health, ignore Light Motes.
 		if light_component.full_resource() && health_component.full_health():
 			return
 		# If we are missing light, or have full light and are missing health (ie missing a layer of light), collect Light Motes.
 		elif !light_component.full_resource() || (light_component.full_resource() && !health_component.full_health()):
-			var light_mote: LightMote = body as LightMote
-			if !light_mote.consumed:
-				light_component.restore(light_mote.light_amount)
-				light_mote.consume()
+			# var light_mote: LightMote = body as LightMote
+			if !body.consumed:
+				light_component.restore(body.light_amount)
+				body.consume()
+	
