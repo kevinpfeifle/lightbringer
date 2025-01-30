@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://cae50vnej7axf"]
+[gd_scene load_steps=17 format=3 uid="uid://cae50vnej7axf"]
 
 [ext_resource type="PackedScene" uid="uid://1h5776gfjkdp" path="res://scenes/enemies/lightbug.tscn" id="3_arrv4"]
 [ext_resource type="PackedScene" uid="uid://bqcslwnrixfs1" path="res://scenes/backgrounds/crypt_parallax_bg.tscn" id="4_faweq"]
 [ext_resource type="PackedScene" uid="uid://b47y40esxjr10" path="res://scenes/player/wick.tscn" id="4_fcqet"]
+[ext_resource type="PackedScene" uid="uid://cel4uexo56tsx" path="res://scenes/objects/beacon.tscn" id="4_ky33c"]
 [ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="5_1j388"]
 [ext_resource type="Texture2D" uid="uid://egrc4lsppf3" path="res://assets/rooms/crypt/room1/foreground_primary.png" id="5_wgr3h"]
 [ext_resource type="Texture2D" uid="uid://bo6fpdn24oa7r" path="res://assets/decor/dead_lightbringers.png" id="6_2oe3h"]
@@ -38,6 +39,9 @@ player = NodePath("../../Wick")
 [node name="Lightbug" parent="GloomyBridgeParallaxBG" instance=ExtResource("3_arrv4")]
 position = Vector2(949, 1236)
 
+[node name="Beacon" parent="GloomyBridgeParallaxBG" instance=ExtResource("4_ky33c")]
+position = Vector2(4047, 1025)
+
 [node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("4_fcqet")]
 position = Vector2(415, 1690)
 camera = NodePath("Camera")
@@ -58,7 +62,7 @@ light_mask = 17
 polygon = PackedVector2Array(200, 8, 217, 363, 206, 374, 183, 379, 161, 387, 159, 944, 164, 953, 167, 973, 167, 985, 162, 995, 162, 1244, 189, 1249, 184, 1275, 187, 1295, 199, 1343, 221, 1420, 231, 1469, 240, 1550, 240, 1615, 240, 1664, 247, 1673, 255, 1689, 255, 1689, 256, 1707, 273, 1705, 281, 1717, 280, 1731, 273, 1747, 307, 1747, 312, 1752, 315, 1761, 319, 1776, 354, 1776, 385, 1780, 407, 1783, 432, 1787, 490, 1789, 529, 1788, 530, 1802, 529, 1821, 520, 1837, 734, 1841, 1075, 1838, 1157, 1823, 1381, 1820, 1472, 1820, 1523, 1810, 1706, 1804, 1839, 1798, 1919, 1807, 2022, 1804, 2181, 1807, 2338, 1803, 2536, 1803, 2664, 1790, 2889, 1788, 2984, 1789, 3028, 1796, 3098, 1806, 3292, 1807, 3484, 1808, 3529, 1820, 3612, 1815, 3682, 1813, 3737, 1804, 3942, 1807, 4012, 1807, 4136, 1797, 4258, 1805, 4263, 1803, 4258, 1780, 4262, 1767, 4275, 1761, 4278, 1748, 4273, 1731, 4265, 1716, 4269, 1700, 4275, 1680, 4260, 1657, 4244, 1649, 4253, 1630, 4255, 1620, 4252, 1602, 4252, 1588, 4269, 1578, 4271, 1567, 4217, 1520, 4186, 1489, 4156, 1444, 4123, 1395, 4084, 1367, 4041, 1339, 3995, 1337, 3981, 1341, 3986, 1351, 3980, 1363, 3966, 1372, 3956, 1365, 3963, 1345, 3970, 1310, 3968, 1270, 3962, 1233, 3947, 1197, 3874, 1199, 3868, 1191, 3865, 1166, 3879, 1156, 4015, 1150, 4016, 840, 4049, 768, 4074, 689, 4097, 614, 4175, 587, 4183, 549, 4181, 468, 4182, 408, 4171, 355, 4188, 310, 4189, 271, 4189, 165, 4194, 107, 4187, 7, 4327, 11, 4328, 1927, 6, 1926, 0, 10)
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls+Floor"]
-position = Vector2(2168, 968)
+position = Vector2(2231, 964)
 texture = ExtResource("5_wgr3h")
 
 [node name="Enemies" type="Node" parent="."]

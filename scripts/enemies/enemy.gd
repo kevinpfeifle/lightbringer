@@ -12,6 +12,7 @@ extends CharacterBody2D
 func _ready() -> void:
 	health_component.damaged.connect(_on_damaged)
 	health_component.dead.connect(_on_death)
+	add_to_group("enemies") # Add to the enemies group so the scene knows how many enemies remain.
 
 ## Override in child class if omni-directional knockback is not suitable. Hint: It is only good for flying enemies.
 func _on_damaged(_amount: float, _source: Node, _power: int, direction: Vector2):
