@@ -45,7 +45,7 @@ const CLOAK_CLOSED_LIGHT_DISTANCE: Vector2 = Vector2(20, 20)
 const CLOAK_OPEN_LIGHT_ENERGY: float = 1.25
 const CLOAK_OPEN_LIGHT_DISTANCE: Vector2 = Vector2(35, 35)
 const ATTACK_LIGHT_ENERGY: float = 1.5
-const ATTACK_LIGHT_DISTANCE: Vector2 = Vector2(50, 50)
+const ATTACK_LIGHT_DISTANCE: Vector2 = Vector2(125, 125)
 const DEATH_LIGHT_ENERGY: float = 0.75
 const DEATH_LIGHT_DISTANCE: Vector2 = Vector2(15, 15)
 # Physics Constants.
@@ -149,24 +149,23 @@ func _set_one_way_collision_detection(collide: bool) -> void:
 	set_collision_mask_value(ONE_WAY_PLATFORM_COLLISION_LAYER, collide)
 
 func decrease_light() -> void:
-	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.6, 1)
 	player_light.energy = lerp(player_light.energy, CLOAK_CLOSED_LIGHT_ENERGY * light_factor, 0.1)
 	player_light.scale = lerp(player_light.scale, CLOAK_CLOSED_LIGHT_DISTANCE * light_factor, 0.1)
 
 func increase_light() -> void:
-	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.6, 1)
 	player_light.energy = lerp(player_light.energy, CLOAK_OPEN_LIGHT_ENERGY * light_factor, 0.1)
 	player_light.scale = lerp(player_light.scale, CLOAK_OPEN_LIGHT_DISTANCE * light_factor, 0.1)
 
 func death_light() -> void:
-	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.6, 1)
 	player_light.energy = lerp(player_light.energy, DEATH_LIGHT_ENERGY * light_factor, 0.1)
 	player_light.scale = lerp(player_light.scale, DEATH_LIGHT_DISTANCE * light_factor, 0.1)
 
 func attack_light() -> void:
-	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
-	player_light.energy = lerp(player_light.energy, ATTACK_LIGHT_ENERGY * light_factor, 0.1)
-	player_light.scale = lerp(player_light.scale, ATTACK_LIGHT_DISTANCE * light_factor, 0.1)
+	player_light.energy = lerp(player_light.energy, ATTACK_LIGHT_ENERGY, 0.1)
+	player_light.scale = lerp(player_light.scale, ATTACK_LIGHT_DISTANCE, 0.1)
 
 ## These methods are for tracking the player's light for attacks and abilities.
 func _on_light_depleted():
