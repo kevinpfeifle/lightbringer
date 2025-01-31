@@ -207,3 +207,7 @@ func _on_interact_box_body_entered(body: Node2D) -> void:
 func _on_healed(_amount: int) -> void:
 	if health_component.current_health > 1:
 		light_component.unblock_resource()
+
+func reconnect_deplete_signal() -> void:
+	light_component.depleted.disconnect(_on_light_depleted)
+	light_component.depleted.connect(_on_light_depleted)

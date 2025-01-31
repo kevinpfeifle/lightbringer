@@ -34,6 +34,15 @@ func _ready() -> void:
 	GlobalPlayer.player.light_component.restored.connect(_on_light_restored)
 	GlobalPlayer.player.light_component.overflowed.connect(_on_light_overflowed)
 
+func _exit_tree() -> void:
+	GlobalPlayer.player.health_component.damaged.disconnect(_on_player_damaged)
+	GlobalPlayer.player.health_component.healed.disconnect(_on_player_healed)
+	GlobalPlayer.player.light_component.consumed.disconnect(_on_light_consumed)
+	GlobalPlayer.player.light_component.depleted.disconnect(_on_light_depleted)
+	GlobalPlayer.player.light_component.resource_reset.disconnect(_on_light_reset)
+	GlobalPlayer.player.light_component.restored.disconnect(_on_light_restored)
+	GlobalPlayer.player.light_component.overflowed.disconnect(_on_light_overflowed)
+
 func _on_player_damaged(_amount: float, source: Node, _power: int, _direction: Vector2):
 	update_health_bar(source)
 

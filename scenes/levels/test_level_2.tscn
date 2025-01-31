@@ -57,6 +57,7 @@ offset_bottom = 1080.0
 
 [node name="Lightbug" parent="GloomyBridgeParallaxBG" instance=ExtResource("3_arrv4")]
 position = Vector2(949, 1236)
+enemy_id = 6
 
 [node name="Beacon" parent="GloomyBridgeParallaxBG" instance=ExtResource("4_ky33c")]
 position = Vector2(3552, 1202)
@@ -84,9 +85,11 @@ texture = ExtResource("7_7eck6")
 
 [node name="Orbi" parent="Enemies" instance=ExtResource("6_i1ysr")]
 position = Vector2(3558, 495)
+enemy_id = 1
 
 [node name="Orbi2" parent="Enemies" instance=ExtResource("6_i1ysr")]
 position = Vector2(2814, 678)
+enemy_id = 2
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Enemies"]
 visible = false
@@ -109,13 +112,16 @@ affect_navigation_mesh = true
 
 [node name="Sludge" parent="Enemies" instance=ExtResource("7_20jnt")]
 position = Vector2(2535, 1511)
+enemy_id = 3
 
 [node name="Sludge2" parent="Enemies" instance=ExtResource("7_20jnt")]
 position = Vector2(1562, 1775)
+enemy_id = 4
 
 [node name="Sludge3" parent="Enemies" instance=ExtResource("7_20jnt")]
 position = Vector2(2869, 1103)
 starting_direction = 0
+enemy_id = 5
 
 [node name="TempPlatforms" type="Node" parent="."]
 

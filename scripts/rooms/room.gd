@@ -65,8 +65,20 @@ func enter_room() -> void:
 		camera.reset_smoothing()
 		camera.force_update_scroll()
 
+	# Remove any previously killed enemies.
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		if WorldGlobals.is_enemy_defeated(scene_path, enemy.enemy_id):
+			enemy.queue_free()
+
+	# Light an previously lit beacons.
+	for beacon in get_tree().get_nodes_in_group("beacons"):
+		if WorldGlobals.lit_beacons.find(WorldGlobals.current_room) != -1:
+			beacon.light()
+
+	# Update the camera and UI, and fade in.
 	camera.reset_smoothing()
 	camera.force_update_scroll()
+	GlobalPlayer.player.reconnect_deplete_signal()
 	player_hud.update_health_bar()
 	player_hud.set_light_markers()
 	scene_transition.fade_in()
