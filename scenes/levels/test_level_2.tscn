@@ -1,10 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://cae50vnej7axf"]
+[gd_scene load_steps=19 format=3 uid="uid://cae50vnej7axf"]
 
 [ext_resource type="Script" path="res://scripts/rooms/room.gd" id="1_bk5yf"]
 [ext_resource type="PackedScene" uid="uid://1h5776gfjkdp" path="res://scenes/enemies/lightbug.tscn" id="3_arrv4"]
 [ext_resource type="PackedScene" uid="uid://cjivumpq18kx0" path="res://scenes/scene_transition.tscn" id="3_v2d4j"]
 [ext_resource type="PackedScene" uid="uid://bqcslwnrixfs1" path="res://scenes/backgrounds/crypt_parallax_bg.tscn" id="4_faweq"]
-[ext_resource type="PackedScene" uid="uid://b47y40esxjr10" path="res://scenes/player/wick.tscn" id="4_fcqet"]
 [ext_resource type="PackedScene" uid="uid://cel4uexo56tsx" path="res://scenes/objects/beacon.tscn" id="4_ky33c"]
 [ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="5_1j388"]
 [ext_resource type="Texture2D" uid="uid://bo6fpdn24oa7r" path="res://assets/decor/dead_lightbringers.png" id="6_2oe3h"]
@@ -32,10 +31,11 @@ size = Vector2(619, 132)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xlwhm"]
 size = Vector2(49.5, 196)
 
-[node name="TestLevel2" type="Node2D" node_paths=PackedStringArray("player", "camera", "scene_transition", "doors", "spawn_points")]
+[node name="TestLevel2" type="Node2D" node_paths=PackedStringArray("camera", "default_spawn_location", "player_hud", "scene_transition", "doors", "spawn_points")]
 script = ExtResource("1_bk5yf")
-player = NodePath("Wick")
-camera = NodePath("Wick/Camera")
+camera = NodePath("Camera")
+default_spawn_location = NodePath("Doors/Right/WicKEnterPoint")
+player_hud = NodePath("CanvasLayer/PlayerHud")
 scene_path = "res://scenes/levels/test_level_2.tscn"
 scene_transition = NodePath("CanvasLayer2/SceneTransition")
 adjacent_rooms = Array[String](["res://scenes/levels/crypt_room_4.tscn"])
@@ -45,8 +45,7 @@ spawn_points = [NodePath("Doors/Right/WicKEnterPoint")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="PlayerHud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("7_eyiof")]
-player = NodePath("../../Wick")
+[node name="PlayerHud" parent="CanvasLayer" instance=ExtResource("7_eyiof")]
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
@@ -62,13 +61,8 @@ position = Vector2(949, 1236)
 [node name="Beacon" parent="GloomyBridgeParallaxBG" instance=ExtResource("4_ky33c")]
 position = Vector2(3552, 1202)
 
-[node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("4_fcqet")]
+[node name="Camera" parent="." instance=ExtResource("5_1j388")]
 position = Vector2(415, 1690)
-camera = NodePath("Camera")
-starting_direction = 1
-debug_enabled = false
-
-[node name="Camera" parent="Wick" instance=ExtResource("5_1j388")]
 zoom = Vector2(0.8, 0.8)
 limit_left = 10
 limit_top = 0

@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://5etq2oipct08"]
 
-[ext_resource type="PackedScene" uid="uid://c5etvah3yesu3" path="res://scenes/levels/crypt_room_4.tscn" id="1_ryw4f"]
+[ext_resource type="PackedScene" uid="uid://dg8yx84xtm5g2" path="res://scenes/game_manager.tscn" id="1_yylto"]
 
 [node name="Lightbringer" type="Node2D"]
 
-[node name="CryptRoom4" parent="." instance=ExtResource("1_ryw4f")]
+[node name="GameManager" parent="." instance=ExtResource("1_yylto")]

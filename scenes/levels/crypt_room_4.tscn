@@ -1,10 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://c5etvah3yesu3"]
+[gd_scene load_steps=14 format=3 uid="uid://c5etvah3yesu3"]
 
 [ext_resource type="Script" path="res://scripts/rooms/room.gd" id="1_26vku"]
 [ext_resource type="Texture2D" uid="uid://coccwcp3nx8gd" path="res://assets/backgrounds/crypt-simple.png" id="1_j8u8o"]
 [ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="1_st1vg"]
 [ext_resource type="Texture2D" uid="uid://dcmc2gy3lj2cy" path="res://assets/rooms/crypt/room4/vignette.png" id="2_7d7n1"]
-[ext_resource type="PackedScene" uid="uid://b47y40esxjr10" path="res://scenes/player/wick.tscn" id="2_h1631"]
 [ext_resource type="PackedScene" uid="uid://cjivumpq18kx0" path="res://scenes/scene_transition.tscn" id="3_bxk4i"]
 [ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="3_kid2r"]
 [ext_resource type="PackedScene" uid="uid://cmxihuphbrhum" path="res://scenes/level-design/ambient_light.tscn" id="4_rm8u0"]
@@ -21,10 +20,11 @@ size = Vector2(58.5, 276.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lf60j"]
 size = Vector2(422, 113)
 
-[node name="CryptRoom4" type="Node2D" node_paths=PackedStringArray("player", "camera", "scene_transition", "doors", "spawn_points")]
+[node name="CryptRoom4" type="Node2D" node_paths=PackedStringArray("camera", "default_spawn_location", "player_hud", "scene_transition", "doors", "spawn_points")]
 script = ExtResource("1_26vku")
-player = NodePath("Wick")
-camera = NodePath("Wick/Camera")
+camera = NodePath("Camera")
+default_spawn_location = NodePath("Doors/LeftDoor/WicKEnterPoint")
+player_hud = NodePath("CanvasLayer/PlayerHud")
 scene_path = "res://scenes/levels/crypt_room_4.tscn"
 scene_transition = NodePath("CanvasLayer2/SceneTransition")
 adjacent_rooms = Array[String](["res://scenes/levels/test_level_2.tscn"])
@@ -43,8 +43,7 @@ texture = ExtResource("2_7d7n1")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="PlayerHud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("1_st1vg")]
-player = NodePath("../../Wick")
+[node name="PlayerHud" parent="CanvasLayer" instance=ExtResource("1_st1vg")]
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
@@ -54,14 +53,8 @@ offset_bottom = 1080.0
 
 [node name="AmbientLight" parent="." instance=ExtResource("4_rm8u0")]
 
-[node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("2_h1631")]
-position = Vector2(103, 3307)
-camera = NodePath("Camera")
-starting_direction = 0
-debug_enabled = false
-
-[node name="Camera" parent="Wick" instance=ExtResource("3_kid2r")]
-position = Vector2(975, 92)
+[node name="Camera" parent="." instance=ExtResource("3_kid2r")]
+position = Vector2(1078, 3399)
 zoom = Vector2(0.8, 0.8)
 limit_top = 0
 limit_bottom = 3825

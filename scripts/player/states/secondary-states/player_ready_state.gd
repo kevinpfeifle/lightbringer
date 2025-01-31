@@ -10,7 +10,7 @@ func _ready() -> void:
 
 func exit(new_state) -> void:
 	super(new_state)
-	parent.camera.center_camera()
+	# parent.camera.center_camera()
 
 ## Default abstract logic simply handles state changes.
 func physics_update(delta: float) -> void:

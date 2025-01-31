@@ -1,8 +1,6 @@
 class_name Player
 extends CharacterBody2D
 
-
-@export var camera: Camera
 @export var starting_direction: DirectionComponent.Direction = DirectionComponent.Direction.LEFT
 
 @export_group("Components")

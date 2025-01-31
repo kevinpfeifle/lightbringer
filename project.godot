@@ -18,7 +18,7 @@ config/icon="res://assets/wick_logo.png"
 [autoload]
 
 WorldGlobals="*res://scripts/globals/world_globals.gd"
-PlayerGlobals="*res://scripts/globals/player_globals.gd"
+GlobalPlayer="*res://scripts/globals/global_player.gd"
 
 [display]
 

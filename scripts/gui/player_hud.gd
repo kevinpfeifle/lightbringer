@@ -1,8 +1,6 @@
 class_name PlayerHUD
 extends Control
 
-@export var player: Player
-
 @export_group("Animation Players")
 @export var health_pool_ap: AnimationPlayer
 @export var light_1_ap: AnimationPlayer
@@ -28,13 +26,13 @@ func _ready() -> void:
 	light_4_ap.play("hud_light_4/available")
 	light_5_ap.play("hud_light_5/available")
 
-	player.health_component.damaged.connect(_on_player_damaged)
-	player.health_component.healed.connect(_on_player_healed)
-	player.light_component.consumed.connect(_on_light_consumed)
-	player.light_component.depleted.connect(_on_light_depleted)
-	player.light_component.resource_reset.connect(_on_light_reset)
-	player.light_component.restored.connect(_on_light_restored)
-	player.light_component.overflowed.connect(_on_light_overflowed)
+	GlobalPlayer.player.health_component.damaged.connect(_on_player_damaged)
+	GlobalPlayer.player.health_component.healed.connect(_on_player_healed)
+	GlobalPlayer.player.light_component.consumed.connect(_on_light_consumed)
+	GlobalPlayer.player.light_component.depleted.connect(_on_light_depleted)
+	GlobalPlayer.player.light_component.resource_reset.connect(_on_light_reset)
+	GlobalPlayer.player.light_component.restored.connect(_on_light_restored)
+	GlobalPlayer.player.light_component.overflowed.connect(_on_light_overflowed)
 
 func _on_player_damaged(_amount: float, source: Node, _power: int, _direction: Vector2):
 	update_health_bar(source)
@@ -44,29 +42,30 @@ func _on_player_healed(_amount: float):
 
 func update_health_bar(damage_source: Node2D = null) -> void:
 	block_last_light = _block_last_light()
-
+	
 	# Animate the health pool based on the current health.
-	if player.health_component.current_health == 5:
+	if GlobalPlayer.player.health_component.current_health == 5:
 		health_pool_ap.play("full_health")
-	elif player.health_component.current_health == 4:
+	elif GlobalPlayer.player.health_component.current_health == 4:
 		health_pool_ap.play("4_health")
-	elif player.health_component.current_health == 3:
+	elif GlobalPlayer.player.health_component.current_health == 3:
 		health_pool_ap.play("3_health")
-	elif player.health_component.current_health == 2:
+	elif GlobalPlayer.player.health_component.current_health == 2:
 		health_pool_ap.play("2_health")
-	elif player.health_component.current_health == 1:
+	elif GlobalPlayer.player.health_component.current_health == 1:
 		health_pool_ap.play("1_health")
-	elif player.health_component.current_health == 0:
+	elif GlobalPlayer.player.health_component.current_health == 0:
 		if !light_depleted:
 			_on_light_depleted()
 		health_pool_ap.play("dead")
 	
-	if damage_source != Player && block_last_light:
-		light_1_ap.play("hud_light_1/shadow_restored")
-		light_1_ap.queue("hud_light_1/shadow_available")
+	if damage_source:
+		if damage_source != Player && block_last_light:
+			light_1_ap.play("hud_light_1/shadow_restored")
+			light_1_ap.queue("hud_light_1/shadow_available")
 
 func _on_light_consumed(_amount: float) -> void:
-	var total_light: int = player.light_component.current_resource as int
+	var total_light: int = GlobalPlayer.player.light_component.current_resource as int
 
 	# Animate the proper light slot as consumed based on current light.
 	if total_light <= 1:
@@ -130,11 +129,11 @@ func _on_light_reset() -> void:
 
 func _on_light_restored(_amount_restored: float, residual_amount: float) -> void:
 	var overflowed: bool = false
-	var total_light: int = player.light_component.current_resource as int
+	var total_light: int = GlobalPlayer.player.light_component.current_resource as int
 	light_depleted = false
 
 	# Animate each light slot restored and then shown as available.
-	if total_light == player.light_component.max_resource && !player.health_component.full_health() && residual_amount > 0:
+	if total_light == GlobalPlayer.player.light_component.max_resource && !GlobalPlayer.player.health_component.full_health() && residual_amount > 0:
 		# If we have more than 5 light after collecting some, overflow the animation to denote healing.
 		overflowed = true
 		light_1_ap.play("hud_light_1/overflow")
@@ -168,8 +167,7 @@ func _on_light_restored(_amount_restored: float, residual_amount: float) -> void
 			light_5_ap.queue("hud_light_5/available")
 
 func _on_light_overflowed(_overflow_amount: float) -> void:
-	# If we overflowed, set the amount to the overflow amount.
-	var total_light: int = player.light_component.current_resource as int
+	var total_light: int = GlobalPlayer.player.light_component.current_resource as int
 
 	light_1_active = false
 	light_2_active = false
@@ -199,5 +197,41 @@ func _on_light_overflowed(_overflow_amount: float) -> void:
 		light_5_ap.queue("hud_light_5/available")
 		light_5_active = true
 
+func set_light_markers() -> void:
+	block_last_light = _block_last_light()
+	var total_light: int = GlobalPlayer.player.light_component.current_resource as int
+
+	light_1_active = false
+	light_2_active = false
+	light_3_active = false
+	light_4_active = false
+	light_5_active = false
+
+	light_1_ap.play("hud_light_1/depleted")
+	light_2_ap.play("hud_light_2/depleted")
+	light_3_ap.play("hud_light_3/depleted")
+	light_4_ap.play("hud_light_4/depleted")
+	light_5_ap.play("hud_light_5/depleted")
+
+	# Restore lights to denote the amount present after overflow.
+	if total_light > 0:
+		if block_last_light:
+			light_1_ap.play("hud_light_1/shadow_available")
+		else:
+			light_1_ap.play("hud_light_1/available")
+		light_1_active = true
+	if total_light > 1:
+		light_2_ap.play("hud_light_2/available")
+		light_2_active = true
+	if total_light > 2:
+		light_3_ap.play("hud_light_3/available")
+		light_3_active = true
+	if total_light > 3:
+		light_4_ap.play("hud_light_4/available")
+		light_4_active = true
+	if total_light > 4:
+		light_5_ap.play("hud_light_5/available")
+		light_5_active = true
+
 func _block_last_light() -> bool:
-	return player.health_component.current_health == 1
+	return GlobalPlayer.player.health_component.current_health == 1
