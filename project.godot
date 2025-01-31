@@ -15,6 +15,11 @@ run/main_scene="res://scenes/lightbringer.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://assets/wick_logo.png"
 
+[autoload]
+
+WorldGlobals="*res://scripts/globals/world_globals.gd"
+PlayerGlobals="*res://scripts/globals/player_globals.gd"
+
 [display]
 
 window/size/viewport_width=1920
@@ -85,3 +90,8 @@ player_interact={
 2d_physics/layer_4="Enemies"
 2d_physics/layer_5="Objects"
 2d_physics/layer_6="Lightbugs"
+2d_physics/layer_7="Doors"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

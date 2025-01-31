@@ -47,6 +47,8 @@ tile_set = SubResource("TileSet_ena3r")
 [node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("3_5sbgu")]
 position = Vector2(-440, 912)
 camera = NodePath("Camera")
+starting_direction = 0
+debug_enabled = false
 
 [node name="Camera" parent="Wick" instance=ExtResource("5_jbqkn")]
 position = Vector2(-4, 5)

@@ -1,0 +1,131 @@
+[gd_scene load_steps=15 format=3 uid="uid://c5etvah3yesu3"]
+
+[ext_resource type="Script" path="res://scripts/rooms/room.gd" id="1_26vku"]
+[ext_resource type="Texture2D" uid="uid://coccwcp3nx8gd" path="res://assets/backgrounds/crypt-simple.png" id="1_j8u8o"]
+[ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="1_st1vg"]
+[ext_resource type="Texture2D" uid="uid://dcmc2gy3lj2cy" path="res://assets/rooms/crypt/room4/vignette.png" id="2_7d7n1"]
+[ext_resource type="PackedScene" uid="uid://b47y40esxjr10" path="res://scenes/player/wick.tscn" id="2_h1631"]
+[ext_resource type="PackedScene" uid="uid://cjivumpq18kx0" path="res://scenes/scene_transition.tscn" id="3_bxk4i"]
+[ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="3_kid2r"]
+[ext_resource type="PackedScene" uid="uid://cmxihuphbrhum" path="res://scenes/level-design/ambient_light.tscn" id="4_rm8u0"]
+[ext_resource type="Texture2D" uid="uid://bxrvtqd8vfrqd" path="res://assets/rooms/crypt/room4/walls.png" id="5_nitc6"]
+[ext_resource type="Texture2D" uid="uid://dyast615y7nxa" path="res://assets/rooms/crypt/room4/floor.png" id="6_lyra8"]
+[ext_resource type="Texture2D" uid="uid://cn8abwxds7g83" path="res://assets/rooms/crypt/room4/ceiling.png" id="7_ikmp5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e0bdy"]
+size = Vector2(49.5, 196)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xof80"]
+size = Vector2(58.5, 276.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lf60j"]
+size = Vector2(422, 113)
+
+[node name="CryptRoom4" type="Node2D" node_paths=PackedStringArray("player", "camera", "scene_transition", "doors", "spawn_points")]
+script = ExtResource("1_26vku")
+player = NodePath("Wick")
+camera = NodePath("Wick/Camera")
+scene_path = "res://scenes/levels/crypt_room_4.tscn"
+scene_transition = NodePath("CanvasLayer2/SceneTransition")
+adjacent_rooms = Array[String](["res://scenes/levels/test_level_2.tscn"])
+doors = [NodePath("Doors/LeftDoor")]
+door_sides = Array[int]([0])
+spawn_points = [NodePath("Doors/LeftDoor/WicKEnterPoint")]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(1080, 1920)
+texture = ExtResource("1_j8u8o")
+
+[node name="Vingette" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(1080, 1920)
+texture = ExtResource("2_7d7n1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerHud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("1_st1vg")]
+player = NodePath("../../Wick")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="SceneTransition" parent="CanvasLayer2" instance=ExtResource("3_bxk4i")]
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="AmbientLight" parent="." instance=ExtResource("4_rm8u0")]
+
+[node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("2_h1631")]
+position = Vector2(103, 3307)
+camera = NodePath("Camera")
+starting_direction = 0
+debug_enabled = false
+
+[node name="Camera" parent="Wick" instance=ExtResource("3_kid2r")]
+position = Vector2(975, 92)
+zoom = Vector2(0.8, 0.8)
+limit_top = 0
+limit_bottom = 3825
+limit_smoothed = true
+position_smoothing_speed = 4.0
+drag_horizontal_enabled = false
+allow_horizontal_movement = false
+
+[node name="Boundaries" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="Ceiling" type="Sprite2D" parent="Boundaries"]
+position = Vector2(1080, 192)
+texture = ExtResource("7_ikmp5")
+
+[node name="Walls" type="Sprite2D" parent="Boundaries"]
+position = Vector2(1080, 1920)
+texture = ExtResource("5_nitc6")
+
+[node name="Floor" type="Sprite2D" parent="Boundaries"]
+position = Vector2(1080, 3616)
+texture = ExtResource("6_lyra8")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Boundaries"]
+visible = false
+polygon = PackedVector2Array(2, 3193, 0, -1, 417, 1, 426, 8, 431, 18, 432, 27, 426, 38, 434, 40, 440, 43, 442, 52, 445, 58, 445, 66, 441, 77, 438, 83, 443, 93, 443, 104, 440, 113, 438, 156, 437, 183, 430, 194, 367, 200, 363, 207, 366, 208, 371, 212, 369, 227, 372, 237, 370, 260, 367, 272, 361, 276, 348, 279, 297, 285, 297, 332, 293, 346, 281, 355, 263, 374, 256, 380, 193, 382, 194, 488, 189, 497, 206, 545, 209, 629, 208, 670, 234, 674, 247, 703, 248, 739, 248, 779, 245, 811, 225, 831, 210, 840, 213, 920, 224, 921, 231, 931, 235, 961, 237, 1017, 233, 1027, 218, 1030, 195, 1034, 194, 1070, 197, 1094, 188, 1130, 201, 1128, 208, 1134, 216, 1165, 220, 1200, 223, 1239, 225, 1281, 216, 1290, 208, 1291, 208, 1316, 211, 1344, 213, 1375, 216, 1403, 210, 1413, 202, 1416, 210, 1461, 210, 1490, 210, 1518, 209, 1523, 227, 1542, 234, 1553, 245, 1566, 245, 1579, 237, 1626, 233, 1643, 227, 1660, 218, 1669, 200, 1674, 181, 1676, 179, 1771, 207, 1772, 216, 1781, 221, 1810, 220, 1849, 219, 1888, 213, 1894, 201, 1890, 192, 1899, 184, 1912, 178, 1922, 175, 1941, 173, 1953, 187, 1963, 189, 1974, 192, 1998, 185, 2008, 177, 2013, 180, 2042, 180, 2080, 183, 2104, 180, 2110, 165, 2112, 155, 2116, 155, 2127, 157, 2139, 195, 2147, 201, 2154, 204, 2180, 199, 2192, 184, 2204, 181, 2226, 176, 2240, 161, 2254, 163, 2304, 170, 2312, 180, 2320, 184, 2340, 186, 2358, 180, 2366, 167, 2379, 171, 2445, 172, 2461, 177, 2471, 186, 2474, 190, 2486, 191, 2499, 189, 2521, 186, 2527, 176, 2527, 168, 2556, 159, 2574, 163, 2592, 164, 2613, 163, 2626, 157, 2634, 153, 2661, 174, 2689, 180, 2713, 178, 2738, 176, 2747, 172, 2765, 159, 2769, 169, 2850, 173, 2874, 175, 2917, 168, 2939, 153, 2951, 152, 2993, 154, 3006, 160, 3022, 171, 3028, 173, 3046, 177, 3064, 182, 3081, 174, 3106, 158, 3111, 150, 3125, 148, 3153, 146, 3175, 139, 3186, 123, 3194, 99, 3196, 72, 3201, 55, 3201, 13, 3199, 0, 3199)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Boundaries"]
+visible = false
+polygon = PackedVector2Array(6, 3399, 2161, 3399, 2159, 3836, 1, 3833)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Boundaries"]
+visible = false
+polygon = PackedVector2Array(2160, 3400, 2160, 2024, 2115, 2022, 2096, 2021, 2067, 2025, 2025, 2034, 2017, 2039, 2016, 2040, 2012, 2060, 2014, 2076, 2011, 2101, 2007, 2109, 1993, 2114, 1983, 2123, 1979, 2138, 1981, 2156, 1988, 2182, 1992, 2195, 2002, 2206, 2006, 2221, 2011, 2231, 2009, 2246, 2009, 2271, 2000, 2281, 1989, 2292, 1987, 2308, 1984, 2336, 1993, 2361, 1995, 2390, 2000, 2423, 2000, 2450, 1996, 2456, 1988, 2464, 1984, 2480, 1984, 2496, 1985, 2531, 1997, 2546, 2010, 2561, 2007, 2585, 1997, 2595, 1997, 2603, 1998, 2620, 1998, 2645, 2002, 2652, 1992, 2666, 1987, 2679, 1985, 2699, 1974, 2697, 1972, 2748, 1985, 2750, 1987, 2762, 1991, 2783, 1991, 2806, 1993, 2831, 1991, 2847, 1975, 2860, 1980, 2899, 1989, 2910, 2000, 2922, 1999, 2954, 1997, 2970, 1988, 2980, 1983, 2986, 1977, 3007, 1978, 3018, 1964, 3029, 1959, 3042, 1958, 3066, 1985, 3078, 2005, 3084, 2006, 3103, 1998, 3111, 1977, 3114, 1980, 3142, 1986, 3198, 1981, 3212, 1970, 3221, 1970, 3236, 1974, 3256, 1983, 3265, 1989, 3271, 1989, 3290, 1986, 3295, 1968, 3323, 1955, 3331, 1949, 3328, 1942, 3337, 1944, 3351, 1941, 3399)
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="Boundaries"]
+visible = false
+polygon = PackedVector2Array(2159, 1748, 2160, 0, 823, 0, 826, 11, 840, 22, 836, 25, 828, 34, 830, 49, 833, 71, 847, 82, 844, 89, 847, 104, 857, 117, 861, 127, 856, 140, 853, 156, 857, 180, 864, 199, 886, 211, 916, 215, 949, 211, 958, 244, 966, 258, 992, 272, 1036, 284, 1050, 284, 1052, 306, 1047, 324, 1049, 350, 1058, 368, 1081, 379, 1127, 383, 1354, 382, 1942, 379, 1946, 444, 1958, 441, 1968, 450, 1982, 470, 1988, 488, 1986, 503, 1975, 508, 1970, 527, 1970, 550, 1981, 561, 1978, 658, 2000, 660, 2008, 675, 2002, 690, 1983, 698, 1957, 701, 1958, 723, 1959, 742, 1975, 750, 1983, 788, 1996, 802, 1996, 852, 1982, 868, 1975, 891, 1977, 912, 1992, 932, 1991, 965, 1990, 1006, 1986, 1019, 1973, 1025, 1973, 1076, 1983, 1077, 1991, 1101, 2002, 1126, 1997, 1144, 1997, 1161, 1998, 1178, 2008, 1185, 2006, 1210, 1986, 1240, 1985, 1315, 2002, 1315, 1985, 1470, 1995, 1492, 2011, 1503, 2011, 1548, 2001, 1569, 1988, 1575, 1989, 1598, 1982, 1623, 1981, 1655, 1981, 1655, 2010, 1666, 2014, 1711, 2022, 1738, 2044, 1741, 2085, 1749, 2127, 1751)
+
+[node name="Doors" type="Node" parent="."]
+
+[node name="LeftDoor" type="Area2D" parent="Doors"]
+collision_layer = 64
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/LeftDoor"]
+position = Vector2(26.25, 3298)
+shape = SubResource("RectangleShape2D_e0bdy")
+
+[node name="WicKEnterPoint" type="Marker2D" parent="Doors/LeftDoor"]
+position = Vector2(95, 3298)
+
+[node name="RightDoor" type="Area2D" parent="Doors"]
+collision_layer = 64
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/RightDoor"]
+position = Vector2(2130.25, 1887.25)
+shape = SubResource("RectangleShape2D_xof80")
+
+[node name="TopDoor" type="Area2D" parent="Doors"]
+collision_layer = 64
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/TopDoor"]
+position = Vector2(641, 56.5)
+shape = SubResource("RectangleShape2D_lf60j")

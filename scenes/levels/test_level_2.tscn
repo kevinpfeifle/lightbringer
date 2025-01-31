@@ -1,13 +1,15 @@
-[gd_scene load_steps=17 format=3 uid="uid://cae50vnej7axf"]
+[gd_scene load_steps=20 format=3 uid="uid://cae50vnej7axf"]
 
+[ext_resource type="Script" path="res://scripts/rooms/room.gd" id="1_bk5yf"]
 [ext_resource type="PackedScene" uid="uid://1h5776gfjkdp" path="res://scenes/enemies/lightbug.tscn" id="3_arrv4"]
+[ext_resource type="PackedScene" uid="uid://cjivumpq18kx0" path="res://scenes/scene_transition.tscn" id="3_v2d4j"]
 [ext_resource type="PackedScene" uid="uid://bqcslwnrixfs1" path="res://scenes/backgrounds/crypt_parallax_bg.tscn" id="4_faweq"]
 [ext_resource type="PackedScene" uid="uid://b47y40esxjr10" path="res://scenes/player/wick.tscn" id="4_fcqet"]
 [ext_resource type="PackedScene" uid="uid://cel4uexo56tsx" path="res://scenes/objects/beacon.tscn" id="4_ky33c"]
 [ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="5_1j388"]
-[ext_resource type="Texture2D" uid="uid://egrc4lsppf3" path="res://assets/rooms/crypt/room1/foreground_primary.png" id="5_wgr3h"]
 [ext_resource type="Texture2D" uid="uid://bo6fpdn24oa7r" path="res://assets/decor/dead_lightbringers.png" id="6_2oe3h"]
 [ext_resource type="PackedScene" uid="uid://gfsb4pp356dp" path="res://scenes/enemies/orbi.tscn" id="6_i1ysr"]
+[ext_resource type="Texture2D" uid="uid://egrc4lsppf3" path="res://assets/rooms/crypt/room3/foreground_primary.png" id="7_7eck6"]
 [ext_resource type="PackedScene" uid="uid://crqgq0wfyveif" path="res://scenes/enemies/sludge.tscn" id="7_20jnt"]
 [ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="7_eyiof"]
 [ext_resource type="PackedScene" uid="uid://cmxihuphbrhum" path="res://scenes/level-design/ambient_light.tscn" id="9_qeobm"]
@@ -27,12 +29,30 @@ size = Vector2(619, 132)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_v7be5"]
 
-[node name="TestLevel2" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlwhm"]
+size = Vector2(49.5, 196)
+
+[node name="TestLevel2" type="Node2D" node_paths=PackedStringArray("player", "camera", "scene_transition", "doors", "spawn_points")]
+script = ExtResource("1_bk5yf")
+player = NodePath("Wick")
+camera = NodePath("Wick/Camera")
+scene_path = "res://scenes/levels/test_level_2.tscn"
+scene_transition = NodePath("CanvasLayer2/SceneTransition")
+adjacent_rooms = Array[String](["res://scenes/levels/crypt_room_4.tscn"])
+doors = [NodePath("Doors/Right")]
+door_sides = Array[int]([1])
+spawn_points = [NodePath("Doors/Right/WicKEnterPoint")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PlayerHud" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("7_eyiof")]
 player = NodePath("../../Wick")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="SceneTransition" parent="CanvasLayer2" instance=ExtResource("3_v2d4j")]
+offset_right = 1920.0
+offset_bottom = 1080.0
 
 [node name="GloomyBridgeParallaxBG" parent="." instance=ExtResource("4_faweq")]
 
@@ -40,12 +60,13 @@ player = NodePath("../../Wick")
 position = Vector2(949, 1236)
 
 [node name="Beacon" parent="GloomyBridgeParallaxBG" instance=ExtResource("4_ky33c")]
-position = Vector2(4047, 1025)
+position = Vector2(3552, 1202)
 
 [node name="Wick" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("4_fcqet")]
 position = Vector2(415, 1690)
 camera = NodePath("Camera")
 starting_direction = 1
+debug_enabled = false
 
 [node name="Camera" parent="Wick" instance=ExtResource("5_1j388")]
 zoom = Vector2(0.8, 0.8)
@@ -63,7 +84,7 @@ polygon = PackedVector2Array(200, 8, 217, 363, 206, 374, 183, 379, 161, 387, 159
 
 [node name="Sprite2D" type="Sprite2D" parent="Walls+Floor"]
 position = Vector2(2166, 964)
-texture = ExtResource("5_wgr3h")
+texture = ExtResource("7_7eck6")
 
 [node name="Enemies" type="Node" parent="."]
 
@@ -147,3 +168,17 @@ position = Vector2(1048, 1688)
 
 [node name="Lantern" parent="." instance=ExtResource("11_ccy5y")]
 position = Vector2(746, 1781)
+
+[node name="Doors" type="Node" parent="."]
+
+[node name="Right" type="Area2D" parent="Doors"]
+position = Vector2(4222, 1049)
+collision_layer = 64
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Right"]
+position = Vector2(-209, 0)
+shape = SubResource("RectangleShape2D_xlwhm")
+
+[node name="WicKEnterPoint" type="Marker2D" parent="Doors/Right"]
+position = Vector2(-300, 15)
