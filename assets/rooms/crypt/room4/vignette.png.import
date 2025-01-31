@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbc5f0rfru22d"
-path="res://.godot/imported/walls.png-00f002bba2a162ef3218d8c0dc723346.ctex"
+uid="uid://dcmc2gy3lj2cy"
+path="res://.godot/imported/vignette.png-d617b5813896eaf947131e1fd6834c9b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rooms/crypt/room3/walls.png"
-dest_files=["res://.godot/imported/walls.png-00f002bba2a162ef3218d8c0dc723346.ctex"]
+source_file="res://assets/rooms/crypt/room4/vignette.png"
+dest_files=["res://.godot/imported/vignette.png-d617b5813896eaf947131e1fd6834c9b.ctex"]
 
 [params]
 

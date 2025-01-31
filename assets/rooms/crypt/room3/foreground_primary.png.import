@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tfdjbj3mhip8"
-path="res://.godot/imported/doorway_shadow.png-b331e0c022336330b2942957cf396f93.ctex"
+uid="uid://egrc4lsppf3"
+path="res://.godot/imported/foreground_primary.png-f1bdc53dde16a6b284e56e0209ef8e72.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rooms/crypt/room2/doorway_shadow.png"
-dest_files=["res://.godot/imported/doorway_shadow.png-b331e0c022336330b2942957cf396f93.ctex"]
+source_file="res://assets/rooms/crypt/room3/foreground_primary.png"
+dest_files=["res://.godot/imported/foreground_primary.png-f1bdc53dde16a6b284e56e0209ef8e72.ctex"]
 
 [params]
 

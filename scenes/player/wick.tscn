@@ -840,6 +840,7 @@ z_index = 5
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_k8idb")
+starting_direction = null
 direction_component = NodePath("DirectionComponent")
 gravity_component = NodePath("GravityComponent")
 health_component = NodePath("HealthComponent")
@@ -858,6 +859,7 @@ coyote_timer = NodePath("CoyoteTimer")
 hurt_lockout_timer = NodePath("HurtLockoutTimer")
 iframe_timer = NodePath("IFrameTimer")
 input_buffer_timer = NodePath("InputBufferTimer")
+debug_enabled = null
 debug_label = NodePath("DebugLabel")
 
 [node name="Sprite" type="Sprite2D" parent="."]

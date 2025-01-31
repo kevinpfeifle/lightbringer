@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cn8abwxds7g83"
-path="res://.godot/imported/ceiling.png-8bbe9b27fc9bae4e62a245759357d897.ctex"
+uid="uid://21rq408nrms4"
+path="res://.godot/imported/vignette.png-9275109673be9f71dc3c5348b09f0f2c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rooms/crypt/room2/ceiling.png"
-dest_files=["res://.godot/imported/ceiling.png-8bbe9b27fc9bae4e62a245759357d897.ctex"]
+source_file="res://assets/rooms/crypt/room5/vignette.png"
+dest_files=["res://.godot/imported/vignette.png-9275109673be9f71dc3c5348b09f0f2c.ctex"]
 
 [params]
 

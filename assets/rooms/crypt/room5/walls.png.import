@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://egrc4lsppf3"
-path="res://.godot/imported/foreground_primary.png-9688c5c89bea156aaa614201aec471d3.ctex"
+uid="uid://bbc5f0rfru22d"
+path="res://.godot/imported/walls.png-904c7aebb5dd0c6774b3019cba99168b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/rooms/crypt/room1/foreground_primary.png"
-dest_files=["res://.godot/imported/foreground_primary.png-9688c5c89bea156aaa614201aec471d3.ctex"]
+source_file="res://assets/rooms/crypt/room5/walls.png"
+dest_files=["res://.godot/imported/walls.png-904c7aebb5dd0c6774b3019cba99168b.ctex"]
 
 [params]
 
