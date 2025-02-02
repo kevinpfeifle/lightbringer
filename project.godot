@@ -13,10 +13,12 @@ config_version=5
 config/name="Lightbringer"
 run/main_scene="res://scenes/lightbringer.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+boot_splash/image="res://assets/lightbringer_logo.png"
 config/icon="res://assets/wick_logo.png"
 
 [autoload]
 
+MusicManager="*res://scenes/music_manager.tscn"
 WorldGlobals="*res://scripts/globals/world_globals.gd"
 GlobalPlayer="*res://scripts/globals/global_player.gd"
 
@@ -94,4 +96,6 @@ player_interact={
 
 [rendering]
 
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

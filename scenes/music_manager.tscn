@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://je7u8gi3cfvd"]
+
+[ext_resource type="AudioStream" uid="uid://kewrtbqy0xj" path="res://assets/sound/lightbringer_music.mp3" id="1_spypo"]
+
+[node name="MusicManager" type="AudioStreamPlayer"]
+stream = ExtResource("1_spypo")
+autoplay = true
+parameters/looping = true

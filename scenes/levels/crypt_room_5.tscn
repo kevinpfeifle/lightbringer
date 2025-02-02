@@ -1,0 +1,119 @@
+[gd_scene load_steps=14 format=3 uid="uid://bodp4p0qpllbn"]
+
+[ext_resource type="Script" path="res://scripts/rooms/room.gd" id="1_42vny"]
+[ext_resource type="Texture2D" uid="uid://coccwcp3nx8gd" path="res://assets/backgrounds/crypt-simple.png" id="2_u3gje"]
+[ext_resource type="Texture2D" uid="uid://21rq408nrms4" path="res://assets/rooms/crypt/room5/vignette.png" id="3_csbjj"]
+[ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="4_mv6s4"]
+[ext_resource type="PackedScene" uid="uid://cjivumpq18kx0" path="res://scenes/scene_transition.tscn" id="5_00av3"]
+[ext_resource type="PackedScene" uid="uid://cmxihuphbrhum" path="res://scenes/level-design/ambient_light.tscn" id="6_orw7g"]
+[ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="7_b6bqo"]
+[ext_resource type="Texture2D" uid="uid://bbc5f0rfru22d" path="res://assets/rooms/crypt/room5/walls.png" id="8_u3nat"]
+[ext_resource type="Texture2D" uid="uid://dg7ljxkie28r0" path="res://assets/rooms/crypt/room5/floor.png" id="9_xujxi"]
+[ext_resource type="PackedScene" uid="uid://1h5776gfjkdp" path="res://scenes/enemies/lightbug.tscn" id="10_rtihj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ib07p"]
+size = Vector2(1081.5, 197.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e0bdy"]
+size = Vector2(49.5, 310)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ugiwa"]
+vertices = PackedVector2Array(226.492, 211.039, 905.68, 213.953, 872.32, 1257, 190.906, 903.078, 154.227, 1257, 137.148, 1044.44)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 2, 4, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(916, 204, 882, 1267, 145, 1267, 127, 1043, 181, 901, 217, 201)])
+
+[node name="CryptRoom4" type="Node2D" node_paths=PackedStringArray("camera", "default_spawn_location", "player_hud", "scene_transition", "doors", "spawn_points")]
+script = ExtResource("1_42vny")
+camera = NodePath("Camera")
+default_spawn_location = NodePath("Doors/LeftDoor/WickSpawn")
+player_hud = NodePath("CanvasLayer/PlayerHud")
+scene_path = "res://scenes/levels/crypt_room_5.tscn"
+scene_transition = NodePath("CanvasLayer2/SceneTransition")
+adjacent_rooms = Array[String](["res://scenes/levels/crypt_room_4.tscn"])
+doors = [NodePath("Doors/LeftDoor")]
+door_sides = Array[int]([0])
+spawn_points = [NodePath("Doors/LeftDoor/WickSpawn")]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(541.5, 733)
+scale = Vector2(0.501389, 0.381771)
+texture = ExtResource("2_u3gje")
+
+[node name="Vingette" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(539, 732)
+texture = ExtResource("3_csbjj")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerHud" parent="CanvasLayer" instance=ExtResource("4_mv6s4")]
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="SceneTransition" parent="CanvasLayer2" instance=ExtResource("5_00av3")]
+visible = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="AmbientLight" parent="." instance=ExtResource("6_orw7g")]
+
+[node name="Camera" parent="." instance=ExtResource("7_b6bqo")]
+position = Vector2(549, 771)
+zoom = Vector2(0.8, 0.8)
+limit_top = 0
+limit_bottom = 1450
+limit_smoothed = true
+position_smoothing_speed = 4.0
+drag_horizontal_enabled = false
+allow_horizontal_movement = false
+
+[node name="Boundaries" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="Walls" type="Sprite2D" parent="Boundaries"]
+position = Vector2(540, 732)
+texture = ExtResource("8_u3nat")
+
+[node name="Floor" type="Sprite2D" parent="Boundaries"]
+position = Vector2(539, 1369)
+texture = ExtResource("9_xujxi")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Boundaries"]
+polygon = PackedVector2Array(928, 1273, 896, 1203, 901, 1128, 935, 1047, 931, 903, 928, 824, 947, 730, 937, 616, 935, 528, 933, 471, 948, 380, 937, 301, 937, 207, 930, 175, 690, 152, 594, 175, 556, 195, 501, 186, 465, 150, 376, 177, 276, 152, 188, 139, 182, 241, 167, 358, 150, 452, 162, 560, 164, 688, 152, 784, 177, 845, 154, 914, 141, 963, -2, 1009, -2, 6, 1084, 6, 1081, 1281)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(539.75, 1376)
+shape = SubResource("RectangleShape2D_ib07p")
+
+[node name="Doors" type="Node" parent="."]
+
+[node name="LeftDoor" type="Area2D" parent="Doors"]
+position = Vector2(-5, -2184)
+collision_layer = 64
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/LeftDoor"]
+position = Vector2(32, 3306)
+shape = SubResource("RectangleShape2D_e0bdy")
+
+[node name="WickSpawn" type="Marker2D" parent="Doors/LeftDoor"]
+position = Vector2(104, 3389)
+
+[node name="Lightbug" parent="." instance=ExtResource("10_rtihj")]
+position = Vector2(714, 1016)
+enemy_id = 1
+
+[node name="Lightbug2" parent="." instance=ExtResource("10_rtihj")]
+position = Vector2(325, 1046)
+enemy_id = 2
+
+[node name="Lightbug3" parent="." instance=ExtResource("10_rtihj")]
+position = Vector2(657, 563)
+enemy_id = 3
+
+[node name="Lightbug4" parent="." instance=ExtResource("10_rtihj")]
+position = Vector2(427, 733)
+enemy_id = 4
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_ugiwa")

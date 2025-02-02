@@ -412,6 +412,7 @@ target_desired_distance = 1.0
 avoidance_enabled = true
 
 [node name="WanderArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="WanderShape" type="CollisionShape2D" parent="WanderArea"]
@@ -420,6 +421,7 @@ shape = SubResource("CircleShape2D_3hv06")
 debug_color = Color(0, 0.645892, 0.249924, 0.42)
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 4
 
@@ -428,6 +430,7 @@ shape = SubResource("CircleShape2D_2fyy3")
 debug_color = Color(0.552135, 0.563155, 0, 0.42)
 
 [node name="FollowArea" type="Area2D" parent="."]
+visible = false
 position = Vector2(2, 0)
 collision_layer = 0
 collision_mask = 20
