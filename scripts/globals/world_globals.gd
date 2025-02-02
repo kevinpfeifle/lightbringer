@@ -1,6 +1,7 @@
 extends Node
 
 ## Player location information
+var starting_room: String = "res://scenes/levels/crypt_room_1.tscn"
 var current_room: String
 var last_room: String
 
@@ -20,3 +21,6 @@ func is_enemy_defeated(scene_path: String, enemy_id: int):
 			return false
 	else:
 		return false
+
+func clear_state():
+	defeated_enemies = { }

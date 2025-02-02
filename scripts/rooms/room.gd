@@ -24,6 +24,7 @@ func _ready() -> void:
 		push_error("Player not found in PlayerGlobal, was it initialized?")
 		return
 
+	GlobalPlayer.player.respawn_timer.timeout.connect(_on_respawn)
 	if GlobalPlayer.player.get_parent():
 		GlobalPlayer.player.get_parent().remove_child(GlobalPlayer.player)
 
@@ -33,6 +34,7 @@ func _ready() -> void:
 	# 	existing_player.queue_free()
 	add_child(GlobalPlayer.player)
 	GlobalPlayer.player.global_position = default_spawn_location.global_position
+	GlobalPlayer.player.velocity = Vector2.ZERO
 		
 	scene_transition.transition_finished.connect(_on_transition_finished)
 	for door in doors:
@@ -74,6 +76,9 @@ func enter_room() -> void:
 	for beacon in get_tree().get_nodes_in_group("beacons"):
 		if WorldGlobals.lit_beacons.find(WorldGlobals.current_room) != -1:
 			beacon.light()
+			# Kill all the enemies in the room in this case since we made the room "safe"
+			for enemy in get_tree().get_nodes_in_group("enemies"):
+				enemy.queue_free()
 
 	# Update the camera and UI, and fade in.
 	camera.reset_smoothing()
@@ -106,7 +111,13 @@ func _on_transition_finished(transition: String) -> void:
 		if GlobalPlayer.player and GlobalPlayer.player.get_parent():
 			GlobalPlayer.player.reparent(get_tree().root)  # Move it to root
 
-		var packed_scene = PackedScene.new()
-		packed_scene.pack(get_tree().current_scene)
+		# var packed_scene = PackedScene.new()
+		# packed_scene.pack(get_tree().current_scene)
 		WorldGlobals.last_room = scene_path
 		get_tree().change_scene_to_file(next_room)
+
+func _on_respawn():
+	# Load the first room
+	WorldGlobals.clear_state()
+	GlobalPlayer.player = GlobalPlayer.player_scene.instantiate()
+	get_tree().change_scene_to_file(WorldGlobals.starting_room)

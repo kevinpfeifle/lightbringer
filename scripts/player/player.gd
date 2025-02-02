@@ -30,6 +30,8 @@ extends CharacterBody2D
 @export var hurt_lockout_timer: Timer # Duration the player cannot act after getting hurt.
 @export var iframe_timer: Timer # Duration the player gets invulnerability frames after being hurt.
 @export var input_buffer_timer: Timer # Duration to buffer inputs like attacking and jumping if they are doing rapdily.
+@export var respawn_timer: Timer
+@export var beacon_timer: Timer
 
 @export_group("Debug")
 @export var debug_enabled: bool = false
@@ -58,6 +60,7 @@ var alive: bool = true
 var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See BufferedInputTimer.
 var collide_one_way: bool = true
 var compounding_gravity: bool = true
+var in_beacon: bool = false
 var in_light_source: bool = false
 var is_hurt: bool = false
 var light_accumulated: int = 0
@@ -72,6 +75,7 @@ func _ready() -> void:
 	direction_component.direction_changed.connect(_on_direction_changed)
 	direction_component.current_direction = starting_direction
 	health_component.healed.connect(_on_healed)
+	beacon_timer.timeout.connect(_beacon_heal)
 
 func _process(_delta) -> void:
 	if debug_enabled:
@@ -105,15 +109,14 @@ func _physics_process(delta: float) -> void:
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		
-		if collider is Enemy:
-			var enemy: Enemy = collider as Enemy
-			var collision_direction = (global_position - enemy.global_position).normalized()
+		if collider is Enemy: # || collider is Boss:
+			var collision_direction = (global_position - collider.global_position).normalized()
 			var damage_direction: int
 			if collision_direction.x >= 0:
 				damage_direction = 1
 			else:
 				damage_direction = -1
-			health_component.damage(1, enemy, 10, Vector2i(damage_direction, -1)) # Player is knocked back horizontally with slightly vertical added.
+			health_component.damage(1, collider, 10, Vector2i(damage_direction, -1)) # Player is knocked back horizontally with slightly vertical added.
 
 func _on_direction_changed() -> void:
 	if direction_component.current_direction == direction_component.Direction.RIGHT:
@@ -211,3 +214,8 @@ func _on_healed(_amount: int) -> void:
 func reconnect_deplete_signal() -> void:
 	light_component.depleted.disconnect(_on_light_depleted)
 	light_component.depleted.connect(_on_light_depleted)
+
+func _beacon_heal() -> void:
+	if in_beacon:
+		light_component.restore(1)
+		beacon_timer.start()

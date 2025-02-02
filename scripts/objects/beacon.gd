@@ -42,8 +42,11 @@ func _on_body_entered_light_aura(body: Node2D) -> void:
 	if body is Player:
 		var player: Player = body
 		player.in_light_source = true
+		player.in_beacon = true
+		player.beacon_timer.start()
 
 func _on_body_exited_light_aura(body: Node2D) -> void:
 	if body is Player:
 		var player: Player = body
 		player.in_light_source = false
+		player.in_beacon = false
