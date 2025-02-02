@@ -1,0 +1,155 @@
+[gd_scene load_steps=18 format=3 uid="uid://dh5l1jeadyll"]
+
+[ext_resource type="Script" path="res://scripts/rooms/room.gd" id="1_3tdj8"]
+[ext_resource type="Texture2D" uid="uid://coccwcp3nx8gd" path="res://assets/backgrounds/crypt-simple.png" id="1_8v07r"]
+[ext_resource type="PackedScene" uid="uid://cbwhookl07xna" path="res://scenes/gui/player_hud.tscn" id="5_jpffj"]
+[ext_resource type="Texture2D" uid="uid://coyfeed4anhcl" path="res://assets/rooms/crypt/room2/floor.png" id="6_kbv8p"]
+[ext_resource type="PackedScene" uid="uid://cjivumpq18kx0" path="res://scenes/scene_transition.tscn" id="6_ndl86"]
+[ext_resource type="PackedScene" uid="uid://cmxihuphbrhum" path="res://scenes/level-design/ambient_light.tscn" id="7_wpwlc"]
+[ext_resource type="PackedScene" uid="uid://ba4etpqmlilx3" path="res://scenes/player/camera.tscn" id="8_2ix3i"]
+[ext_resource type="Texture2D" uid="uid://bd27y4qpigsfa" path="res://assets/rooms/crypt/room2/walls.png" id="9_sfc6p"]
+[ext_resource type="Texture2D" uid="uid://cwx1mf4t26dk3" path="res://assets/decor/deadbringer.png" id="10_t5mo3"]
+[ext_resource type="PackedScene" uid="uid://crqgq0wfyveif" path="res://scenes/enemies/sludge.tscn" id="11_vfhuj"]
+[ext_resource type="PackedScene" uid="uid://cktxbdeoa0v67" path="res://scenes/objects/platforms/dirt_platform.tscn" id="11_x8i45"]
+[ext_resource type="PackedScene" uid="uid://cea0vk8oevaxv" path="res://scenes/objects/platforms/dirt_platform_wall.tscn" id="12_ddt8l"]
+[ext_resource type="PackedScene" uid="uid://1h5776gfjkdp" path="res://scenes/enemies/lightbug.tscn" id="12_to5of"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mcvkv"]
+size = Vector2(1084.5, 204)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_kv3ux"]
+vertices = PackedVector2Array(831.297, 399.242, 894.844, 386.523, 904.023, 594.844, 442.969, 788.531, 916.969, 786.617, 882.633, 108.82, 886.398, 194.531, 553.398, 191.867, 184.773, 100.156, 144, 357.094, 556.352, 267.211, 525.023, 450.094, 144.641, 447.039, 518.398, 1387.88, 920.789, 996.844, 930.539, 997.148, 911.18, 1248.94, 862.297, 1390.61, 526.82, 938.68, 545.219, 947.883, 585.844, 1000.58, 529.023, 1087.09, 149.156, 1084.04, 149, 1056.9, 432.438, 930.297, 562.727, 270.594, 563.438, 277.039, 712.008, 330.453, 767.133, 338.172, 698.18, 333.922, 662.297, 323.492, 683.641, 326.469, 330.969, 787.93, 517.781, 520.781, 576.688, 278.008, 536.172, 485.406, 888.578, 1576.78, 916.633, 1547.39, 939.773, 1563.4, 952.406, 1688.95, 330.727, 788.992, 311.461, 789.07, 145.641, 587.047, 156.008, 584.453, 211.133, 592.172, 275.297, 653.242, 152.898, 1687.03, 150.031, 1223.95, 160.008, 1221.45, 215.133, 1229.17, 279.297, 1290.24, 796.297, 1595.24, 677.008, 1526.45, 732.133, 1534.17, 663.18, 1529.92, 648.641, 1522.47, 627.297, 1519.49, 541.688, 1474.01, 528.438, 1473.04, 371.578, 1271.78, 521.352, 1463.21, 845.141, 976.492, 878.867, 974.063, 895.539, 977.898, 827.469, 992.352, 367.578, 634.781, 823.68, 994.641, 824.719, 992.656, 813.813, 993.938, 765.609, 999.617, 753.063, 989.773, 752.25, 989.719, 635.219, 990.422, 724.109, 972.133, 630.219, 991.547, 630.008, 991.477, 540.172, 1122.41, 527.727, 1466.59, 413.852, 1227.49, 429.453, 1218.59, 358.898, 878.531, 381.492, 881.031, 401.656, 891.422, 405.25, 900.57, 431.32, 1208.7, 451.773, 1186.6, 521.781, 1157.78, 425.453, 581.594, 427.32, 571.703, 447.773, 549.602, 425.719, 920.063, 317.148, 852.078, 321.039, 833.828, 409.852, 590.492)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 4, 3), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 8, 7, 10, 11, 12), PackedInt32Array(13, 14, 15, 16, 17), PackedInt32Array(18, 19, 20, 21, 22, 23, 24), PackedInt32Array(11, 10, 25, 26), PackedInt32Array(27, 28, 0, 3, 29), PackedInt32Array(30, 31, 29, 3, 32, 33), PackedInt32Array(11, 26, 34, 30, 35), PackedInt32Array(36, 37, 38, 39), PackedInt32Array(32, 40, 41), PackedInt32Array(23, 42, 43, 44, 45), PackedInt32Array(46, 47, 48, 49, 50), PackedInt32Array(51, 36, 39), PackedInt32Array(51, 39, 46), PackedInt32Array(52, 53, 51, 46, 54), PackedInt32Array(55, 54, 46, 56), PackedInt32Array(57, 56, 46, 58), PackedInt32Array(58, 46, 50, 59, 60), PackedInt32Array(61, 62, 63, 14, 13, 64), PackedInt32Array(23, 45, 65, 41), PackedInt32Array(66, 67, 64), PackedInt32Array(66, 64, 13), PackedInt32Array(68, 66, 13, 69), PackedInt32Array(70, 69, 13, 71), PackedInt32Array(72, 73, 71, 13, 74), PackedInt32Array(20, 75, 74, 13, 76), PackedInt32Array(60, 77, 58), PackedInt32Array(13, 60, 59, 78, 79), PackedInt32Array(80, 81, 82, 83, 23), PackedInt32Array(13, 79, 84, 85, 86), PackedInt32Array(87, 88, 89, 33), PackedInt32Array(13, 86, 76), PackedInt32Array(20, 76, 21), PackedInt32Array(90, 24, 23, 83), PackedInt32Array(91, 80, 23), PackedInt32Array(92, 91, 23, 41), PackedInt32Array(32, 41, 65, 93, 87), PackedInt32Array(32, 87, 33), PackedInt32Array(35, 30, 33)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(969, 1704, 138, 1702, 134, 1057, 129, 356, 172, 85, 897, 94, 919, 594, 945, 979, 947, 979, 926, 1252, 847, 1481, 954, 1555)])
+agent_radius = 15.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3hxuq"]
+size = Vector2(786, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g10fo"]
+size = Vector2(62, 213)
+
+[node name="CryptRoom2" type="Node2D" node_paths=PackedStringArray("camera", "default_spawn_location", "player_hud", "scene_transition", "doors", "spawn_points")]
+script = ExtResource("1_3tdj8")
+camera = NodePath("Camera")
+default_spawn_location = NodePath("Doors/TopDoor/WickSpawnTop")
+player_hud = NodePath("CanvasLayer/PlayerHud")
+scene_path = "res://scenes/levels/crypt_room_2.tscn"
+scene_transition = NodePath("CanvasLayer2/SceneTransition")
+adjacent_rooms = Array[String](["res://scenes/levels/crypt_room_1.tscn", "res://scenes/levels/crypt_room_3.tscn"])
+doors = [NodePath("Doors/TopDoor"), NodePath("Doors/RightDoor")]
+door_sides = Array[int]([2, 1])
+spawn_points = [NodePath("Doors/TopDoor/WickSpawnTop"), NodePath("Doors/RightDoor/WickSpawnBottom")]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(537.5, 962)
+scale = Vector2(0.500463, 0.500521)
+texture = ExtResource("1_8v07r")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerHud" parent="CanvasLayer" instance=ExtResource("5_jpffj")]
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="SceneTransition" parent="CanvasLayer2" instance=ExtResource("6_ndl86")]
+visible = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="AmbientLight" parent="." instance=ExtResource("7_wpwlc")]
+
+[node name="Camera" parent="." instance=ExtResource("8_2ix3i")]
+position = Vector2(578, 527)
+zoom = Vector2(0.8, 0.8)
+limit_top = 10
+limit_bottom = 3825
+limit_smoothed = true
+drag_horizontal_enabled = false
+allow_horizontal_movement = false
+
+[node name="Boundaries" type="StaticBody2D" parent="."]
+
+[node name="Floor" type="Sprite2D" parent="Boundaries"]
+position = Vector2(542, 1810)
+texture = ExtResource("6_kbv8p")
+
+[node name="Walls" type="Sprite2D" parent="Boundaries"]
+z_index = 1
+position = Vector2(540, 961)
+texture = ExtResource("9_sfc6p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(541.25, 1825)
+shape = SubResource("RectangleShape2D_mcvkv")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Boundaries"]
+polygon = PackedVector2Array(109, 1724, 86, 1655, 70, 1627, 89, 1521, 83, 1467, 67, 1398, 60, 1332, 61, 1286, 75, 1246, 100, 1194, 96, 1157, 94, 1103, 101, 1015, 103, 965, 104, 853, 111, 798, 109, 710, 109, 590, 107, 519, 115, 483, 93, 448, 90, 391, 86, 309, 98, 247, 113, 186, 130, 97, 152, 26, -1, 26, 1, 1723)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Boundaries"]
+polygon = PackedVector2Array(1078, 1, 1077, 1523, 1017, 1508, 978, 1521, 935, 1518, 908, 1495, 880, 1461, 882, 1424, 882, 1411, 947, 1299, 938, 1249, 947, 1188, 950, 1148, 963, 1110, 964, 1060, 981, 1001, 977, 966, 972, 927, 981, 883, 987, 831, 965, 797, 959, 699, 945, 582, 963, 544, 959, 464, 966, 403, 963, 342, 960, 302, 948, 270, 947, 228, 932, 143, 914, 63, 915, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(885, 747)
+texture = ExtResource("10_t5mo3")
+
+[node name="Enemies" type="Node" parent="."]
+
+[node name="Lightbug" parent="Enemies" instance=ExtResource("12_to5of")]
+position = Vector2(893, 680)
+enemy_id = 1
+
+[node name="Lightbug2" parent="Enemies" instance=ExtResource("12_to5of")]
+position = Vector2(281, 1476)
+enemy_id = 2
+
+[node name="Sludge" parent="Enemies" instance=ExtResource("11_vfhuj")]
+position = Vector2(408, 774)
+enemy_id = 3
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_kv3ux")
+
+[node name="DirtPlatform" parent="NavigationRegion2D" instance=ExtResource("11_x8i45")]
+position = Vector2(267, 549)
+
+[node name="DirtPlatform3" parent="NavigationRegion2D" instance=ExtResource("11_x8i45")]
+position = Vector2(271, 1186)
+
+[node name="DirtPlatform4" parent="NavigationRegion2D" instance=ExtResource("11_x8i45")]
+position = Vector2(788, 1491)
+
+[node name="DirtPlatform5" parent="NavigationRegion2D" instance=ExtResource("11_x8i45")]
+position = Vector2(788, 1491)
+
+[node name="DirtPlatform2" parent="NavigationRegion2D" instance=ExtResource("11_x8i45")]
+position = Vector2(823, 295)
+
+[node name="DirtPlatformWall" parent="NavigationRegion2D" instance=ExtResource("12_ddt8l")]
+position = Vector2(704, 897)
+
+[node name="Doors" type="Node" parent="."]
+
+[node name="TopDoor" type="Area2D" parent="Doors"]
+position = Vector2(444, 40)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/TopDoor"]
+position = Vector2(85, -29)
+shape = SubResource("RectangleShape2D_3hxuq")
+
+[node name="WickSpawnTop" type="Marker2D" parent="Doors/TopDoor"]
+position = Vector2(-129, 175)
+
+[node name="RightDoor" type="Area2D" parent="Doors"]
+position = Vector2(1002, 1595)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/RightDoor"]
+position = Vector2(46, 19.5)
+shape = SubResource("RectangleShape2D_g10fo")
+
+[node name="WickSpawnBottom" type="Marker2D" parent="Doors/RightDoor"]
+position = Vector2(-104, 56)

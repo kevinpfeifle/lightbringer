@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://ds0b66wwuefd3"]
+
+[ext_resource type="Texture2D" uid="uid://c50jw1x2hd10u" path="res://assets/rooms/crypt/room1/platform_1.png" id="1_adaxv"]
+
+[node name="StonePlatform" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_adaxv")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(515, -128, -513, -128, -510, 7, -509, 26, -503, 50, -446, 66, -395, 88, -343, 107, -271, 114, -214, 114, -123, 133, 60, 135, 152, 133, 212, 120, 263, 110, 330, 114, 369, 104, 417, 82, 481, 63, 512, 46, 519, -1)
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+vertices = PackedVector2Array(516, -128, -513, -128, -505, 50, -408, 81, -305, 114, -180, 124, -36, 135, 135, 137, 238, 121, 378, 104, 463, 71, 511, 39)
+affect_navigation_mesh = true

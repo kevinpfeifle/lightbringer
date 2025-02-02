@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg8yx84xtm5g2"]
+
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_ugu2t"]
+[ext_resource type="PackedScene" uid="uid://c5etvah3yesu3" path="res://scenes/levels/crypt_room_4.tscn" id="2_ahhlr"]
+
+[node name="GameManager" type="Node2D"]
+script = ExtResource("1_ugu2t")
+starting_room = ExtResource("2_ahhlr")

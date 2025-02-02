@@ -1,8 +1,6 @@
 class_name Player
 extends CharacterBody2D
 
-
-@export var camera: Camera
 @export var starting_direction: DirectionComponent.Direction = DirectionComponent.Direction.LEFT
 
 @export_group("Components")
@@ -32,6 +30,8 @@ extends CharacterBody2D
 @export var hurt_lockout_timer: Timer # Duration the player cannot act after getting hurt.
 @export var iframe_timer: Timer # Duration the player gets invulnerability frames after being hurt.
 @export var input_buffer_timer: Timer # Duration to buffer inputs like attacking and jumping if they are doing rapdily.
+@export var respawn_timer: Timer
+@export var beacon_timer: Timer
 
 @export_group("Debug")
 @export var debug_enabled: bool = false
@@ -45,7 +45,7 @@ const CLOAK_CLOSED_LIGHT_DISTANCE: Vector2 = Vector2(20, 20)
 const CLOAK_OPEN_LIGHT_ENERGY: float = 1.25
 const CLOAK_OPEN_LIGHT_DISTANCE: Vector2 = Vector2(35, 35)
 const ATTACK_LIGHT_ENERGY: float = 1.5
-const ATTACK_LIGHT_DISTANCE: Vector2 = Vector2(50, 50)
+const ATTACK_LIGHT_DISTANCE: Vector2 = Vector2(125, 125)
 const DEATH_LIGHT_ENERGY: float = 0.75
 const DEATH_LIGHT_DISTANCE: Vector2 = Vector2(15, 15)
 # Physics Constants.
@@ -60,6 +60,7 @@ var alive: bool = true
 var buffered_input: StringName = "" # Inputs can be buffered for 200ms. See BufferedInputTimer.
 var collide_one_way: bool = true
 var compounding_gravity: bool = true
+var in_beacon: bool = false
 var in_light_source: bool = false
 var is_hurt: bool = false
 var light_accumulated: int = 0
@@ -74,6 +75,7 @@ func _ready() -> void:
 	direction_component.direction_changed.connect(_on_direction_changed)
 	direction_component.current_direction = starting_direction
 	health_component.healed.connect(_on_healed)
+	beacon_timer.timeout.connect(_beacon_heal)
 
 func _process(_delta) -> void:
 	if debug_enabled:
@@ -107,15 +109,14 @@ func _physics_process(delta: float) -> void:
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		
-		if collider is Enemy:
-			var enemy: Enemy = collider as Enemy
-			var collision_direction = (global_position - enemy.global_position).normalized()
+		if collider is Enemy: # || collider is Boss:
+			var collision_direction = (global_position - collider.global_position).normalized()
 			var damage_direction: int
 			if collision_direction.x >= 0:
 				damage_direction = 1
 			else:
 				damage_direction = -1
-			health_component.damage(1, enemy, 10, Vector2i(damage_direction, -1)) # Player is knocked back horizontally with slightly vertical added.
+			health_component.damage(1, collider, 10, Vector2i(damage_direction, -1)) # Player is knocked back horizontally with slightly vertical added.
 
 func _on_direction_changed() -> void:
 	if direction_component.current_direction == direction_component.Direction.RIGHT:
@@ -149,24 +150,23 @@ func _set_one_way_collision_detection(collide: bool) -> void:
 	set_collision_mask_value(ONE_WAY_PLATFORM_COLLISION_LAYER, collide)
 
 func decrease_light() -> void:
-	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.6, 1)
 	player_light.energy = lerp(player_light.energy, CLOAK_CLOSED_LIGHT_ENERGY * light_factor, 0.1)
 	player_light.scale = lerp(player_light.scale, CLOAK_CLOSED_LIGHT_DISTANCE * light_factor, 0.1)
 
 func increase_light() -> void:
-	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.6, 1)
 	player_light.energy = lerp(player_light.energy, CLOAK_OPEN_LIGHT_ENERGY * light_factor, 0.1)
 	player_light.scale = lerp(player_light.scale, CLOAK_OPEN_LIGHT_DISTANCE * light_factor, 0.1)
 
 func death_light() -> void:
-	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
+	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.6, 1)
 	player_light.energy = lerp(player_light.energy, DEATH_LIGHT_ENERGY * light_factor, 0.1)
 	player_light.scale = lerp(player_light.scale, DEATH_LIGHT_DISTANCE * light_factor, 0.1)
 
 func attack_light() -> void:
-	var light_factor: float = clamp(health_component.current_health / health_component.max_health, 0.5, 1)
-	player_light.energy = lerp(player_light.energy, ATTACK_LIGHT_ENERGY * light_factor, 0.1)
-	player_light.scale = lerp(player_light.scale, ATTACK_LIGHT_DISTANCE * light_factor, 0.1)
+	player_light.energy = lerp(player_light.energy, ATTACK_LIGHT_ENERGY, 0.1)
+	player_light.scale = lerp(player_light.scale, ATTACK_LIGHT_DISTANCE, 0.1)
 
 ## These methods are for tracking the player's light for attacks and abilities.
 func _on_light_depleted():
@@ -210,3 +210,12 @@ func _on_interact_box_body_entered(body: Node2D) -> void:
 func _on_healed(_amount: int) -> void:
 	if health_component.current_health > 1:
 		light_component.unblock_resource()
+
+func reconnect_deplete_signal() -> void:
+	light_component.depleted.disconnect(_on_light_depleted)
+	light_component.depleted.connect(_on_light_depleted)
+
+func _beacon_heal() -> void:
+	if in_beacon:
+		light_component.restore(1)
+		beacon_timer.start()

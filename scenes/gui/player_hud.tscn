@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://cbwhookl07xna"]
+[gd_scene load_steps=72 format=3 uid="uid://cbwhookl07xna"]
 
 [ext_resource type="Script" path="res://scripts/gui/player_hud.gd" id="1_b85q0"]
 [ext_resource type="Texture2D" uid="uid://b8vdtq7btawa1" path="res://assets/sprites/ui/health_bar.png" id="1_gx0j5"]
@@ -229,6 +229,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(96, 176)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xv70w"]
 _data = {
@@ -390,6 +402,58 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(96, 176)]
+}
+
+[sub_resource type="Animation" id="Animation_2croc"]
+resource_name = "overflow"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(96, 176), Vector2(144, 160)]
 }
 
 [sub_resource type="Animation" id="Animation_o4fmn"]
@@ -601,9 +665,9 @@ tracks/3/keys = {
 "values": [Vector2(96, 176)]
 }
 
-[sub_resource type="Animation" id="Animation_2croc"]
-resource_name = "overflow"
-length = 0.7
+[sub_resource type="Animation" id="Animation_gtjmv"]
+resource_name = "depleted"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -611,46 +675,10 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [10, 11, 12, 13, 14, 15]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(96, 176), Vector2(144, 160)]
+"update": 1,
+"values": [6]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1fo0k"]
@@ -658,6 +686,7 @@ _data = {
 "RESET": SubResource("Animation_81i2b"),
 "available": SubResource("Animation_vqdxp"),
 "consumed": SubResource("Animation_qwiyy"),
+"depleted": SubResource("Animation_gtjmv"),
 "overflow": SubResource("Animation_2croc"),
 "restored": SubResource("Animation_o4fmn"),
 "shadow_available": SubResource("Animation_qq2x7"),
@@ -840,6 +869,58 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(112, 200)]
+}
+
+[sub_resource type="Animation" id="Animation_oj8lo"]
+resource_name = "overflow"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(112, 200), Vector2(144, 160)]
 }
 
 [sub_resource type="Animation" id="Animation_in7tv"]
@@ -1051,9 +1132,9 @@ tracks/3/keys = {
 "values": [Vector2(112, 200)]
 }
 
-[sub_resource type="Animation" id="Animation_oj8lo"]
-resource_name = "overflow"
-length = 0.7
+[sub_resource type="Animation" id="Animation_10ds3"]
+resource_name = "depleted"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1061,46 +1142,10 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [10, 11, 12, 13, 14, 15]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(112, 200), Vector2(144, 160)]
+"update": 1,
+"values": [6]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4rloy"]
@@ -1108,6 +1153,7 @@ _data = {
 "RESET": SubResource("Animation_55vea"),
 "available": SubResource("Animation_3orrv"),
 "consumed": SubResource("Animation_6nyex"),
+"depleted": SubResource("Animation_10ds3"),
 "overflow": SubResource("Animation_oj8lo"),
 "restored": SubResource("Animation_in7tv"),
 "shadow_available": SubResource("Animation_7cy12"),
@@ -1290,6 +1336,58 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(144, 208)]
+}
+
+[sub_resource type="Animation" id="Animation_nut4t"]
+resource_name = "overflow"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(144, 208), Vector2(144, 160)]
 }
 
 [sub_resource type="Animation" id="Animation_6eaji"]
@@ -1501,9 +1599,9 @@ tracks/3/keys = {
 "values": [Vector2(144, 208)]
 }
 
-[sub_resource type="Animation" id="Animation_nut4t"]
-resource_name = "overflow"
-length = 0.7
+[sub_resource type="Animation" id="Animation_sfqju"]
+resource_name = "depleted"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1511,46 +1609,10 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [10, 11, 12, 13, 14, 15]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(144, 208), Vector2(144, 160)]
+"update": 1,
+"values": [6]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3w1a7"]
@@ -1558,6 +1620,7 @@ _data = {
 "RESET": SubResource("Animation_7fwav"),
 "available": SubResource("Animation_madeu"),
 "consumed": SubResource("Animation_duo4s"),
+"depleted": SubResource("Animation_sfqju"),
 "overflow": SubResource("Animation_nut4t"),
 "restored": SubResource("Animation_6eaji"),
 "shadow_available": SubResource("Animation_046s0"),
@@ -1740,6 +1803,58 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(176, 200)]
+}
+
+[sub_resource type="Animation" id="Animation_2ane3"]
+resource_name = "overflow"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(176, 200), Vector2(144, 160)]
 }
 
 [sub_resource type="Animation" id="Animation_slwi4"]
@@ -1951,9 +2066,9 @@ tracks/3/keys = {
 "values": [Vector2(176, 200)]
 }
 
-[sub_resource type="Animation" id="Animation_2ane3"]
-resource_name = "overflow"
-length = 0.7
+[sub_resource type="Animation" id="Animation_d8t7c"]
+resource_name = "depleted"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1961,46 +2076,10 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [10, 11, 12, 13, 14, 15]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(176, 200), Vector2(144, 160)]
+"update": 1,
+"values": [6]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xh0me"]
@@ -2008,6 +2087,7 @@ _data = {
 "RESET": SubResource("Animation_wbo82"),
 "available": SubResource("Animation_2rh75"),
 "consumed": SubResource("Animation_vayl4"),
+"depleted": SubResource("Animation_d8t7c"),
 "overflow": SubResource("Animation_2ane3"),
 "restored": SubResource("Animation_slwi4"),
 "shadow_available": SubResource("Animation_d4iag"),
@@ -2190,6 +2270,58 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(192, 176)]
+}
+
+[sub_resource type="Animation" id="Animation_t3et6"]
+resource_name = "overflow"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(192, 176), Vector2(144, 160)]
 }
 
 [sub_resource type="Animation" id="Animation_p73wt"]
@@ -2401,9 +2533,9 @@ tracks/3/keys = {
 "values": [Vector2(192, 176)]
 }
 
-[sub_resource type="Animation" id="Animation_t3et6"]
-resource_name = "overflow"
-length = 0.7
+[sub_resource type="Animation" id="Animation_4cnhb"]
+resource_name = "depleted"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -2411,46 +2543,10 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [10, 11, 12, 13, 14, 15]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(192, 176), Vector2(144, 160)]
+"update": 1,
+"values": [6]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kat8n"]
@@ -2458,6 +2554,7 @@ _data = {
 "RESET": SubResource("Animation_bxcvv"),
 "available": SubResource("Animation_cj0nj"),
 "consumed": SubResource("Animation_qu6t3"),
+"depleted": SubResource("Animation_4cnhb"),
 "overflow": SubResource("Animation_t3et6"),
 "restored": SubResource("Animation_p73wt"),
 "shadow_available": SubResource("Animation_rrapx"),
@@ -2495,13 +2592,12 @@ libraries = {
 }
 
 [node name="Light1" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(96, 176)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_7xc5v")
 hframes = 8
 vframes = 2
-frame = 15
+frame = 6
 
 [node name="Light1AnimationPlayer" type="AnimationPlayer" parent="Light1"]
 libraries = {
@@ -2510,13 +2606,12 @@ libraries = {
 }
 
 [node name="Light2" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(112, 200)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_7xc5v")
 hframes = 8
 vframes = 2
-frame = 15
+frame = 6
 
 [node name="Light2AnimationPlayer" type="AnimationPlayer" parent="Light2"]
 libraries = {
@@ -2531,7 +2626,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_7xc5v")
 hframes = 8
 vframes = 2
-frame = 15
+frame = 6
 
 [node name="Light3AnimationPlayer" type="AnimationPlayer" parent="Light3"]
 libraries = {

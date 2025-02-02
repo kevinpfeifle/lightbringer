@@ -833,13 +833,14 @@ states/idle/position = Vector2(418, 83)
 states/produce_light/node = SubResource("AnimationNodeAnimation_ytg7f")
 states/produce_light/position = Vector2(293, 733)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1n0y3"), "idle", "Movement", SubResource("AnimationNodeStateMachineTransition_bjljv"), "Movement", "idle", SubResource("AnimationNodeStateMachineTransition_viimq"), "Movement", "Falling", SubResource("AnimationNodeStateMachineTransition_k5fup"), "Falling", "idle", SubResource("AnimationNodeStateMachineTransition_scdkw"), "idle", "Jumping", SubResource("AnimationNodeStateMachineTransition_3fwdg"), "Movement", "Jumping", SubResource("AnimationNodeStateMachineTransition_lr35j"), "Jumping", "Falling", SubResource("AnimationNodeStateMachineTransition_fy0cf"), "idle", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_wtdet"), "Movement", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_vx5na"), "Jumping", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_7fw6a"), "Falling", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_p5bty"), "Damage & Death", "idle", SubResource("AnimationNodeStateMachineTransition_14qs8"), "idle", "Attacking", SubResource("AnimationNodeStateMachineTransition_wedbn"), "Attacking", "idle", SubResource("AnimationNodeStateMachineTransition_pmysf"), "Movement", "Attacking", SubResource("AnimationNodeStateMachineTransition_fcyrd"), "Attacking", "Movement", SubResource("AnimationNodeStateMachineTransition_he3dd"), "Falling", "Attacking", SubResource("AnimationNodeStateMachineTransition_arfir"), "Attacking", "Falling", SubResource("AnimationNodeStateMachineTransition_w5eah"), "Attacking", "Jumping", SubResource("AnimationNodeStateMachineTransition_cvq2p"), "Jumping", "Attacking", SubResource("AnimationNodeStateMachineTransition_tf7rs"), "Attacking", "Damage & Death", SubResource("AnimationNodeStateMachineTransition_48ypq"), "idle", "produce_light", SubResource("AnimationNodeStateMachineTransition_40egh"), "Movement", "produce_light", SubResource("AnimationNodeStateMachineTransition_tqq2i"), "Attacking", "produce_light", SubResource("AnimationNodeStateMachineTransition_khpgk"), "produce_light", "idle", SubResource("AnimationNodeStateMachineTransition_eqb7u")]
-graph_offset = Vector2(-114.629, 212.6)
+graph_offset = Vector2(149.371, 369.6)
 
-[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("direction_component", "gravity_component", "health_component", "knockback_component", "light_component", "primary_state_machine", "secondary_state_machine", "sprite", "animation_player", "animation_tree", "player_light", "above_hurtbox", "front_hurtbox", "interact_box", "coyote_timer", "hurt_lockout_timer", "iframe_timer", "input_buffer_timer", "debug_label")]
+[node name="Wick" type="CharacterBody2D" node_paths=PackedStringArray("direction_component", "gravity_component", "health_component", "knockback_component", "light_component", "primary_state_machine", "secondary_state_machine", "sprite", "animation_player", "animation_tree", "player_light", "above_hurtbox", "front_hurtbox", "interact_box", "coyote_timer", "hurt_lockout_timer", "iframe_timer", "input_buffer_timer", "respawn_timer", "beacon_timer", "debug_label")]
 z_index = 5
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_k8idb")
+starting_direction = 1
 direction_component = NodePath("DirectionComponent")
 gravity_component = NodePath("GravityComponent")
 health_component = NodePath("HealthComponent")
@@ -858,6 +859,8 @@ coyote_timer = NodePath("CoyoteTimer")
 hurt_lockout_timer = NodePath("HurtLockoutTimer")
 iframe_timer = NodePath("IFrameTimer")
 input_buffer_timer = NodePath("InputBufferTimer")
+respawn_timer = NodePath("RespawnTimer")
+beacon_timer = NodePath("BeaconTimer")
 debug_label = NodePath("DebugLabel")
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -926,6 +929,7 @@ collision_layer = 0
 collision_mask = 48
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Lightbox"]
+position = Vector2(8, -8)
 shape = SubResource("CircleShape2D_fgioq")
 disabled = true
 debug_color = Color(0.406791, 0.607271, 9.62615e-07, 0.42)
@@ -939,6 +943,10 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_teukf")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
+
+[node name="BeaconTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.3
@@ -1035,6 +1043,10 @@ text = "Current State: Idle
 Velocity: (0,0)
 Buffed Input: 
 Current Animation: idle"
+
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
 
 [connection signal="timeout" from="InputBufferTimer" to="." method="_on_input_buffer_timer_timeout"]
 [connection signal="timeout" from="HurtLockoutTimer" to="." method="_on_hurt_timer_timeout"]

@@ -39,5 +39,9 @@ func _on_damaged(_amount: float, _source: Node, _power: int, direction: Vector2)
 	knockback_component.initialize_knockback(clamped_direction)
 
 func _on_death():
+	if WorldGlobals.defeated_enemies.get(WorldGlobals.current_room):
+		WorldGlobals.defeated_enemies[WorldGlobals.current_room].append(enemy_id)
+	else:
+		WorldGlobals.defeated_enemies[WorldGlobals.current_room] = [enemy_id]
 	_drop_light_mote()
 	state_machine.current_state.transition.emit("death", [state_machine.current_state])

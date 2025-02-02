@@ -1,6 +1,8 @@
 class_name Enemy
 extends CharacterBody2D
 
+@export var enemy_id: int
+
 @export_group("Components")
 @export var direction_component: DirectionComponent
 @export var health_component: HealthComponent
@@ -21,6 +23,10 @@ func _on_damaged(_amount: float, _source: Node, _power: int, direction: Vector2)
 	knockback_component.initialize_knockback(direction)
 
 func _on_death():
+	if WorldGlobals.defeated_enemies.get(WorldGlobals.current_room):
+		WorldGlobals.defeated_enemies[WorldGlobals.current_room].append(enemy_id)
+	else:
+		WorldGlobals.defeated_enemies[WorldGlobals.current_room] = [enemy_id]
 	_drop_light_mote()
 	animation_player.play("death")
 

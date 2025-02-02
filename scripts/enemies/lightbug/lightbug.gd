@@ -1,6 +1,7 @@
 class_name Lightbug
 extends CharacterBody2D
 
+@export var enemy_id: int
 @export var light_amount: int = 2
 @export var speed: float = 75.0
 @export var starting_direction: DirectionComponent.Direction = DirectionComponent.Direction.LEFT
@@ -98,6 +99,10 @@ func stun() -> void:
 
 func consume() -> void:
 	if !consumed:
+		if WorldGlobals.defeated_enemies.get(WorldGlobals.current_room):
+			WorldGlobals.defeated_enemies[WorldGlobals.current_room].append(enemy_id)
+		else:
+			WorldGlobals.defeated_enemies[WorldGlobals.current_room] = [enemy_id]
 		consumed = true
 		state_machine.current_state.transition.emit("death", [state_machine.current_state])
 
